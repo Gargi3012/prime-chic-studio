@@ -30,10 +30,11 @@ export function SectionHeading({
   title,
   className = "",
 }: {
-  eyebrow?: string;
+  eyebrow?: string | undefined;
   title: string;
   className?: string;
 }) {
+
   return (
     <Reveal className={`mb-8 ${className}`}>
       {eyebrow ? (
