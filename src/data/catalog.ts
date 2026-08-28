@@ -41,9 +41,10 @@ export const footwear: Product[] = [
   { id: "f5", name: "Mini Runner", brand: "Adidas", price: 3199, image: sneakerWhite, category: "KIDS" },
 ];
 
-export const suggestions: Product[] = [
-  products[0], products[5], products[10], products[2], products[7], products[12], products[4],
-];
+export const suggestions: Product[] = ["m1", "w1", "k1", "m3", "w4", "k3", "m5"]
+  .map((id) => products.find((p) => p.id === id))
+  .filter((p): p is Product => Boolean(p));
+
 
 export const brands = [
   "PUMA",
