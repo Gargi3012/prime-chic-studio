@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useRef, useState } from "react";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 import { inr, products, type Category, type Product } from "@/data/catalog";
 import { Reveal, SectionHeading } from "./Reveal";
 
@@ -10,16 +10,25 @@ const tabs: Category[] = ["MEN", "WOMEN", "KIDS"];
 function DeckCard({
   product,
   offset,
-  index,
+  revealed,
   onSelect,
 }: {
   product: Product;
   offset: number;
-  index: number;
+  revealed: boolean;
   onSelect: () => void;
 }) {
   const abs = Math.abs(offset);
   const active = abs === 0;
+
+  const resting = {
+    opacity: abs > 2 ? 0 : 1,
+    x: `calc(-50% + ${offset * 78}px)`,
+    y: `calc(-50% + ${abs * 16}px)`,
+    scale: 1 - abs * 0.12,
+    rotate: offset * 8,
+    filter: `blur(${abs * 1.4}px) brightness(${1 - abs * 0.22})`,
+  };
 
   return (
     <motion.button
@@ -28,26 +37,13 @@ function DeckCard({
       aria-label={product.name}
       className="absolute left-1/2 top-1/2 h-[300px] w-[190px] cursor-pointer overflow-hidden rounded-2xl border border-border bg-surface-2 text-left sm:h-[360px] sm:w-[230px]"
       style={{ zIndex: 10 - abs }}
-      initial={{ opacity: 0, y: -220, x: "-50%", scale: 0.7, rotate: 0 }}
-      whileInView={{
-        opacity: abs > 2 ? 0 : 1,
-        x: `calc(-50% + ${offset * 78}px)`,
-        y: `calc(-50% + ${abs * 16}px)`,
-        scale: 1 - abs * 0.12,
-        rotate: offset * 8,
-        filter: `blur(${abs * 1.4}px) brightness(${1 - abs * 0.22})`,
-      }}
-      viewport={{ once: true, amount: 0.35 }}
-      transition={{ ...spring, delay: 0.15 + abs * 0.18 }}
-      animate={{
-        opacity: abs > 2 ? 0 : 1,
-        x: `calc(-50% + ${offset * 78}px)`,
-        y: `calc(-50% + ${abs * 16}px)`,
-        scale: 1 - abs * 0.12,
-        rotate: offset * 8,
-        filter: `blur(${abs * 1.4}px) brightness(${1 - abs * 0.22})`,
-      }}
-      key={product.id + index}
+      initial={{ opacity: 0, x: "-50%", y: "-160%", scale: 0.75, rotate: 0, filter: "blur(0px)" }}
+      animate={
+        revealed
+          ? resting
+          : { opacity: 0, x: "-50%", y: "-160%", scale: 0.75, rotate: 0, filter: "blur(0px)" }
+      }
+      transition={{ ...spring, delay: revealed ? abs * 0.18 : 0 }}
     >
       <img
         src={product.image}
@@ -67,6 +63,8 @@ function DeckCard({
 }
 
 export function FeaturedDeck() {
+  const deckRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(deckRef, { once: true, amount: 0.3 });
   const [category, setCategory] = useState<Category>("MEN");
   const [activeIdx, setActiveIdx] = useState(2);
 
@@ -111,6 +109,7 @@ export function FeaturedDeck() {
       <Reveal delay={0.05}>
         <div className="relative overflow-hidden rounded-3xl border border-border bg-black px-4 py-6">
           <motion.div
+            ref={deckRef}
             className="relative h-[400px] touch-pan-y sm:h-[460px]"
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
@@ -120,17 +119,15 @@ export function FeaturedDeck() {
               else if (info.offset.x > 50) move(-1);
             }}
           >
-            <AnimatePresence mode="popLayout">
-              {deck.map((p, i) => (
-                <DeckCard
-                  key={p.id}
-                  product={p}
-                  index={i}
-                  offset={i - activeIdx}
-                  onSelect={() => setActiveIdx(i)}
-                />
-              ))}
-            </AnimatePresence>
+            {deck.map((p, i) => (
+              <DeckCard
+                key={p.id}
+                product={p}
+                revealed={inView}
+                offset={i - activeIdx}
+                onSelect={() => setActiveIdx(i)}
+              />
+            ))}
           </motion.div>
 
           <div className="mt-2 flex items-center justify-center gap-2">
