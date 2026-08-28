@@ -5,44 +5,46 @@ const features = [
   {
     icon: ShieldCheck,
     title: "100% Authentic Multibrand",
-    description: "Guaranteed genuine products direct from official Puma, Nike, Adidas & U.S. Polo distributors.",
+    subtitle: "Puma, Nike, Adidas & U.S. Polo",
   },
   {
     icon: Sparkles,
     title: "In-Store Trial & Fitting",
-    description: "Spacious private fitting rooms and personalized styling assistance at our Ganaur outlet.",
+    subtitle: "Private fitting rooms in Ganaur",
   },
   {
     icon: Clock,
     title: "Open 7 Days (10 AM – 9 PM)",
-    description: "Shop at your convenience every day of the week with hassle-free parking access.",
+    subtitle: "All days open with parking",
   },
   {
     icon: MessageSquare,
-    title: "Reserve for Try-On",
-    description: "Message us on WhatsApp to check live size availability & hold items before visiting.",
+    title: "Reserve via WhatsApp",
+    subtitle: "Hold size before visiting",
   },
 ];
 
 export function StoreFeatures() {
   return (
-    <section className="section-pad">
+    <section className="px-5 py-4 sm:px-10">
       <Reveal>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map(({ icon: Icon, title, description }) => (
+        <div className="no-scrollbar flex items-center justify-between gap-4 overflow-x-auto rounded-2xl border border-gold/30 bg-surface/40 p-4 backdrop-blur-md">
+          {features.map(({ icon: Icon, title, subtitle }, idx) => (
             <div
               key={title}
-              className="group relative flex flex-col justify-between rounded-2xl border border-border/80 bg-surface/60 p-6 shadow-lg backdrop-blur-md transition-all duration-300 hover:border-gold/60 hover:bg-surface/90 hover:shadow-[0_10px_30px_rgba(212,175,55,0.15)]"
+              className={`flex shrink-0 items-center gap-3 pr-4 ${
+                idx !== features.length - 1 ? "border-r border-border/60" : ""
+              }`}
             >
-              <div>
-                <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl border border-gold/40 bg-gold/10 text-gold transition-transform duration-300 group-hover:scale-110">
-                  <Icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-sm font-bold text-foreground sm:text-base">
+              <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-gold/40 bg-gold/10 text-gold">
+                <Icon className="h-4.5 w-4.5" />
+              </div>
+              <div className="space-y-0.5">
+                <h4 className="whitespace-nowrap text-xs font-bold text-foreground sm:text-sm">
                   {title}
-                </h3>
-                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                  {description}
+                </h4>
+                <p className="whitespace-nowrap text-[0.65rem] font-medium text-muted-foreground">
+                  {subtitle}
                 </p>
               </div>
             </div>
