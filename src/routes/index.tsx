@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Hero } from "@/components/prime/Hero";
 import { BrandStrip } from "@/components/prime/BrandStrip";
@@ -6,7 +7,7 @@ import { Carousel } from "@/components/prime/Carousel";
 import { Gallery } from "@/components/prime/Gallery";
 import { Contact } from "@/components/prime/Contact";
 import { Footer, WhatsAppFab } from "@/components/prime/Footer";
-import { footwear, suggestions } from "@/data/catalog";
+import { footwear, products, suggestions, type Category } from "@/data/catalog";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,18 +32,32 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const [category, setCategory] = useState<Category>("MEN");
+
+  // Dynamically filter suggestions & footwear for the selected category (MEN / WOMEN / KIDS)
+  const categorySuggestions = products.filter((p) => p.category === category);
+  const categoryFootwear = footwear.filter((f) => f.category === category);
+
+  const displaySuggestions = categorySuggestions.length > 0 ? categorySuggestions : suggestions;
+  const displayFootwear = categoryFootwear.length > 0 ? categoryFootwear : footwear;
+
   return (
     <main className="mx-auto w-full max-w-6xl">
       <Hero />
       <BrandStrip />
-      <FeaturedDeck />
+      <FeaturedDeck category={category} onCategoryChange={setCategory} />
       <Carousel
-        eyebrow="CURATED FOR YOU"
+        eyebrow={`CURATED FOR ${category}`}
         title="You May Also Like"
-        items={suggestions}
+        items={displaySuggestions}
         showTags
       />
-      <Carousel id="footwear" eyebrow="SNEAKER DROP" title="Footwear Edit" items={footwear} />
+      <Carousel
+        id="footwear"
+        eyebrow={`${category} FOOTWEAR DROP`}
+        title="Footwear Edit"
+        items={displayFootwear}
+      />
       <div id="gallery">
         <Gallery />
       </div>

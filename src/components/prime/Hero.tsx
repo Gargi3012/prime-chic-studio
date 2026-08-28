@@ -35,7 +35,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 26 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.6, duration: 0.9, ease }}
-          className="mt-10 text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl"
+          className="mt-8 text-3xl font-extrabold leading-[1.1] tracking-tight sm:mt-10 sm:text-5xl md:text-6xl"
         >
           <span className="text-gold-gradient">Style That</span>
           <br />
@@ -46,7 +46,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.8, duration: 0.9, ease }}
-          className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground"
+          className="mt-4 max-w-sm text-xs leading-relaxed text-muted-foreground sm:mt-5 sm:text-sm"
         >
           Clothing, footwear and accessories from the brands you love — curated under one roof in Ganaur.
         </motion.p>
@@ -55,17 +55,17 @@ export function Hero() {
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2, duration: 0.9, ease }}
-          className="mt-9 flex w-full items-center justify-center gap-3"
+          className="mt-8 flex w-full max-w-xs flex-col items-center justify-center gap-3 sm:mt-9 sm:max-w-none sm:flex-row"
         >
           <a
             href="#collection"
-            className="glow-gold rounded-full bg-gold-gradient px-7 py-3.5 text-sm font-semibold tracking-wide text-primary-foreground transition-transform duration-300 hover:scale-[1.04]"
+            className="glow-gold flex min-h-[44px] w-full items-center justify-center rounded-full bg-gold-gradient px-7 py-3 text-sm font-semibold tracking-wide text-primary-foreground transition-transform duration-300 hover:scale-[1.04] active:scale-95 sm:w-auto"
           >
             Shop Now
           </a>
           <a
             href="#visit"
-            className="rounded-full border border-gold/60 px-7 py-3.5 text-sm font-semibold tracking-wide text-gold transition-colors duration-300 hover:bg-gold/10"
+            className="flex min-h-[44px] w-full items-center justify-center rounded-full border border-gold/60 px-7 py-3 text-sm font-semibold tracking-wide text-gold transition-colors duration-300 hover:bg-gold/10 active:scale-95 sm:w-auto"
           >
             Visit Store
           </a>

@@ -1,101 +1,229 @@
-import { useRef, useState } from "react";
-import { AnimatePresence, motion, useInView } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
+import { Heart, Sparkles, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { inr, products, type Category, type Product } from "@/data/catalog";
 import { Reveal, SectionHeading } from "./Reveal";
 
-const ease = [0.16, 1, 0.3, 1] as const;
-const spring = { type: "spring" as const, damping: 20, stiffness: 90 };
+const springPhysics = { type: "spring" as const, stiffness: 260, damping: 25, mass: 0.8 };
 const tabs: Category[] = ["MEN", "WOMEN", "KIDS"];
+
+interface DeckCardProps {
+  product: Product;
+  index: number;
+  activeIdx: number;
+  revealed: boolean;
+  hasAnimatedIn: boolean;
+  isMobile: boolean;
+  onSelect: () => void;
+}
 
 function DeckCard({
   product,
-  offset,
+  index,
+  activeIdx,
   revealed,
+  hasAnimatedIn,
+  isMobile,
   onSelect,
-}: {
-  product: Product;
-  offset: number;
-  revealed: boolean;
-  onSelect: () => void;
-}) {
-  const abs = Math.abs(offset);
-  const active = abs === 0;
+}: DeckCardProps) {
+  const relativeOffset = index - activeIdx;
+  const absOffset = Math.abs(relativeOffset);
+  const isCenter = relativeOffset === 0;
 
-  const resting = {
-    opacity: abs > 2 ? 0 : 1,
-    x: `calc(-50% + ${offset * 78}px)`,
-    y: `calc(-50% + ${abs * 16}px)`,
-    scale: 1 - abs * 0.12,
-    rotate: offset * 8,
-    filter: `blur(${abs * 1.4}px) brightness(${1 - abs * 0.22})`,
+  const getCardProps = () => {
+    if (relativeOffset === 0) {
+      return {
+        rotate: 0,
+        scale: 1,
+        opacity: 1,
+        zIndex: 30,
+        xOffset: 0,
+      };
+    } else if (relativeOffset === -1) {
+      return {
+        rotate: -8,
+        scale: isMobile ? 0.88 : 0.9,
+        opacity: 1,
+        zIndex: 20,
+        xOffset: isMobile ? -65 : -95,
+      };
+    } else if (relativeOffset === 1) {
+      return {
+        rotate: 8,
+        scale: isMobile ? 0.88 : 0.9,
+        opacity: 1,
+        zIndex: 20,
+        xOffset: isMobile ? 65 : 95,
+      };
+    } else if (relativeOffset === -2) {
+      return {
+        rotate: -16,
+        scale: 0.8,
+        opacity: isMobile ? 0 : 0.85,
+        zIndex: 10,
+        xOffset: isMobile ? -120 : -175,
+      };
+    } else if (relativeOffset === 2) {
+      return {
+        rotate: 16,
+        scale: 0.8,
+        opacity: isMobile ? 0 : 0.85,
+        zIndex: 10,
+        xOffset: isMobile ? 120 : 175,
+      };
+    } else {
+      const sign = Math.sign(relativeOffset);
+      return {
+        rotate: sign * 24,
+        scale: 0.7,
+        opacity: 0,
+        zIndex: Math.max(0, 5 - absOffset),
+        xOffset: sign * (175 + (absOffset - 2) * 60),
+      };
+    }
   };
+
+  const currentProps = getCardProps();
+  const initialCenterOffset = Math.abs(index - 2);
+  const entranceDelay = initialCenterOffset * 0.15;
+  const delay = !hasAnimatedIn && revealed ? entranceDelay : 0;
 
   return (
     <motion.button
       type="button"
       onClick={onSelect}
       aria-label={product.name}
-      className="absolute left-1/2 top-1/2 h-[300px] w-[190px] cursor-pointer overflow-hidden rounded-2xl border border-border bg-surface-2 text-left sm:h-[360px] sm:w-[230px]"
-      style={{ zIndex: 10 - abs }}
-      initial={{ opacity: 0, x: "-50%", y: "-160%", scale: 0.75, rotate: 0, filter: "blur(0px)" }}
+      className={`absolute left-1/2 top-1/2 h-[270px] w-[175px] cursor-pointer overflow-hidden rounded-2xl border bg-surface-2 text-left transition-shadow duration-300 sm:h-[350px] sm:w-[230px] ${
+        isCenter
+          ? "border-gold/80 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_35px_rgba(212,175,55,0.35)]"
+          : "border-border/80 shadow-lg hover:border-gold/40"
+      }`}
+      style={{ zIndex: currentProps.zIndex, pointerEvents: currentProps.opacity === 0 ? "none" : "auto" }}
+      initial={{
+        opacity: 0,
+        y: "-160%",
+        x: `calc(-50% + ${currentProps.xOffset}px)`,
+        scale: 0.8,
+        rotate: 0,
+      }}
       animate={
         revealed
-          ? resting
-          : { opacity: 0, x: "-50%", y: "-160%", scale: 0.75, rotate: 0, filter: "blur(0px)" }
+          ? {
+              opacity: currentProps.opacity,
+              y: "-50%",
+              x: `calc(-50% + ${currentProps.xOffset}px)`,
+              scale: currentProps.scale,
+              rotate: currentProps.rotate,
+            }
+          : {
+              opacity: 0,
+              y: "-160%",
+              x: `calc(-50% + ${currentProps.xOffset}px)`,
+              scale: 0.8,
+              rotate: 0,
+            }
       }
-      transition={{ ...spring, delay: revealed ? abs * 0.18 : 0 }}
+      transition={{
+        ...springPhysics,
+        delay,
+      }}
     >
       <img
         src={product.image}
         alt={product.name}
         loading="lazy"
-        className="h-full w-full object-cover"
+        className="h-full w-full object-cover select-none"
       />
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-4">
-        <p className="text-[0.5rem] tracking-[0.25em] text-gold">{product.brand}</p>
-        <p className="truncate text-xs font-semibold">{product.name}</p>
+      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent p-3 sm:p-4">
+        <p className="text-[0.55rem] font-bold tracking-[0.25em] text-gold uppercase">{product.brand}</p>
+        <p className="truncate text-xs font-semibold text-white sm:text-sm">{product.name}</p>
       </div>
-      {active ? (
-        <span className="pointer-events-none absolute inset-0 rounded-2xl border border-gold/70 shadow-[0_0_50px_-8px_var(--gold)]" />
-      ) : null}
+
+      {isCenter && (
+        <span className="pointer-events-none absolute inset-0 rounded-2xl border border-gold/60 shadow-[inset_0_0_20px_rgba(212,175,55,0.2)]" />
+      )}
     </motion.button>
   );
 }
 
-export function FeaturedDeck() {
+interface FeaturedDeckProps {
+  category?: Category;
+  onCategoryChange?: (cat: Category) => void;
+}
+
+export function FeaturedDeck({ category: externalCategory, onCategoryChange }: FeaturedDeckProps) {
   const deckRef = useRef<HTMLDivElement>(null);
+  const stripRef = useRef<HTMLDivElement>(null);
   const inView = useInView(deckRef, { once: true, amount: 0.3 });
-  const [category, setCategory] = useState<Category>("MEN");
+  const [internalCategory, setInternalCategory] = useState<Category>("MEN");
+  const category = externalCategory ?? internalCategory;
+
   const [activeIdx, setActiveIdx] = useState(2);
+  const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [likedMap, setLikedMap] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const deck = products.filter((p) => p.category === category).slice(0, 5);
-  const active = deck[activeIdx] ?? deck[0];
 
-  const move = (dir: number) =>
+  useEffect(() => {
+    if (inView && !hasAnimatedIn) {
+      const timer = setTimeout(() => {
+        setHasAnimatedIn(true);
+      }, 950);
+      return () => clearTimeout(timer);
+    }
+  }, [inView, hasAnimatedIn]);
+
+  const move = (dir: number) => {
+    setHasAnimatedIn(true);
     setActiveIdx((i) => Math.min(deck.length - 1, Math.max(0, i + dir)));
+  };
+
+  const handleSelectCard = (i: number) => {
+    setHasAnimatedIn(true);
+    setActiveIdx(i);
+  };
+
+  const handleCategoryChange = (cat: Category) => {
+    if (onCategoryChange) {
+      onCategoryChange(cat);
+    } else {
+      setInternalCategory(cat);
+    }
+    setActiveIdx(2);
+  };
+
+  const toggleLike = (productId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setLikedMap((prev) => ({ ...prev, [productId]: !prev[productId] }));
+  };
 
   return (
     <section id="collection" className="section-pad">
-      {/* Category tabs */}
-      <Reveal className="mb-10 flex justify-center">
-        <div className="flex gap-1 rounded-full border border-border bg-surface p-1.5">
+      {/* Category Tabs BEFORE / ABOVE Heading */}
+      <Reveal className="mb-6 flex justify-center">
+        <div className="flex gap-1 rounded-full border border-border bg-surface p-1.5 shadow-md">
           {tabs.map((t) => (
             <button
               key={t}
-              onClick={() => {
-                setCategory(t);
-                setActiveIdx(2);
-              }}
-              className="relative rounded-full px-6 py-2.5 text-xs font-semibold tracking-[0.18em] transition-colors"
+              onClick={() => handleCategoryChange(t)}
+              className="relative flex min-h-[44px] items-center justify-center rounded-full px-5 py-2.5 text-xs font-semibold tracking-[0.18em] transition-colors sm:px-6"
             >
               {category === t ? (
                 <motion.span
-                  layoutId="tab-pill"
+                  layoutId="tab-pill-main"
                   className="absolute inset-0 rounded-full bg-gold-gradient"
-                  transition={spring}
+                  transition={springPhysics}
                 />
               ) : null}
-              <span className={`relative ${category === t ? "text-primary-foreground" : "text-muted-foreground"}`}>
+              <span className={`relative ${category === t ? "text-primary-foreground font-bold" : "text-muted-foreground"}`}>
                 {t}
               </span>
             </button>
@@ -103,84 +231,154 @@ export function FeaturedDeck() {
         </div>
       </Reveal>
 
-      <SectionHeading eyebrow="FEATURED COLLECTION" title="The Prime Deck" className="text-center" />
+      {/* Section Heading */}
+      <SectionHeading eyebrow="FEATURED COLLECTION" title="The Prime Deck" className="text-center mb-8" />
 
-      {/* Deck */}
+      {/* ZEVANA-Style Single-Screen Showcase Container */}
       <Reveal delay={0.05}>
-        <div className="relative overflow-hidden rounded-3xl border border-border bg-black px-4 py-6">
-          <motion.div
-            ref={deckRef}
-            className="relative h-[400px] touch-pan-y sm:h-[460px]"
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.16}
-            onDragEnd={(_, info) => {
-              if (info.offset.x < -50) move(1);
-              else if (info.offset.x > 50) move(-1);
-            }}
-          >
-            {deck.map((p, i) => (
-              <DeckCard
-                key={p.id}
-                product={p}
-                revealed={inView}
-                offset={i - activeIdx}
-                onSelect={() => setActiveIdx(i)}
-              />
-            ))}
-          </motion.div>
+        <div className="relative overflow-hidden rounded-3xl border border-border bg-black/95 shadow-2xl backdrop-blur-md">
+          {/* Showcase Top Bar */}
+          <div className="flex items-center justify-between border-b border-border/60 px-4 py-3 sm:px-6 sm:py-4">
+            {/* Brand Logo Badge */}
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-gold" />
+              <span className="text-xs font-extrabold tracking-[0.25em] text-gold-gradient uppercase sm:text-sm">
+                PRIME
+              </span>
+            </div>
 
-          <div className="mt-2 flex items-center justify-center gap-2">
-            {deck.map((p, i) => (
-              <button
-                key={p.id}
-                aria-label={`Show ${p.name}`}
-                onClick={() => setActiveIdx(i)}
-                className={`h-1.5 rounded-full transition-all duration-500 ${
-                  i === activeIdx ? "w-7 bg-gold" : "w-1.5 bg-muted-foreground/40"
-                }`}
-              />
-            ))}
-          </div>
-          <p className="mt-4 text-center text-[0.6rem] tracking-[0.3em] text-muted-foreground">
-            SWIPE TO EXPLORE
-          </p>
-        </div>
-      </Reveal>
-
-      {/* Product detail strip */}
-      <Reveal delay={0.1}>
-        <div className="mt-5 overflow-hidden rounded-2xl border border-border bg-surface p-4">
-          <AnimatePresence mode="wait">
-            {active ? (
-              <motion.div
-                key={active.id}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -14 }}
-                transition={{ duration: 0.4, ease }}
-                className="flex items-center gap-4"
+            {/* Quick Actions */}
+            <div className="flex items-center gap-2">
+              <a
+                href="#visit"
+                className="flex min-h-[36px] items-center justify-center rounded-full border border-gold/70 bg-gold/10 px-4 py-1.5 text-xs font-bold tracking-[0.15em] text-gold transition-colors hover:bg-gold hover:text-black"
               >
-                <img
-                  src={active.image}
-                  alt={active.name}
-                  loading="lazy"
-                  className="h-16 w-16 shrink-0 rounded-xl object-cover"
+                VISIT STORE
+              </a>
+            </div>
+          </div>
+
+          {/* Upper Card Deck Showcase */}
+          <div className="relative pt-4 pb-2 sm:pt-6">
+            <motion.div
+              ref={deckRef}
+              className="relative h-[340px] w-full touch-pan-y sm:h-[430px]"
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={(_, info) => {
+                if (info.offset.x < -35 || info.velocity.x < -180) move(1);
+                else if (info.offset.x > 35 || info.velocity.x > 180) move(-1);
+              }}
+            >
+              {deck.map((p, i) => (
+                <DeckCard
+                  key={p.id}
+                  product={p}
+                  index={i}
+                  activeIdx={activeIdx}
+                  revealed={inView}
+                  hasAnimatedIn={hasAnimatedIn}
+                  isMobile={isMobile}
+                  onSelect={() => handleSelectCard(i)}
                 />
-                <div className="min-w-0 flex-1">
-                  <p className="text-[0.55rem] tracking-[0.25em] text-muted-foreground">{active.brand}</p>
-                  <h3 className="truncate text-sm font-semibold">{active.name}</h3>
-                  <p className="text-sm font-bold text-gold">{inr(active.price)}</p>
-                </div>
-                <a
-                  href="#visit"
-                  className="shrink-0 rounded-full border border-gold/60 px-4 py-2 text-[0.65rem] font-semibold tracking-[0.15em] text-gold transition-colors hover:bg-gold/10"
-                >
-                  VIEW
-                </a>
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
+              ))}
+            </motion.div>
+
+            {/* Left / Right Nav Arrows */}
+            <button
+              onClick={() => move(-1)}
+              disabled={activeIdx === 0}
+              aria-label="Previous card"
+              className="absolute left-2 top-[45%] z-40 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-border/80 bg-black/60 text-foreground transition-all hover:bg-gold hover:text-black disabled:opacity-30 sm:left-4 sm:h-11 sm:w-11"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              onClick={() => move(1)}
+              disabled={activeIdx === deck.length - 1}
+              aria-label="Next card"
+              className="absolute right-2 top-[45%] z-40 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-border/80 bg-black/60 text-foreground transition-all hover:bg-gold hover:text-black disabled:opacity-30 sm:right-4 sm:h-11 sm:w-11"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+
+          {/* Integrated ZEVANA Bottom Product Thumbnail Strip */}
+          <div className="border-t border-border/70 bg-surface/50 p-2 sm:p-4">
+            <div className="mb-2 flex items-center justify-between px-1">
+              <span className="text-[0.6rem] font-bold tracking-[0.25em] text-gold uppercase">
+                COLLECTION ITEMS ({deck.length})
+              </span>
+              <span className="text-[0.6rem] tracking-[0.18em] text-muted-foreground">
+                TAP TO FOCUS
+              </span>
+            </div>
+
+            <div
+              ref={stripRef}
+              className="no-scrollbar flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-1 pt-1 sm:gap-3"
+            >
+              {deck.map((p, i) => {
+                const isSelected = i === activeIdx;
+                const isLiked = likedMap[p.id];
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => handleSelectCard(i)}
+                    className={`group relative flex w-[140px] shrink-0 snap-start items-center gap-2.5 rounded-xl border p-2 text-left transition-all duration-300 sm:w-[190px] sm:gap-3 sm:p-2.5 ${
+                      isSelected
+                        ? "border-gold bg-gold/15 shadow-[0_0_20px_rgba(212,175,55,0.25)] ring-1 ring-gold"
+                        : "border-border/70 bg-surface-2/90 hover:border-gold/50 hover:bg-surface-2"
+                    }`}
+                  >
+                    {/* Thumbnail Image */}
+                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-black/40 sm:h-14 sm:w-14">
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+
+                    {/* Product Meta Info */}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between">
+                        <p className="truncate text-[0.55rem] font-bold tracking-[0.15em] text-gold uppercase">
+                          {p.brand}
+                        </p>
+                        <span className="flex items-center gap-0.5 text-[0.55rem] font-semibold text-amber-400">
+                          <Star className="h-2.5 w-2.5 fill-amber-400 text-amber-400" />
+                          4.8
+                        </span>
+                      </div>
+                      <h4 className="truncate text-xs font-bold text-foreground">
+                        {p.name}
+                      </h4>
+                      <p className="text-xs font-extrabold text-gold">
+                        {inr(p.price)}
+                      </p>
+                    </div>
+
+                    {/* Favorite Heart Button */}
+                    <button
+                      type="button"
+                      onClick={(e) => toggleLike(p.id, e)}
+                      aria-label="Favorite product"
+                      className="absolute right-1.5 top-1.5 text-muted-foreground transition-colors hover:text-rose-500"
+                    >
+                      <Heart
+                        className={`h-3.5 w-3.5 ${
+                          isLiked ? "fill-rose-500 text-rose-500" : "text-muted-foreground/60"
+                        }`}
+                      />
+                    </button>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </Reveal>
     </section>

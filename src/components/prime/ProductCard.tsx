@@ -8,7 +8,7 @@ const tagColor: Record<string, string> = {
 
 export function ProductCard({ product, showTag = false }: { product: Product; showTag?: boolean }) {
   return (
-    <article className="group w-[62vw] max-w-[230px] shrink-0 snap-start overflow-hidden rounded-2xl border border-border bg-surface">
+    <article className="group w-[72vw] max-w-[210px] shrink-0 snap-start overflow-hidden rounded-2xl border border-border bg-surface sm:w-[62vw] sm:max-w-[230px]">
       <div className="relative aspect-[3/4] overflow-hidden bg-surface-2">
         <img
           src={product.image}
