@@ -1,56 +1,44 @@
-import { ShieldCheck, Sparkles, Clock, MessageSquare } from "lucide-react";
-import { Reveal } from "./Reveal";
+import { ShieldCheck, ShoppingBag, Clock, MessageSquare } from "lucide-react";
 
-const features = [
+const trustItems = [
   {
     icon: ShieldCheck,
-    title: "100% Authentic Multibrand",
-    subtitle: "Puma, Nike, Adidas & U.S. Polo",
+    label: "100% Authentic Multibrand",
   },
   {
-    icon: Sparkles,
-    title: "In-Store Trial & Fitting",
-    subtitle: "Private fitting rooms in Ganaur",
+    icon: ShoppingBag,
+    label: "In-Store Trial & Fitting",
   },
   {
     icon: Clock,
-    title: "Open 7 Days (10 AM – 9 PM)",
-    subtitle: "All days open with parking",
+    label: "Open 7 Days (10 AM – 9 PM)",
   },
   {
     icon: MessageSquare,
-    title: "Reserve via WhatsApp",
-    subtitle: "Hold size before visiting",
+    label: "Reserve Size on WhatsApp",
   },
 ];
 
 export function StoreFeatures() {
   return (
-    <section className="px-5 py-4 sm:px-10">
-      <Reveal>
-        <div className="no-scrollbar flex items-center justify-between gap-4 overflow-x-auto rounded-2xl border border-gold/30 bg-surface/40 p-4 backdrop-blur-md">
-          {features.map(({ icon: Icon, title, subtitle }, idx) => (
-            <div
-              key={title}
-              className={`flex shrink-0 items-center gap-3 pr-4 ${
-                idx !== features.length - 1 ? "border-r border-border/60" : ""
-              }`}
-            >
-              <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-gold/40 bg-gold/10 text-gold">
-                <Icon className="h-4.5 w-4.5" />
+    <section className="h-11 w-full border-y border-neutral-800 bg-[#0c0c0c]">
+      <div className="no-scrollbar flex h-full w-full items-center overflow-x-auto px-4 md:justify-center">
+        <div className="flex min-w-max items-center gap-5 md:gap-7">
+          {trustItems.map(({ icon: Icon, label }, index) => (
+            <div key={label} className="flex items-center gap-5 md:gap-7">
+              <div className="flex items-center gap-2">
+                <Icon className="h-4 w-4 shrink-0 text-amber-400" />
+                <span className="whitespace-nowrap text-xs font-medium tracking-wide text-neutral-300">
+                  {label}
+                </span>
               </div>
-              <div className="space-y-0.5">
-                <h4 className="whitespace-nowrap text-xs font-bold text-foreground sm:text-sm">
-                  {title}
-                </h4>
-                <p className="whitespace-nowrap text-[0.65rem] font-medium text-muted-foreground">
-                  {subtitle}
-                </p>
-              </div>
+              {index < trustItems.length - 1 && (
+                <span className="select-none font-bold text-amber-400/50">•</span>
+              )}
             </div>
           ))}
         </div>
-      </Reveal>
+      </div>
     </section>
   );
 }
