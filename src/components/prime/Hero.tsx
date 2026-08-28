@@ -8,16 +8,20 @@ const ease = [0.16, 1, 0.3, 1] as const;
 export function Hero() {
   return (
     <section className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-6 py-24">
+      {/* Static Background Image (Night Storefront Shot) */}
       <img
         src={heroStore}
         alt="Prime Outlet store interior in Ganaur, Sonipat"
         width={1024}
         height={1536}
-        className="absolute inset-0 h-full w-full object-cover opacity-45"
+        className="absolute inset-0 h-full w-full object-cover opacity-45 pointer-events-none"
       />
+
+      {/* Gradients & Overlays for High Text Contrast */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--background)_78%)]" />
       <div className="absolute inset-0 bg-background/45" />
 
+      {/* Location Badge */}
       <motion.div
         initial={{ opacity: 0, x: -18 }}
         animate={{ opacity: 1, x: 0 }}
@@ -28,6 +32,7 @@ export function Hero() {
         GANAUR, SONIPAT
       </motion.div>
 
+      {/* Main Content Overlay */}
       <div className="relative z-10 flex w-full max-w-xl flex-col items-center text-center">
         <LogoLockup animated />
 
@@ -72,6 +77,7 @@ export function Hero() {
         </motion.div>
       </div>
 
+      {/* Scroll Down Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: [0, 10, 0] }}

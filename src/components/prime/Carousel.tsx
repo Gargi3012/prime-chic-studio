@@ -8,12 +8,14 @@ export function Carousel({
   title,
   items,
   showTags = false,
+  onQuickView,
 }: {
   id?: string;
   eyebrow?: string;
   title: string;
   items: Product[];
   showTags?: boolean;
+  onQuickView?: (product: Product) => void;
 }) {
   return (
     <section id={id} className="section-pad">
@@ -21,7 +23,12 @@ export function Carousel({
       <Reveal delay={0.1}>
         <div className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-3 sm:gap-4 md:-mx-10 md:px-10">
           {items.map((p) => (
-            <ProductCard key={`${title}-${p.id}`} product={p} showTag={showTags} />
+            <ProductCard
+              key={`${title}-${p.id}`}
+              product={p}
+              showTag={showTags}
+              onQuickView={onQuickView}
+            />
           ))}
         </div>
       </Reveal>
