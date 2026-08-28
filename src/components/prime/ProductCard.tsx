@@ -1,5 +1,6 @@
-import { Eye, Star } from "lucide-react";
+import { Eye, Star, ShoppingBag } from "lucide-react";
 import { inr, type Product } from "@/data/catalog";
+import { useCart } from "@/context/CartContext";
 
 const tagColor: Record<string, string> = {
   MEN: "bg-gold/20 text-gold border-gold/40",
@@ -14,6 +15,13 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, showTag = false, onQuickView }: ProductCardProps) {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addToCart(product);
+  };
+
   return (
     <article
       onClick={() => onQuickView?.(product)}
@@ -44,19 +52,31 @@ export function ProductCard({ product, showTag = false, onQuickView }: ProductCa
           </span>
         )}
 
-        {/* Quick View Hover Overlay */}
-        <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <span className="flex items-center gap-1.5 rounded-full border border-gold bg-gold/90 px-4 py-2 text-xs font-bold tracking-[0.15em] text-black shadow-lg">
+        {/* Quick View & Add to Cart Hover Actions */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100 p-3 text-center">
+          <span className="flex items-center gap-1.5 rounded-full border border-gold bg-gold/90 px-3.5 py-1.5 text-xs font-bold tracking-[0.15em] text-black shadow-lg">
             <Eye className="h-3.5 w-3.5" />
             QUICK VIEW
           </span>
         </div>
       </div>
 
-      <div className="space-y-1 p-4">
-        <p className="text-[0.55rem] font-bold tracking-[0.25em] text-gold uppercase">{product.brand}</p>
-        <h3 className="truncate text-sm font-semibold text-foreground">{product.name}</h3>
-        <p className="pt-1 text-sm font-extrabold text-gold">{inr(product.price)}</p>
+      <div className="flex items-center justify-between p-4">
+        <div className="space-y-0.5 max-w-[130px]">
+          <p className="text-[0.55rem] font-bold tracking-[0.25em] text-gold uppercase">{product.brand}</p>
+          <h3 className="truncate text-xs font-semibold text-foreground sm:text-sm">{product.name}</h3>
+          <p className="pt-0.5 text-xs font-extrabold text-gold sm:text-sm">{inr(product.price)}</p>
+        </div>
+
+        {/* Add to Cart Floating Quick Button */}
+        <button
+          type="button"
+          onClick={handleAddToCart}
+          aria-label="Add to cart"
+          className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-gold/50 bg-gold/10 text-gold transition-all duration-300 hover:scale-110 hover:bg-gold hover:text-black active:scale-95"
+        >
+          <ShoppingBag className="h-4 w-4" />
+        </button>
       </div>
     </article>
   );

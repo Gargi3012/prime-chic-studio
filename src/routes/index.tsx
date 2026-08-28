@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { CartProvider } from "@/context/CartContext";
 import { Hero } from "@/components/prime/Hero";
 import { BrandStrip } from "@/components/prime/BrandStrip";
 import { StoreFeatures } from "@/components/prime/StoreFeatures";
@@ -9,8 +10,10 @@ import { Carousel } from "@/components/prime/Carousel";
 import { QuickViewModal } from "@/components/prime/QuickViewModal";
 import { Gallery } from "@/components/prime/Gallery";
 import { VideoSection } from "@/components/prime/VideoSection";
+import { ReviewsSection } from "@/components/prime/ReviewsSection";
 import { Contact } from "@/components/prime/Contact";
-import { Footer, WhatsAppFab } from "@/components/prime/Footer";
+import { Footer, WhatsAppFab, FloatingCartFab } from "@/components/prime/Footer";
+import { CartDrawer } from "@/components/prime/CartDrawer";
 import { footwear, products, type Category, type Product } from "@/data/catalog";
 
 export const Route = createFileRoute("/")({
@@ -32,8 +35,16 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: Index,
+  component: IndexWrapper,
 });
+
+function IndexWrapper() {
+  return (
+    <CartProvider>
+      <Index />
+    </CartProvider>
+  );
+}
 
 function Index() {
   const [category, setCategory] = useState<Category>("MEN");
@@ -53,58 +64,62 @@ function Index() {
 
   // Dynamic Page-Wide Product Filtering Logic
   const filteredProducts = useMemo(() => {
-    return products.filter((p) => {
-      // Category Match
-      if (p.category !== category) return false;
+    return products
+      .filter((p) => {
+        // Category Match
+        if (p.category !== category) return false;
 
-      // Price Range Match
-      if (filters.priceRange === "UNDER_3K" && p.price >= 3000) return false;
-      if (filters.priceRange === "3K_6K" && (p.price < 3000 || p.price > 6000)) return false;
-      if (filters.priceRange === "ABOVE_6K" && p.price <= 6000) return false;
+        // Price Range Match
+        if (filters.priceRange === "UNDER_3K" && p.price >= 3000) return false;
+        if (filters.priceRange === "3K_6K" && (p.price < 3000 || p.price > 6000)) return false;
+        if (filters.priceRange === "ABOVE_6K" && p.price <= 6000) return false;
 
-      // Color Match
-      if (filters.color !== "ALL" && p.colors && !p.colors.includes(filters.color)) return false;
+        // Color Match
+        if (filters.color !== "ALL" && p.colors && !p.colors.includes(filters.color)) return false;
 
-      // Size Match
-      if (filters.size !== "ALL" && p.sizes && !p.sizes.includes(filters.size)) return false;
+        // Size Match
+        if (filters.size !== "ALL" && p.sizes && !p.sizes.includes(filters.size)) return false;
 
-      // Brand Match
-      if (
-        filters.selectedBrands.length > 0 &&
-        !filters.selectedBrands.map((b) => b.toUpperCase()).includes(p.brand.toUpperCase())
-      ) {
-        return false;
-      }
+        // Brand Match
+        if (
+          filters.selectedBrands.length > 0 &&
+          !filters.selectedBrands.map((b) => b.toUpperCase()).includes(p.brand.toUpperCase())
+        ) {
+          return false;
+        }
 
-      return true;
-    }).sort((a, b) => {
-      if (filters.sortBy === "PRICE_LOW") return a.price - b.price;
-      if (filters.sortBy === "PRICE_HIGH") return b.price - a.price;
-      if (filters.sortBy === "RATING") return (b.rating ?? 0) - (a.rating ?? 0);
-      return 0;
-    });
+        return true;
+      })
+      .sort((a, b) => {
+        if (filters.sortBy === "PRICE_LOW") return a.price - b.price;
+        if (filters.sortBy === "PRICE_HIGH") return b.price - a.price;
+        if (filters.sortBy === "RATING") return (b.rating ?? 0) - (a.rating ?? 0);
+        return 0;
+      });
   }, [category, filters]);
 
   // Dynamic Footwear Filtering Logic
   const filteredFootwear = useMemo(() => {
-    return footwear.filter((f) => {
-      if (f.category !== category) return false;
-      if (filters.priceRange === "UNDER_3K" && f.price >= 3000) return false;
-      if (filters.priceRange === "3K_6K" && (f.price < 3000 || f.price > 6000)) return false;
-      if (filters.priceRange === "ABOVE_6K" && f.price <= 6000) return false;
-      if (
-        filters.selectedBrands.length > 0 &&
-        !filters.selectedBrands.map((b) => b.toUpperCase()).includes(f.brand.toUpperCase())
-      ) {
-        return false;
-      }
-      return true;
-    }).sort((a, b) => {
-      if (filters.sortBy === "PRICE_LOW") return a.price - b.price;
-      if (filters.sortBy === "PRICE_HIGH") return b.price - a.price;
-      if (filters.sortBy === "RATING") return (b.rating ?? 0) - (a.rating ?? 0);
-      return 0;
-    });
+    return footwear
+      .filter((f) => {
+        if (f.category !== category) return false;
+        if (filters.priceRange === "UNDER_3K" && f.price >= 3000) return false;
+        if (filters.priceRange === "3K_6K" && (f.price < 3000 || f.price > 6000)) return false;
+        if (filters.priceRange === "ABOVE_6K" && f.price <= 6000) return false;
+        if (
+          filters.selectedBrands.length > 0 &&
+          !filters.selectedBrands.map((b) => b.toUpperCase()).includes(f.brand.toUpperCase())
+        ) {
+          return false;
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        if (filters.sortBy === "PRICE_LOW") return a.price - b.price;
+        if (filters.sortBy === "PRICE_HIGH") return b.price - a.price;
+        if (filters.sortBy === "RATING") return (b.rating ?? 0) - (a.rating ?? 0);
+        return 0;
+      });
   }, [category, filters]);
 
   return (
@@ -143,11 +158,19 @@ function Index() {
 
       {/* Video section placed directly above Location & Contact */}
       <VideoSection />
+
+      {/* Dedicated Customer Reviews & Feedback Section */}
+      <ReviewsSection />
+
       <Contact />
       <Footer />
+      
+      {/* Floating Action Elements */}
       <WhatsAppFab />
+      <FloatingCartFab />
 
-      {/* Global Interactive Quick View & Size Guide Modal */}
+      {/* Interactive Cart Drawer & Quick View Modal */}
+      <CartDrawer />
       <QuickViewModal
         product={quickViewProduct}
         onClose={() => setQuickViewProduct(null)}

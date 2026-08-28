@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { X, Star, Check, Ruler, MessageCircle, ShieldCheck } from "lucide-react";
+import { X, Star, Check, Ruler, MessageCircle, ShieldCheck, ShoppingBag } from "lucide-react";
 import { inr, type Product } from "@/data/catalog";
+import { useCart } from "@/context/CartContext";
 
 interface QuickViewModalProps {
   product: Product | null;
@@ -9,6 +10,7 @@ interface QuickViewModalProps {
 }
 
 export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
+  const { addToCart } = useCart();
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [showSizeGuide, setShowSizeGuide] = useState(false);
@@ -21,12 +23,15 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
   const currentColor = selectedColor || colors[0];
   const currentSize = selectedSize || sizes[0];
 
-  const handleWhatsAppReserve = () => {
-    const message = `Hi Prime Outlet! I'm interested in trying on:
+  const handleAddToCart = () => {
+    addToCart(product, currentColor, currentSize, 1);
+    onClose();
+  };
+
+  const handleDirectWhatsAppChat = () => {
+    const message = `Hi Prime Outlet! I'm interested in:
 *${product.name}* (${product.brand})
-Color: ${currentColor}
-Size: ${currentSize}
-Price: ${inr(product.price)}
+Color: ${currentColor} | Size: ${currentSize} | Price: ${inr(product.price)}
 
 Is this available at the Ganaur store today?`;
 
@@ -186,15 +191,24 @@ Is this available at the Ganaur store today?`;
                 )}
               </div>
 
-              {/* Reserve via WhatsApp Action CTA */}
-              <div className="mt-6">
+              {/* Dual CTAs: Add to Cart & Direct WhatsApp Chat */}
+              <div className="mt-6 space-y-2.5">
                 <button
                   type="button"
-                  onClick={handleWhatsAppReserve}
-                  className="glow-gold flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-gold-gradient px-6 py-3.5 text-xs font-bold tracking-[0.18em] text-primary-foreground transition-transform hover:scale-[1.02] active:scale-95 sm:text-sm"
+                  onClick={handleAddToCart}
+                  className="glow-gold flex min-h-[46px] w-full items-center justify-center gap-2 rounded-full bg-gold-gradient px-6 py-3 text-xs font-bold tracking-[0.15em] text-primary-foreground transition-transform hover:scale-[1.02] active:scale-95 sm:text-sm"
                 >
-                  <MessageCircle className="h-4 w-4" />
-                  RESERVE FOR IN-STORE TRY-ON
+                  <ShoppingBag className="h-4 w-4" />
+                  ADD TO SHOPPING BAG
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleDirectWhatsAppChat}
+                  className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full border border-gold/60 bg-black/40 px-6 py-2.5 text-xs font-bold tracking-[0.12em] text-gold transition-colors hover:bg-gold/10 active:scale-95"
+                >
+                  <MessageCircle className="h-4 w-4 text-emerald-400" />
+                  DIRECT WHATSAPP CHAT
                 </button>
               </div>
             </div>

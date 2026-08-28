@@ -1,5 +1,6 @@
-import { Facebook, Instagram, MessageCircle } from "lucide-react";
+import { Facebook, Instagram, MessageCircle, ShoppingBag } from "lucide-react";
 import { INSTAGRAM, WHATSAPP } from "@/data/catalog";
+import { useCart } from "@/context/CartContext";
 import { LogoLockup } from "./Logo";
 import { Reveal } from "./Reveal";
 
@@ -59,9 +60,30 @@ export function WhatsAppFab() {
       target="_blank"
       rel="noreferrer"
       aria-label="Chat with Prime Outlet on WhatsApp"
-      className="glow-gold fixed bottom-5 right-5 z-50 grid h-14 w-14 place-items-center rounded-full bg-gold-gradient transition-transform duration-300 hover:scale-110 active:scale-95"
+      className="glow-gold fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-gold-gradient transition-transform duration-300 hover:scale-110 active:scale-95"
     >
       <MessageCircle className="h-6 w-6 text-primary-foreground" />
     </a>
+  );
+}
+
+export function FloatingCartFab() {
+  const { totalItems, setIsCartOpen } = useCart();
+
+  return (
+    <button
+      type="button"
+      onClick={() => setIsCartOpen(true)}
+      aria-label="Open Shopping Bag"
+      className="relative fixed bottom-5 left-5 z-40 flex h-14 items-center gap-2 rounded-full border border-gold/50 bg-black/80 px-5 text-gold shadow-2xl backdrop-blur-md transition-transform duration-300 hover:scale-105 active:scale-95 sm:left-auto sm:right-24"
+    >
+      <ShoppingBag className="h-5 w-5 text-gold" />
+      <span className="text-xs font-bold tracking-[0.15em] text-foreground">BAG</span>
+      {totalItems > 0 && (
+        <span className="grid h-6 w-6 place-items-center rounded-full bg-gold text-xs font-extrabold text-black shadow-md">
+          {totalItems}
+        </span>
+      )}
+    </button>
   );
 }
