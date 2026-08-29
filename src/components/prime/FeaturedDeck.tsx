@@ -11,6 +11,7 @@ interface DeckCardProps {
   product: Product;
   index: number;
   activeIdx: number;
+  totalCards: number;
   revealed: boolean;
   hasAnimatedIn: boolean;
   isMobile: boolean;
@@ -21,12 +22,18 @@ function DeckCard({
   product,
   index,
   activeIdx,
+  totalCards,
   revealed,
   hasAnimatedIn,
   isMobile,
   onSelect,
 }: DeckCardProps) {
-  const relativeOffset = index - activeIdx;
+  let relativeOffset = index - activeIdx;
+  if (totalCards > 0) {
+    const half = totalCards / 2;
+    while (relativeOffset > half) relativeOffset -= totalCards;
+    while (relativeOffset < -half) relativeOffset += totalCards;
+  }
   const absOffset = Math.abs(relativeOffset);
   const isCenter = relativeOffset === 0;
 
@@ -183,7 +190,10 @@ export function FeaturedDeck({ category: externalCategory, onCategoryChange }: F
 
   const move = (dir: number) => {
     setHasAnimatedIn(true);
-    setActiveIdx((i) => Math.min(deck.length - 1, Math.max(0, i + dir)));
+    setActiveIdx((i) => {
+      if (deck.length === 0) return 0;
+      return (i + dir + deck.length) % deck.length;
+    });
   };
 
   const handleSelectCard = (i: number) => {
@@ -277,6 +287,7 @@ export function FeaturedDeck({ category: externalCategory, onCategoryChange }: F
                   product={p}
                   index={i}
                   activeIdx={activeIdx}
+                  totalCards={deck.length}
                   revealed={inView}
                   hasAnimatedIn={hasAnimatedIn}
                   isMobile={isMobile}
@@ -288,17 +299,15 @@ export function FeaturedDeck({ category: externalCategory, onCategoryChange }: F
             {/* Left / Right Nav Arrows */}
             <button
               onClick={() => move(-1)}
-              disabled={activeIdx === 0}
               aria-label="Previous card"
-              className="absolute left-2 top-[45%] z-40 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-border/80 bg-black/60 text-foreground transition-all hover:bg-gold hover:text-black disabled:opacity-30 sm:left-4 sm:h-11 sm:w-11"
+              className="absolute left-2 top-[45%] z-40 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-border/80 bg-black/60 text-foreground transition-all hover:bg-gold hover:text-black sm:left-4 sm:h-11 sm:w-11"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
             <button
               onClick={() => move(1)}
-              disabled={activeIdx === deck.length - 1}
               aria-label="Next card"
-              className="absolute right-2 top-[45%] z-40 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-border/80 bg-black/60 text-foreground transition-all hover:bg-gold hover:text-black disabled:opacity-30 sm:right-4 sm:h-11 sm:w-11"
+              className="absolute right-2 top-[45%] z-40 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-border/80 bg-black/60 text-foreground transition-all hover:bg-gold hover:text-black sm:right-4 sm:h-11 sm:w-11"
             >
               <ChevronRight className="h-5 w-5" />
             </button>
