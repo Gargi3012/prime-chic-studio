@@ -95,8 +95,11 @@ Is this available at the Ganaur store today?`;
                 <h3 className="mt-1 text-xl font-bold text-foreground sm:text-2xl">
                   {product.name}
                 </h3>
-                <p className="mt-2 text-2xl font-extrabold text-gold">
+                <p className="mt-2 text-2xl font-extrabold text-gold flex items-center gap-2">
                   {inr(product.price)}
+                  <span className="rounded-full bg-amber-400/15 border border-amber-400/30 px-2.5 py-0.5 text-xs font-bold text-amber-400">
+                    +{Math.floor(product.price / 10)} Gold Points
+                  </span>
                 </p>
 
                 {/* Stock Status */}

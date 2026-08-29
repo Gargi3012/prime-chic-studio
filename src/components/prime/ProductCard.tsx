@@ -65,7 +65,10 @@ export function ProductCard({ product, showTag = false, onQuickView }: ProductCa
         <div className="space-y-0.5 max-w-[130px]">
           <p className="text-[0.55rem] font-bold tracking-[0.25em] text-gold uppercase">{product.brand}</p>
           <h3 className="truncate text-xs font-semibold text-foreground sm:text-sm">{product.name}</h3>
-          <p className="pt-0.5 text-xs font-extrabold text-gold sm:text-sm">{inr(product.price)}</p>
+          <div className="flex items-center gap-1.5 pt-0.5">
+            <p className="text-xs font-extrabold text-gold sm:text-sm">{inr(product.price)}</p>
+            <span className="text-[0.55rem] font-bold text-amber-400/90">+ {Math.floor(product.price / 10)} pts</span>
+          </div>
         </div>
 
         {/* Add to Cart Floating Quick Button */}

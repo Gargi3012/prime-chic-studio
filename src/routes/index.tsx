@@ -14,6 +14,10 @@ import { ReviewsSection } from "@/components/prime/ReviewsSection";
 import { Contact } from "@/components/prime/Contact";
 import { Footer, WhatsAppFab, FloatingCartFab } from "@/components/prime/Footer";
 import { CartDrawer } from "@/components/prime/CartDrawer";
+import { OutfitBuilder } from "@/components/prime/OutfitBuilder";
+import { SpinWheelModal } from "@/components/prime/SpinWheelModal";
+import { AIStyleAssistant } from "@/components/prime/AIStyleAssistant";
+import { SizeGuideModal } from "@/components/prime/SizeGuideModal";
 import { footwear, products, type Category, type Product } from "@/data/catalog";
 
 export const Route = createFileRoute("/")({
@@ -50,6 +54,7 @@ function Index() {
   const [category, setCategory] = useState<Category>("MEN");
   const [filters, setFilters] = useState<FilterState>(initialFilterState);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
 
   // Active filter count
   const activeCount = useMemo(() => {
@@ -129,6 +134,9 @@ function Index() {
       <StoreFeatures />
       <FeaturedDeck category={category} onCategoryChange={setCategory} />
 
+      {/* Interactive Outfit Combo Builder */}
+      <OutfitBuilder />
+
       {/* Global Interactive Filter Bar */}
       <div className="px-5 sm:px-10">
         <FilterBar
@@ -165,15 +173,21 @@ function Index() {
       <Contact />
       <Footer />
       
-      {/* Floating Action Elements */}
+      {/* Floating Action & Interactive Elements */}
       <WhatsAppFab />
       <FloatingCartFab />
+      <SpinWheelModal />
+      <AIStyleAssistant onQuickView={setQuickViewProduct} />
 
-      {/* Interactive Cart Drawer & Quick View Modal */}
+      {/* Interactive Modals & Drawers */}
       <CartDrawer />
       <QuickViewModal
         product={quickViewProduct}
         onClose={() => setQuickViewProduct(null)}
+      />
+      <SizeGuideModal
+        isOpen={isSizeGuideOpen}
+        onClose={() => setIsSizeGuideOpen(false)}
       />
     </main>
   );

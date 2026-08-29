@@ -5,9 +5,36 @@ import { useCart } from "@/context/CartContext";
 import { inr } from "@/data/catalog";
 
 export function CartDrawer() {
-  const { cart, removeFromCart, updateQuantity, clearCart, isCartOpen, setIsCartOpen, totalItems, totalPrice } = useCart();
+  const {
+    cart,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    isCartOpen,
+    setIsCartOpen,
+    totalItems,
+    subtotalPrice,
+    totalPrice,
+    discountAmount,
+    earnedPoints,
+    appliedCoupon,
+    applyCoupon,
+    removeCoupon,
+  } = useCart();
+
   const [customerName, setCustomerName] = useState("");
   const [orderType, setOrderType] = useState<"TRY_ON" | "HOME_DELIVERY">("TRY_ON");
+  const [promoCodeInput, setPromoCodeInput] = useState("");
+  const [couponMessage, setCouponMessage] = useState<{ success: boolean; text: string } | null>(null);
+
+  const handleApplyPromo = () => {
+    if (!promoCodeInput.trim()) return;
+    const res = applyCoupon(promoCodeInput);
+    setCouponMessage({ success: res.success, text: res.message });
+    if (res.success) {
+      setPromoCodeInput("");
+    }
+  };
 
   // Direct WhatsApp Chat (general inquiry)
   const handleDirectChat = () => {
@@ -26,20 +53,31 @@ export function CartDrawer() {
       )
       .join("\n\n");
 
+    const couponLine = appliedCoupon
+      ? `\n*Coupon Applied:* ${appliedCoupon.code} (-${inr(discountAmount)})`
+      : "";
+
     const message = `🛍️ *NEW ORDER REQUEST — PRIME OUTLET*
 
 *Customer Name:* ${customerName ? customerName : "Store Visitor"}
 *Order Type:* ${orderType === "TRY_ON" ? "In-Store Try-On Reservation (Ganaur)" : "Home Delivery Request"}
 
 *ITEMS:*
-${itemsList}
+${itemsList}${couponLine}
 
-*TOTAL AMOUNT:* ${inr(totalPrice)}
+*SUBTOTAL:* ${inr(subtotalPrice)}
+*DISCOUNT:* ${discountAmount > 0 ? `-${inr(discountAmount)}` : "₹0"}
+*FINAL AMOUNT:* ${inr(totalPrice)}
+*POINTS EARNED:* +${earnedPoints} Gold Points
 
 Please confirm item availability and store timing!`;
 
     window.open(`https://wa.me/919999999999?text=${encodeURIComponent(message)}`, "_blank");
   };
+
+  // Tier Calculation
+  const tierName = totalPrice >= 20000 ? "Platinum VIP Elite 👑" : totalPrice >= 10000 ? "Gold Member ✨" : "Silver Member 🥈";
+  const tierProgress = Math.min(100, Math.round((totalPrice / 20000) * 100));
 
   return (
     <AnimatePresence>
@@ -84,8 +122,28 @@ Please confirm item availability and store timing!`;
                 </button>
               </div>
 
+              {/* VIP Loyalty Tier Badge */}
+              {cart.length > 0 && (
+                <div className="mt-3 rounded-xl border border-gold/30 bg-surface/80 p-2.5 text-xs">
+                  <div className="flex justify-between font-bold text-gold">
+                    <span>VIP Tier Status:</span>
+                    <span>{tierName}</span>
+                  </div>
+                  <div className="mt-1.5 h-1.5 w-full rounded-full bg-black/60 overflow-hidden">
+                    <div
+                      className="h-full bg-gold-gradient transition-all duration-500"
+                      style={{ width: `${tierProgress}%` }}
+                    />
+                  </div>
+                  <div className="mt-1 flex justify-between text-[0.6rem] text-muted-foreground">
+                    <span>+ {earnedPoints} Gold Points Earned</span>
+                    <span>Goal: Platinum VIP (₹20,000)</span>
+                  </div>
+                </div>
+              )}
+
               {/* Cart Item List */}
-              <div className="no-scrollbar mt-4 max-h-[45vh] space-y-4 overflow-y-auto pr-1">
+              <div className="no-scrollbar mt-4 max-h-[35vh] space-y-3 overflow-y-auto pr-1">
                 {cart.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-12 text-center">
                     <ShoppingBag className="h-12 w-12 text-muted-foreground/40" />
@@ -165,24 +223,66 @@ Please confirm item availability and store timing!`;
               </div>
             </div>
 
-            {/* Drawer Footer & WhatsApp Ordering Options */}
+            {/* Drawer Footer & Promo Code & WhatsApp Ordering Options */}
             {cart.length > 0 && (
-              <div className="border-t border-border/80 pt-4">
+              <div className="border-t border-border/80 pt-3 space-y-3">
+                
+                {/* Promo Code Input Box */}
+                <div className="rounded-xl border border-border/60 bg-surface/70 p-2.5 space-y-2">
+                  {appliedCoupon ? (
+                    <div className="flex items-center justify-between text-xs font-semibold text-emerald-400">
+                      <span>🎟️ {appliedCoupon.description}</span>
+                      <button
+                        onClick={removeCoupon}
+                        className="text-[0.65rem] text-rose-400 hover:underline font-bold"
+                      >
+                        REMOVE
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1.5">
+                      <input
+                        type="text"
+                        placeholder="Promo Code (e.g. SPIN10)"
+                        value={promoCodeInput}
+                        onChange={(e) => setPromoCodeInput(e.target.value)}
+                        className="flex-1 rounded-lg border border-border bg-black/60 px-2.5 py-1.5 text-xs text-foreground focus:border-gold focus:outline-none"
+                      />
+                      <button
+                        onClick={handleApplyPromo}
+                        className="rounded-lg bg-gold px-3 py-1.5 text-xs font-bold text-black hover:bg-gold/90"
+                      >
+                        APPLY
+                      </button>
+                    </div>
+                  )}
+
+                  {couponMessage && !appliedCoupon && (
+                    <p
+                      className={`text-[0.65rem] font-bold ${
+                        couponMessage.success ? "text-emerald-400" : "text-rose-400"
+                      }`}
+                    >
+                      {couponMessage.text}
+                    </p>
+                  )}
+                </div>
+
                 {/* Customer Details & Pickup Options */}
-                <div className="mb-4 space-y-2">
+                <div className="space-y-2">
                   <input
                     type="text"
                     placeholder="Your Name (Optional)"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
-                    className="w-full rounded-xl border border-border bg-surface-2 px-3 py-2 text-xs text-foreground focus:border-gold focus:outline-none"
+                    className="w-full rounded-xl border border-border bg-surface-2 px-3 py-1.5 text-xs text-foreground focus:border-gold focus:outline-none"
                   />
 
                   <div className="grid grid-cols-2 gap-2 text-[0.65rem] font-bold">
                     <button
                       type="button"
                       onClick={() => setOrderType("TRY_ON")}
-                      className={`flex items-center justify-center gap-1 rounded-lg border p-2 ${
+                      className={`flex items-center justify-center gap-1 rounded-lg border p-1.5 ${
                         orderType === "TRY_ON"
                           ? "border-gold bg-gold/20 text-gold"
                           : "border-border bg-surface-2 text-muted-foreground"
@@ -194,7 +294,7 @@ Please confirm item availability and store timing!`;
                     <button
                       type="button"
                       onClick={() => setOrderType("HOME_DELIVERY")}
-                      className={`flex items-center justify-center gap-1 rounded-lg border p-2 ${
+                      className={`flex items-center justify-center gap-1 rounded-lg border p-1.5 ${
                         orderType === "HOME_DELIVERY"
                           ? "border-gold bg-gold/20 text-gold"
                           : "border-border bg-surface-2 text-muted-foreground"
@@ -206,19 +306,31 @@ Please confirm item availability and store timing!`;
                   </div>
                 </div>
 
-                {/* Subtotal Display */}
-                <div className="mb-4 flex items-center justify-between text-sm font-bold">
-                  <span className="text-muted-foreground">SUBTOTAL</span>
-                  <span className="text-xl text-gold">{inr(totalPrice)}</span>
+                {/* Subtotal & Discount Breakdown */}
+                <div className="space-y-1 text-xs">
+                  <div className="flex justify-between text-muted-foreground">
+                    <span>Subtotal:</span>
+                    <span>{inr(subtotalPrice)}</span>
+                  </div>
+                  {discountAmount > 0 && (
+                    <div className="flex justify-between text-emerald-400 font-bold">
+                      <span>Discount ({appliedCoupon?.code}):</span>
+                      <span>-{inr(discountAmount)}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between text-sm font-extrabold text-foreground pt-1 border-t border-border/40">
+                    <span>FINAL TOTAL</span>
+                    <span className="text-lg text-gold">{inr(totalPrice)}</span>
+                  </div>
                 </div>
 
                 {/* Dual Action Buttons */}
-                <div className="space-y-2.5">
+                <div className="space-y-2">
                   {/* Button 1: Place Order on WhatsApp */}
                   <button
                     type="button"
                     onClick={handlePlaceOrder}
-                    className="glow-gold flex min-h-[46px] w-full items-center justify-center gap-2 rounded-full bg-gold-gradient px-4 py-3 text-xs font-bold tracking-[0.12em] text-primary-foreground transition-transform hover:scale-[1.02] active:scale-95 sm:text-sm"
+                    className="glow-gold flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-gold-gradient px-4 py-2.5 text-xs font-bold tracking-[0.12em] text-primary-foreground transition-transform hover:scale-[1.02] active:scale-95 sm:text-sm"
                   >
                     <Send className="h-4 w-4" />
                     PLACE ORDER ON WHATSAPP
@@ -228,12 +340,13 @@ Please confirm item availability and store timing!`;
                   <button
                     type="button"
                     onClick={handleDirectChat}
-                    className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full border border-gold/60 bg-black/40 px-4 py-2.5 text-xs font-bold tracking-[0.12em] text-gold transition-colors hover:bg-gold/10 active:scale-95"
+                    className="flex min-h-[40px] w-full items-center justify-center gap-2 rounded-full border border-gold/60 bg-black/40 px-4 py-2 text-xs font-bold tracking-[0.12em] text-gold transition-colors hover:bg-gold/10 active:scale-95"
                   >
                     <MessageCircle className="h-4 w-4 text-emerald-400" />
                     DIRECT WHATSAPP CHAT
                   </button>
                 </div>
+
               </div>
             )}
           </motion.div>
