@@ -1,4 +1,4 @@
-import { Facebook, Instagram, MessageCircle, ShoppingBag } from "lucide-react";
+import { Facebook, Instagram, MessageCircle, ShoppingBag, ChevronUp, LayoutGrid, Gift, Bot } from "lucide-react";
 import { INSTAGRAM, WHATSAPP } from "@/data/catalog";
 import { useCart } from "@/context/CartContext";
 import { LogoLockup } from "./Logo";
@@ -53,37 +53,78 @@ export function Footer() {
   );
 }
 
-export function WhatsAppFab() {
-  return (
-    <a
-      href={WHATSAPP}
-      target="_blank"
-      rel="noreferrer"
-      aria-label="Chat with Prime Outlet on WhatsApp"
-      className="glow-gold fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-gold-gradient transition-transform duration-300 hover:scale-110 active:scale-95"
-    >
-      <MessageCircle className="h-6 w-6 text-primary-foreground" />
-    </a>
-  );
-}
-
-export function FloatingCartFab() {
+export function BottomNavBar({
+  onOpenSpinWheel,
+  onOpenAIStylist,
+}: {
+  onOpenSpinWheel?: () => void;
+  onOpenAIStylist?: () => void;
+}) {
   const { totalItems, setIsCartOpen } = useCart();
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const scrollToCategories = () => {
+    const el = document.getElementById("category-avatars");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 400, behavior: "smooth" });
+    }
+  };
+
   return (
-    <button
-      type="button"
-      onClick={() => setIsCartOpen(true)}
-      aria-label="Open Shopping Bag"
-      className="relative fixed bottom-5 left-5 z-40 flex h-14 items-center gap-2 rounded-full border border-gold/50 bg-black/80 px-5 text-gold shadow-2xl backdrop-blur-md transition-transform duration-300 hover:scale-105 active:scale-95 sm:left-auto sm:right-24"
-    >
-      <ShoppingBag className="h-5 w-5 text-gold" />
-      <span className="text-xs font-bold tracking-[0.15em] text-foreground">BAG</span>
-      {totalItems > 0 && (
-        <span className="grid h-6 w-6 place-items-center rounded-full bg-gold text-xs font-extrabold text-black shadow-md">
-          {totalItems}
-        </span>
-      )}
-    </button>
+    <div className="fixed bottom-0 inset-x-0 z-40 flex items-center justify-around border-t border-border/80 bg-black/95 px-2 py-2 shadow-2xl backdrop-blur-lg">
+      {/* 1. Categories */}
+      <button
+        onClick={scrollToCategories}
+        className="flex flex-col items-center gap-1 text-[0.6rem] font-bold text-muted-foreground transition-colors hover:text-gold"
+      >
+        <div className="grid h-7 w-7 place-items-center rounded-full bg-surface">
+          <LayoutGrid className="h-4 w-4" />
+        </div>
+        <span>Categories</span>
+      </button>
+
+      {/* 2. AI Stylist */}
+      <button
+        onClick={onOpenAIStylist}
+        className="flex flex-col items-center gap-1 text-[0.6rem] font-bold text-muted-foreground transition-colors hover:text-gold"
+      >
+        <div className="grid h-7 w-7 place-items-center rounded-full bg-surface">
+          <Bot className="h-4 w-4 text-gold" />
+        </div>
+        <span>AI Stylist</span>
+      </button>
+
+      {/* 3. Shopping Bag */}
+      <button
+        onClick={() => setIsCartOpen(true)}
+        className="relative flex flex-col items-center gap-1 text-[0.6rem] font-bold text-gold transition-colors"
+      >
+        <div className="grid h-7 w-7 place-items-center rounded-full bg-gold/20 text-gold border border-gold/40">
+          <ShoppingBag className="h-4 w-4" />
+        </div>
+        <span>Bag</span>
+        {totalItems > 0 && (
+          <span className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-gold text-[0.55rem] font-black text-black">
+            {totalItems}
+          </span>
+        )}
+      </button>
+
+      {/* 4. Offers / Spin */}
+      <button
+        onClick={onOpenSpinWheel}
+        className="flex flex-col items-center gap-1 text-[0.6rem] font-bold text-muted-foreground transition-colors hover:text-gold"
+      >
+        <div className="grid h-7 w-7 place-items-center rounded-full bg-surface">
+          <Gift className="h-4 w-4 text-gold" />
+        </div>
+        <span>Spin & Win</span>
+      </button>
+    </div>
   );
 }

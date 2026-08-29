@@ -12,12 +12,15 @@ import { Gallery } from "@/components/prime/Gallery";
 import { VideoSection } from "@/components/prime/VideoSection";
 import { ReviewsSection } from "@/components/prime/ReviewsSection";
 import { Contact } from "@/components/prime/Contact";
-import { Footer, WhatsAppFab, FloatingCartFab } from "@/components/prime/Footer";
+import { Footer, BottomNavBar } from "@/components/prime/Footer";
 import { CartDrawer } from "@/components/prime/CartDrawer";
-import { OutfitBuilder } from "@/components/prime/OutfitBuilder";
+import { OutfitBuilderBanner, OutfitStudioModal } from "@/components/prime/OutfitBuilder";
 import { SpinWheelModal } from "@/components/prime/SpinWheelModal";
 import { AIStyleAssistant } from "@/components/prime/AIStyleAssistant";
 import { SizeGuideModal } from "@/components/prime/SizeGuideModal";
+import { SpecialOffers } from "@/components/prime/SpecialOffers";
+import { CategoryAvatars, type SubCategoryItem } from "@/components/prime/CategoryAvatars";
+import { CategoryDetailModal } from "@/components/prime/CategoryDetailModal";
 import { footwear, products, type Category, type Product } from "@/data/catalog";
 
 export const Route = createFileRoute("/")({
@@ -55,6 +58,22 @@ function Index() {
   const [filters, setFilters] = useState<FilterState>(initialFilterState);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
+  const [isOutfitStudioOpen, setIsOutfitStudioOpen] = useState(false);
+  const [isSpinWheelOpen, setIsSpinWheelOpen] = useState(false);
+  const [isAIStylistOpen, setIsAIStylistOpen] = useState(false);
+
+  // Sub-category detail modal state
+  const [detailModal, setDetailModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    gender: Category;
+    query: string;
+  }>({
+    isOpen: false,
+    title: "",
+    gender: "MEN",
+    query: "",
+  });
 
   // Active filter count
   const activeCount = useMemo(() => {
@@ -127,15 +146,80 @@ function Index() {
       });
   }, [category, filters]);
 
+  const handleSelectSpecialOffer = (offerType: string) => {
+    if (offerType === "COMBO") {
+      setIsOutfitStudioOpen(true);
+    } else if (offerType === "UNDER_3K") {
+      setDetailModal({
+        isOpen: true,
+        title: "Deals Under ₹3,000",
+        gender: category,
+        query: "",
+      });
+    } else if (offerType === "CLEARANCE") {
+      setDetailModal({
+        isOpen: true,
+        title: "Clearance Up to 50% OFF",
+        gender: category,
+        query: "",
+      });
+    } else if (offerType === "SNEAKERS") {
+      setDetailModal({
+        isOpen: true,
+        title: "Sneakers & Footwear",
+        gender: category,
+        query: "Sneaker",
+      });
+    }
+  };
+
   return (
-    <main className="mx-auto w-full max-w-6xl">
+    <main className="mx-auto w-full max-w-6xl pb-20">
       <Hero />
       <BrandStrip />
+
+      {/* Single Master Category Selector Bar */}
+      <div className="my-6 flex justify-center px-4">
+        <div className="flex gap-1.5 rounded-full border border-gold/50 bg-black/90 p-2 shadow-[0_0_25px_rgba(212,175,55,0.25)] backdrop-blur-md">
+          {(["MEN", "WOMEN", "KIDS"] as Category[]).map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setCategory(cat)}
+              className={`relative flex min-h-[46px] min-w-[100px] items-center justify-center rounded-full px-6 py-2.5 text-xs font-extrabold tracking-[0.2em] transition-all sm:min-w-[120px] ${
+                category === cat
+                  ? "bg-gold-gradient text-black shadow-lg"
+                  : "text-muted-foreground hover:text-gold"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 1. SPECIAL OFFERS Grid (Matching Screenshot 1) */}
+      <SpecialOffers onSelectOffer={handleSelectSpecialOffer} />
+
+      {/* 2. CATEGORIES Circular Avatars (Matching Screenshot 1) */}
+      <div id="category-avatars">
+        <CategoryAvatars
+          category={category}
+          onSelectSubCategory={(genderCat, subCat) => {
+            setDetailModal({
+              isOpen: true,
+              title: subCat.name,
+              gender: genderCat,
+              query: subCat.query,
+            });
+          }}
+        />
+      </div>
+
       <StoreFeatures />
       <FeaturedDeck category={category} onCategoryChange={setCategory} />
 
-      {/* Interactive Outfit Combo Builder */}
-      <OutfitBuilder />
+      {/* Compact Banner triggering full Outfit Studio */}
+      <OutfitBuilderBanner onOpenStudio={() => setIsOutfitStudioOpen(true)} />
 
       {/* Global Interactive Filter Bar */}
       <div className="px-5 sm:px-10">
@@ -173,11 +257,11 @@ function Index() {
       <Contact />
       <Footer />
       
-      {/* Floating Action & Interactive Elements */}
-      <WhatsAppFab />
-      <FloatingCartFab />
-      <SpinWheelModal />
-      <AIStyleAssistant onQuickView={setQuickViewProduct} />
+      {/* Fixed Bottom Navigation Bar (Matching Screenshot 1) */}
+      <BottomNavBar
+        onOpenSpinWheel={() => setIsSpinWheelOpen(true)}
+        onOpenAIStylist={() => setIsAIStylistOpen(true)}
+      />
 
       {/* Interactive Modals & Drawers */}
       <CartDrawer />
@@ -188,6 +272,29 @@ function Index() {
       <SizeGuideModal
         isOpen={isSizeGuideOpen}
         onClose={() => setIsSizeGuideOpen(false)}
+      />
+      <OutfitStudioModal
+        isOpen={isOutfitStudioOpen}
+        onClose={() => setIsOutfitStudioOpen(false)}
+      />
+      <SpinWheelModal
+        isOpen={isSpinWheelOpen}
+        onClose={() => setIsSpinWheelOpen(false)}
+      />
+      <AIStyleAssistant
+        isOpen={isAIStylistOpen}
+        onClose={() => setIsAIStylistOpen(false)}
+        onQuickView={setQuickViewProduct}
+      />
+
+      {/* 3. Sub-Category Marquee Detail View Modal (Matching Screenshot 2) */}
+      <CategoryDetailModal
+        isOpen={detailModal.isOpen}
+        onClose={() => setDetailModal((prev) => ({ ...prev, isOpen: false }))}
+        title={detailModal.title}
+        categoryGender={detailModal.gender}
+        filterQuery={detailModal.query}
+        onQuickView={setQuickViewProduct}
       />
     </main>
   );

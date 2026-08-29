@@ -217,32 +217,8 @@ export function FeaturedDeck({ category: externalCategory, onCategoryChange }: F
 
   return (
     <section id="collection" className="section-pad">
-      {/* Category Tabs BEFORE / ABOVE Heading */}
-      <Reveal className="mb-6 flex justify-center">
-        <div className="flex gap-1 rounded-full border border-border bg-surface p-1.5 shadow-md">
-          {tabs.map((t) => (
-            <button
-              key={t}
-              onClick={() => handleCategoryChange(t)}
-              className="relative flex min-h-[44px] items-center justify-center rounded-full px-5 py-2.5 text-xs font-semibold tracking-[0.18em] transition-colors sm:px-6"
-            >
-              {category === t ? (
-                <motion.span
-                  layoutId="tab-pill-main"
-                  className="absolute inset-0 rounded-full bg-gold-gradient"
-                  transition={springPhysics}
-                />
-              ) : null}
-              <span className={`relative ${category === t ? "text-primary-foreground font-bold" : "text-muted-foreground"}`}>
-                {t}
-              </span>
-            </button>
-          ))}
-        </div>
-      </Reveal>
-
       {/* Section Heading */}
-      <SectionHeading eyebrow="FEATURED COLLECTION" title="The Prime Deck" className="text-center mb-8" />
+      <SectionHeading eyebrow="FEATURED COLLECTION" title={`The Prime Deck — ${category}`} className="text-center mb-8" />
 
       {/* ZEVANA-Style Single-Screen Showcase Container */}
       <Reveal delay={0.05}>
