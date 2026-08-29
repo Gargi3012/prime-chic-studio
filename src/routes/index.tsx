@@ -221,15 +221,6 @@ function Index() {
       {/* Compact Banner triggering full Outfit Studio */}
       <OutfitBuilderBanner onOpenStudio={() => setIsOutfitStudioOpen(true)} />
 
-      {/* Global Interactive Filter Bar */}
-      <div className="px-5 sm:px-10">
-        <FilterBar
-          filters={filters}
-          onFilterChange={setFilters}
-          activeCount={activeCount}
-        />
-      </div>
-
       <Carousel
         eyebrow={`CURATED FOR ${category}`}
         title="You May Also Like"
