@@ -76,32 +76,39 @@ export function CategoryDetailModal({
 
   if (!isOpen) return null;
 
-  // Marquee text repeating
-  const marqueeText = Array(8).fill(title.toUpperCase()).join("  •  ");
+  // Marquee text loop matching BrandStrip structure
+  const marqueeLoop = Array(12).fill(title.toUpperCase());
 
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex flex-col bg-background text-foreground overflow-hidden">
         
-        {/* 1. TOP MARQUEE HEADER (Matching Screenshot 2) */}
+        {/* 1. TOP MARQUEE HEADER (Matching Screenshot 2 & BrandStrip) */}
         <div className="sticky top-0 z-20 border-b border-border/80 bg-black/95 backdrop-blur-md">
           {/* Header Action Bar */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-border/40">
+          <div className="flex items-center justify-between px-3 py-3 border-b border-border/40">
             <button
               onClick={onClose}
-              className="grid h-9 w-9 place-items-center rounded-full bg-surface text-muted-foreground hover:text-gold transition-colors"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-surface text-muted-foreground hover:text-gold transition-colors"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
 
-            {/* Marquee Scrolling Title */}
-            <div className="flex-1 overflow-hidden px-4">
-              <div className="whitespace-nowrap animate-marquee text-lg font-black tracking-widest text-gold uppercase">
-                {marqueeText}
+            {/* Hardware-Accelerated Marquee Scrolling Title (Identical to BrandStrip) */}
+            <div className="flex-1 relative overflow-hidden px-3 [mask-image:linear-gradient(90deg,transparent,black_5%,black_95%,transparent)]">
+              <div className="flex w-max animate-marquee items-center gap-6 pr-6">
+                {marqueeLoop.map((itemText, idx) => (
+                  <span
+                    key={`${itemText}-${idx}`}
+                    className="whitespace-nowrap font-display text-sm font-bold tracking-[0.2em] text-gold/90 uppercase"
+                  >
+                    {itemText} •
+                  </span>
+                ))}
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="flex items-center gap-2 shrink-0 text-muted-foreground">
               <button onClick={onClose} className="p-1 hover:text-gold">
                 <Heart className="h-5 w-5" />
               </button>
