@@ -1,9 +1,3 @@
-import menJacket from "@/assets/p-men-jacket.jpg";
-import womenSet from "@/assets/p-women-set.jpg";
-import kidsDenim from "@/assets/p-kids-denim.jpg";
-import sneakerWhite from "@/assets/p-sneaker-white.jpg";
-import sneakerBlack from "@/assets/p-sneaker-black.jpg";
-
 export type Category = "MEN" | "WOMEN" | "KIDS";
 
 export type Product = {
@@ -11,219 +5,418 @@ export type Product = {
   name: string;
   brand: string;
   price: number;
+  originalPrice?: number;
   image: string;
   category: Category;
   colors?: string[];
   sizes?: string[];
   rating?: number;
+  reviewsCount?: number;
+  tags?: string[];
   inStock?: boolean;
   description?: string;
 };
 
 export const products: Product[] = [
+  // ==================== MEN'S COLLECTION ====================
   {
     id: "m1",
-    name: "Signature Bomber Jacket",
-    brand: "U.S. Polo Assn.",
-    price: 4299,
-    image: menJacket,
+    name: "Cashmere Double-Breasted Coat",
+    brand: "Ralph Lauren",
+    price: 4999,
+    originalPrice: 9999,
+    image:
+      "https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=800&auto=format&fit=crop",
     category: "MEN",
-    colors: ["Black", "Navy", "Olive"],
+    colors: ["Camel", "Charcoal", "Black"],
     sizes: ["M", "L", "XL", "XXL"],
-    rating: 4.8,
+    rating: 4.9,
+    reviewsCount: 38,
+    tags: ["Runway Edit", "Cashmere"],
     inStock: true,
-    description: "Premium weather-resistant luxury bomber jacket with soft inner lining and metallic zip accents."
+    description:
+      "Italian structured camel wool double-breasted coat with handcrafted horn buttons and satin lining.",
   },
   {
     id: "m2",
-    name: "Court Low Sneakers",
-    brand: "Nike",
-    price: 6999,
-    image: sneakerWhite,
+    name: "Court Low Retro Sneakers",
+    brand: "Nike Lab",
+    price: 3499,
+    originalPrice: 6999,
+    image:
+      "https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=800&auto=format&fit=crop",
     category: "MEN",
-    colors: ["White", "Gold"],
+    colors: ["White/Gold", "Black/White"],
     sizes: ["7", "8", "9", "10", "11"],
     rating: 4.9,
+    reviewsCount: 52,
+    tags: ["Vault Drop", "Authentic"],
     inStock: true,
-    description: "Iconic court sneakers with cushioned sole and premium leather finish."
+    description:
+      "Iconic retro court sneakers with premium tumbled leather upper and responsive cushioned cupsole.",
   },
   {
     id: "m3",
-    name: "Midnight Runner",
-    brand: "Adidas",
-    price: 7499,
-    image: sneakerBlack,
+    name: "Italian Structured Navy Blazer",
+    brand: "Armani Exchange",
+    price: 4599,
+    originalPrice: 8999,
+    image:
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop",
     category: "MEN",
-    colors: ["Black", "Gold"],
-    sizes: ["7", "8", "9", "10"],
-    rating: 4.7,
+    colors: ["Navy", "Slate Grey", "Black"],
+    sizes: ["38", "40", "42", "44"],
+    rating: 4.8,
+    reviewsCount: 29,
+    tags: ["Tailored Suit", "Bespoke"],
     inStock: true,
-    description: "High-performance responsive running shoes engineered for all-day urban comfort."
+    description:
+      "Tailored slim-fit formal blazer cut from fine Italian wool blend with notched lapels and pocket square accent.",
   },
   {
     id: "m4",
-    name: "Onyx Layer Jacket",
-    brand: "Puma",
-    price: 3899,
-    image: menJacket,
+    name: "Espresso Brushed Suede Bomber",
+    brand: "Zara Man",
+    price: 3999,
+    originalPrice: 7499,
+    image:
+      "https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?q=80&w=800&auto=format&fit=crop",
     category: "MEN",
-    colors: ["Black", "Beige"],
+    colors: ["Espresso Brown", "Onyx Black"],
     sizes: ["S", "M", "L", "XL"],
-    rating: 4.6,
+    rating: 4.7,
+    reviewsCount: 24,
+    tags: ["Limited Drop", "Streetwear"],
     inStock: true,
-    description: "Lightweight wind-cheater jacket designed for modern active street style."
+    description:
+      "Plush faux-suede bomber jacket with ribbed knit cuffs, antique brass zip closure, and interior phone pocket.",
   },
   {
     id: "m5",
-    name: "Street Classic Kicks",
-    brand: "Puma",
-    price: 5299,
-    image: sneakerWhite,
+    name: "Air Max Runner Performance",
+    brand: "Adidas Originals",
+    price: 3899,
+    originalPrice: 7999,
+    image:
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop",
     category: "MEN",
-    colors: ["White", "Navy"],
+    colors: ["Infrared Red", "Triple Black"],
     sizes: ["8", "9", "10", "11"],
-    rating: 4.8,
+    rating: 4.9,
+    reviewsCount: 46,
+    tags: ["Speed Edition", "Air Cushion"],
     inStock: true,
-    description: "Retro street sneakers with contrast branding and durable rubber outsole."
+    description:
+      "Engineered mesh lightweight trainers with responsive foam midsole and high-traction rubber outsole.",
   },
   {
+    id: "m6",
+    name: "Relaxed Linen Overshirt",
+    brand: "Calvin Klein",
+    price: 2899,
+    originalPrice: 5499,
+    image:
+      "https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?q=80&w=800&auto=format&fit=crop",
+    category: "MEN",
+    colors: ["Ecru White", "Sage Green", "Black"],
+    sizes: ["S", "M", "L", "XL"],
+    rating: 4.8,
+    reviewsCount: 19,
+    tags: ["New Arrival", "Pure Linen"],
+    inStock: true,
+    description:
+      "Garment-washed pure European linen overshirt with chest patch pockets and relaxed camp collar.",
+  },
+
+  // ==================== WOMEN'S COLLECTION ====================
+  {
     id: "w1",
-    name: "Ivory Co-ord Set",
-    brand: "Vero Moda",
-    price: 5499,
-    image: womenSet,
+    name: "Oatmeal Tailored Blazer Set",
+    brand: "Zara Studio",
+    price: 3899,
+    originalPrice: 7999,
+    image:
+      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop",
     category: "WOMEN",
-    colors: ["Beige", "White"],
+    colors: ["Oatmeal", "Soft Ivory", "Charcoal"],
     sizes: ["XS", "S", "M", "L"],
     rating: 4.9,
+    reviewsCount: 41,
+    tags: ["Runway Edit", "Tailored Set"],
     inStock: true,
-    description: "Chic luxury knitted co-ord set with tailored silhouette and breathable fabric."
+    description:
+      "High-fashion structured linen blazer paired with high-waisted pleated trousers in elegant neutral oatmeal.",
   },
   {
     id: "w2",
-    name: "Champagne Tailored Set",
-    brand: "ONLY",
-    price: 6299,
-    image: womenSet,
+    name: "Sand Classic Storm Trench",
+    brand: "Massimo Dutti",
+    price: 4199,
+    originalPrice: 8499,
+    image:
+      "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=800&auto=format&fit=crop",
     category: "WOMEN",
-    colors: ["Gold", "Beige"],
-    sizes: ["S", "M", "L"],
+    colors: ["Sand Beige", "Olive Mist"],
+    sizes: ["XS", "S", "M", "L", "XL"],
     rating: 4.8,
+    reviewsCount: 35,
+    tags: ["Couture Drop", "Water Resistant"],
     inStock: true,
-    description: "Sophisticated champagne lounge set featuring gold hardware and smooth drape."
+    description:
+      "Double-breasted storm flap trench coat crafted in water-repellent gabardine with belted waist.",
   },
   {
     id: "w3",
-    name: "Studio White Sneakers",
-    brand: "Adidas",
-    price: 5999,
-    image: sneakerWhite,
+    name: "Air Force 1 Velvet Pastel",
+    brand: "Nike Luxe",
+    price: 3299,
+    originalPrice: 6499,
+    image:
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop",
     category: "WOMEN",
-    colors: ["White", "Gold"],
+    colors: ["Pastel Lilac", "Clean White"],
     sizes: ["5", "6", "7", "8"],
-    rating: 4.7,
+    rating: 4.9,
+    reviewsCount: 63,
+    tags: ["Kicks Vault", "Limited Drop"],
     inStock: true,
-    description: "Minimalist studio white trainers with soft memory foam insoles."
+    description:
+      "Iconic low-top sneakers in soft pastel colorblocking with premium leather overlays and elevated sole.",
   },
   {
     id: "w4",
-    name: "Noir Trainer",
-    brand: "Nike",
-    price: 6899,
-    image: sneakerBlack,
+    name: "Ivory Knitted Co-ord Set",
+    brand: "Mango Luxe",
+    price: 3499,
+    originalPrice: 6999,
+    image:
+      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop",
     category: "WOMEN",
-    colors: ["Black"],
-    sizes: ["6", "7", "8"],
-    rating: 4.9,
+    colors: ["Ivory", "Butter Beige"],
+    sizes: ["XS", "S", "M", "L"],
+    rating: 4.8,
+    reviewsCount: 28,
+    tags: ["Spring Capsule", "Soft Knit"],
     inStock: true,
-    description: "Sleek all-black fitness trainers with breathable mesh upper."
+    description:
+      "Relaxed-fit ribbed knit cardigan and wide-leg trousers set in lightweight breathable cotton blend.",
   },
   {
     id: "w5",
-    name: "Sand Linen Suit",
-    brand: "Levi's",
-    price: 4899,
-    image: womenSet,
+    name: "Emerald Silk Wrap Gown",
+    brand: "Vero Moda",
+    price: 4499,
+    originalPrice: 8999,
+    image:
+      "https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=800&auto=format&fit=crop",
     category: "WOMEN",
-    colors: ["Beige", "White"],
-    sizes: ["S", "M", "L", "XL"],
-    rating: 4.6,
+    colors: ["Emerald Green", "Midnight Blue"],
+    sizes: ["S", "M", "L"],
+    rating: 4.9,
+    reviewsCount: 32,
+    tags: ["Evening Edit", "Pure Silk Feel"],
     inStock: true,
-    description: "Relaxed linen blazer and pants set designed for effortless summer chic."
+    description:
+      "Floor-length wrap gown in flowing satin silk with deep V-neckline and elegant side sash tie.",
   },
   {
-    id: "k1",
-    name: "Junior Denim Jacket",
-    brand: "U.S. Polo Assn.",
-    price: 2199,
-    image: kidsDenim,
-    category: "KIDS",
-    colors: ["Navy", "Black"],
-    sizes: ["4Y", "6Y", "8Y", "10Y"],
+    id: "w6",
+    name: "Leather Minimalist Shoulder Tote",
+    brand: "Coach Curation",
+    price: 3999,
+    originalPrice: 7999,
+    image:
+      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800&auto=format&fit=crop",
+    category: "WOMEN",
+    colors: ["Cognac Tan", "Noir Black"],
+    sizes: ["One Size"],
     rating: 4.8,
+    reviewsCount: 22,
+    tags: ["Leather Edit", "Gold Hardware"],
     inStock: true,
-    description: "Durable classic denim jacket tailored for comfortable active play."
+    description:
+      "Supple grain leather shoulder bag with magnetic snap closure and interior zip compartment.",
+  },
+
+  // ==================== KIDS' COLLECTION ====================
+  {
+    id: "k1",
+    name: "Varsity Colorblock Bomber",
+    brand: "Tommy Hilfiger Kids",
+    price: 2499,
+    originalPrice: 4999,
+    image:
+      "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?q=80&w=800&auto=format&fit=crop",
+    category: "KIDS",
+    colors: ["Navy/White/Red", "Charcoal/Yellow"],
+    sizes: ["4Y", "6Y", "8Y", "10Y", "12Y"],
+    rating: 4.8,
+    reviewsCount: 27,
+    tags: ["Junior Drop", "Varsity"],
+    inStock: true,
+    description:
+      "Heritage varsity bomber with striped rib trims, snap button front, and embroidered crest.",
   },
   {
     id: "k2",
-    name: "Play Day Sneakers",
-    brand: "Puma",
-    price: 2799,
-    image: sneakerWhite,
+    name: "Distressed Comfort Denim Set",
+    brand: "Levi's Kids",
+    price: 1999,
+    originalPrice: 3999,
+    image:
+      "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=800&auto=format&fit=crop",
     category: "KIDS",
-    colors: ["White", "Gold"],
-    sizes: ["1Y", "2Y", "3Y", "4Y"],
-    rating: 4.7,
+    colors: ["Washed Blue", "Vintage Black"],
+    sizes: ["4Y", "6Y", "8Y", "10Y"],
+    rating: 4.9,
+    reviewsCount: 34,
+    tags: ["Everyday Edit", "Stretch Denim"],
     inStock: true,
-    description: "Flexible lightweight sneakers with easy Velcro straps for kids."
+    description:
+      "Soft flex stretch denim jacket paired with durable 5-pocket jeans for active playtime.",
   },
   {
     id: "k3",
-    name: "Denim & Tee Combo",
-    brand: "Levi's",
-    price: 2499,
-    image: kidsDenim,
+    name: "Softride Retro Court Runners",
+    brand: "Puma Kids",
+    price: 2199,
+    originalPrice: 4299,
+    image:
+      "https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=800&auto=format&fit=crop",
     category: "KIDS",
-    colors: ["Navy", "White"],
-    sizes: ["6Y", "8Y", "10Y", "12Y"],
-    rating: 4.9,
+    colors: ["White/Blue", "Black/Red"],
+    sizes: ["1Y", "2Y", "3Y", "4Y"],
+    rating: 4.8,
+    reviewsCount: 29,
+    tags: ["Kicks Vault", "Velcro Strap"],
     inStock: true,
-    description: "Comfortable cotton t-shirt paired with stretch denim jeans."
+    description:
+      "Lightweight cushioned school & sports runners with breathable mesh and easy hook-and-loop strap.",
   },
   {
     id: "k4",
-    name: "Mini Runner",
-    brand: "Adidas",
-    price: 3199,
-    image: sneakerBlack,
+    name: "Pastel Hoodie & Cargo Joggers",
+    brand: "Zara Kids",
+    price: 1799,
+    originalPrice: 3499,
+    image:
+      "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?q=80&w=800&auto=format&fit=crop",
     category: "KIDS",
-    colors: ["Black", "Red"],
-    sizes: ["2Y", "3Y", "4Y", "5Y"],
-    rating: 4.8,
+    colors: ["Sage Green", "Dusty Pink", "Oatmeal"],
+    sizes: ["3Y", "5Y", "7Y", "9Y"],
+    rating: 4.7,
+    reviewsCount: 18,
+    tags: ["Street Casual", "100% Cotton"],
     inStock: true,
-    description: "Cushioned mini sports shoes designed for school and athletic play."
+    description:
+      "Ultra-soft French terry cotton fleece hoodie with matching elastic cargo joggers.",
   },
   {
     id: "k5",
-    name: "Weekend Denim Fit",
-    brand: "Puma",
-    price: 1999,
-    image: kidsDenim,
+    name: "Striped Cotton Dungaree",
+    brand: "GAP Kids",
+    price: 1699,
+    originalPrice: 3299,
+    image:
+      "https://images.unsplash.com/photo-1471286174890-9c112ffca564?q=80&w=800&auto=format&fit=crop",
     category: "KIDS",
-    colors: ["Navy"],
-    sizes: ["4Y", "6Y", "8Y"],
-    rating: 4.5,
+    colors: ["Navy Stripe", "Beige Stripe"],
+    sizes: ["2Y", "3Y", "4Y", "5Y"],
+    rating: 4.8,
+    reviewsCount: 21,
+    tags: ["Playtime Edit", "Organic Cotton"],
     inStock: true,
-    description: "Soft washed casual denim pants with adjustable elastic waist."
+    description:
+      "Breathable organic cotton twill dungaree overalls with adjustable shoulder buckles.",
   },
 ];
 
 export const footwear: Product[] = [
-  { id: "f1", name: "Air Court Low", brand: "Nike", price: 6999, image: sneakerWhite, category: "MEN", colors: ["White"], sizes: ["8", "9", "10"], rating: 4.9, inStock: true, description: "Cushioned court shoes." },
-  { id: "f2", name: "Ultra Glide Gold", brand: "Adidas", price: 7899, image: sneakerBlack, category: "MEN", colors: ["Black", "Gold"], sizes: ["7", "8", "9", "10"], rating: 4.8, inStock: true, description: "Gold accent runners." },
-  { id: "f3", name: "Suede Classic", brand: "Puma", price: 4499, image: sneakerWhite, category: "WOMEN", colors: ["White", "Beige"], sizes: ["6", "7", "8"], rating: 4.7, inStock: true, description: "Classic suede sneakers." },
-  { id: "f4", name: "Night Trainer Pro", brand: "Nike", price: 8299, image: sneakerBlack, category: "MEN", colors: ["Black"], sizes: ["8", "9", "10", "11"], rating: 4.9, inStock: true, description: "Pro trainer edition." },
-  { id: "f5", name: "Mini Runner", brand: "Adidas", price: 3199, image: sneakerWhite, category: "KIDS", colors: ["White"], sizes: ["2Y", "3Y", "4Y"], rating: 4.8, inStock: true, description: "Mini runners for kids." },
+  {
+    id: "f1",
+    name: "Court Low Retro Sneakers",
+    brand: "Nike Lab",
+    price: 3499,
+    originalPrice: 6999,
+    image:
+      "https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=800&auto=format&fit=crop",
+    category: "MEN",
+    colors: ["White/Gold", "Black/White"],
+    sizes: ["8", "9", "10", "11"],
+    rating: 4.9,
+    reviewsCount: 52,
+    tags: ["Vault Drop"],
+    inStock: true,
+    description: "Iconic retro court sneakers with premium leather.",
+  },
+  {
+    id: "f2",
+    name: "Air Max Runner Performance",
+    brand: "Adidas Originals",
+    price: 3899,
+    originalPrice: 7999,
+    image:
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop",
+    category: "MEN",
+    colors: ["Infrared Red", "Triple Black"],
+    sizes: ["7", "8", "9", "10"],
+    rating: 4.8,
+    reviewsCount: 46,
+    tags: ["Speed Edition"],
+    inStock: true,
+    description: "Gold accent high-performance runners.",
+  },
+  {
+    id: "f3",
+    name: "Air Force 1 Velvet Pastel",
+    brand: "Nike Luxe",
+    price: 3299,
+    originalPrice: 6499,
+    image:
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop",
+    category: "WOMEN",
+    colors: ["Pastel Lilac"],
+    sizes: ["5", "6", "7", "8"],
+    rating: 4.9,
+    reviewsCount: 63,
+    tags: ["Kicks Vault"],
+    inStock: true,
+    description: "Classic pastel luxury low sneakers.",
+  },
+  {
+    id: "f4",
+    name: "Minimalist Leather Court Trainers",
+    brand: "Puma Luxe",
+    price: 3199,
+    originalPrice: 5999,
+    image:
+      "https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=800&auto=format&fit=crop",
+    category: "WOMEN",
+    colors: ["White/Tan"],
+    sizes: ["6", "7", "8"],
+    rating: 4.7,
+    reviewsCount: 31,
+    tags: ["Suede Finish"],
+    inStock: true,
+    description: "Clean court trainers with soft leather finish.",
+  },
+  {
+    id: "f5",
+    name: "Softride Retro Court Runners",
+    brand: "Puma Kids",
+    price: 2199,
+    originalPrice: 4299,
+    image:
+      "https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=800&auto=format&fit=crop",
+    category: "KIDS",
+    colors: ["White/Blue"],
+    sizes: ["1Y", "2Y", "3Y", "4Y"],
+    rating: 4.8,
+    reviewsCount: 29,
+    tags: ["Velcro Strap"],
+    inStock: true,
+    description: "Mini runners for kids.",
+  },
 ];
 
 export const suggestions: Product[] = ["m1", "w1", "k1", "m3", "w4", "k3", "m5"]
@@ -231,14 +424,16 @@ export const suggestions: Product[] = ["m1", "w1", "k1", "m3", "w4", "k3", "m5"]
   .filter((p): p is Product => Boolean(p));
 
 export const brands = [
-  "PUMA",
-  "ADIDAS",
+  "RALPH LAUREN",
+  "ARMANI EXCHANGE",
+  "ZARA",
+  "MASSIMO DUTTI",
   "NIKE",
-  "U.S. POLO ASSN.",
+  "ADIDAS",
+  "PUMA",
+  "TOMMY HILFIGER",
   "LEVI'S",
-  "JACK & JONES",
   "VERO MODA",
-  "ONLY",
 ];
 
 export const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;

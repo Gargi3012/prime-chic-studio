@@ -15,10 +15,10 @@ export function Reveal({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 28 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.85, delay, ease }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.7, delay, ease }}
     >
       {children}
     </motion.div>
@@ -28,19 +28,29 @@ export function Reveal({
 export function SectionHeading({
   eyebrow,
   title,
+  subtitle,
   className = "",
 }: {
   eyebrow?: string | undefined;
   title: string;
+  subtitle?: string | undefined;
   className?: string;
 }) {
-
   return (
-    <Reveal className={`mb-8 ${className}`}>
+    <Reveal className={`mb-5 ${className}`}>
       {eyebrow ? (
-        <p className="mb-3 text-[0.6rem] font-medium tracking-[0.4em] text-gold">{eyebrow}</p>
+        <p className="mb-1 text-[0.62rem] font-bold tracking-[0.25em] text-[#C59B27] uppercase">
+          {eyebrow}
+        </p>
       ) : null}
-      <h2 className="text-3xl font-bold leading-tight sm:text-4xl">{title}</h2>
+      <h2 className="text-2xl font-extrabold tracking-tight text-[#18181B] sm:text-3xl leading-tight">
+        {title}
+      </h2>
+      {subtitle ? (
+        <p className="mt-1 text-xs text-[#71717A] leading-relaxed max-w-md">
+          {subtitle}
+        </p>
+      ) : null}
     </Reveal>
   );
 }
