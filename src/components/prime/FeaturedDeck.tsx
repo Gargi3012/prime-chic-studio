@@ -4,7 +4,12 @@ import { Sparkles, ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight } from "l
 import { Reveal, SectionHeading } from "./Reveal";
 import { type Product, type Category } from "@/data/catalog";
 
-const springPhysics = { type: "spring" as const, stiffness: 260, damping: 25, mass: 0.8 };
+const springPhysics = {
+  type: "spring" as const,
+  stiffness: 360,
+  damping: 32,
+  mass: 0.5,
+};
 
 interface DeckCardItem {
   id: string;
@@ -25,7 +30,7 @@ const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
       badge: "✦ Runway Edit",
       price: "₹4,999",
       image:
-        "https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=600&auto=format&fit=crop",
       category: "MEN",
     },
     {
@@ -35,7 +40,7 @@ const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
       badge: "✦ Tailored Suit",
       price: "₹4,599",
       image:
-        "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=600&auto=format&fit=crop",
       category: "MEN",
     },
     {
@@ -45,7 +50,7 @@ const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
       badge: "✦ Vault Drop",
       price: "₹3,499",
       image:
-        "https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=600&auto=format&fit=crop",
       category: "MEN",
     },
     {
@@ -55,7 +60,7 @@ const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
       badge: "✦ Limited Drop",
       price: "₹3,999",
       image:
-        "https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?q=80&w=600&auto=format&fit=crop",
       category: "MEN",
     },
     {
@@ -65,7 +70,7 @@ const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
       badge: "✦ New Arrival",
       price: "₹2,899",
       image:
-        "https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?q=80&w=600&auto=format&fit=crop",
       category: "MEN",
     },
   ],
@@ -77,7 +82,7 @@ const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
       badge: "✦ Runway Edit",
       price: "₹3,899",
       image:
-        "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600&auto=format&fit=crop",
       category: "WOMEN",
     },
     {
@@ -87,7 +92,7 @@ const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
       badge: "✦ Couture Drop",
       price: "₹4,199",
       image:
-        "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=600&auto=format&fit=crop",
       category: "WOMEN",
     },
     {
@@ -97,7 +102,7 @@ const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
       badge: "✦ Kicks Vault",
       price: "₹3,299",
       image:
-        "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=600&auto=format&fit=crop",
       category: "WOMEN",
     },
     {
@@ -107,7 +112,7 @@ const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
       badge: "✦ Spring Capsule",
       price: "₹3,499",
       image:
-        "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=600&auto=format&fit=crop",
       category: "WOMEN",
     },
     {
@@ -117,7 +122,7 @@ const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
       badge: "✦ Evening Edit",
       price: "₹4,499",
       image:
-        "https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=600&auto=format&fit=crop",
       category: "WOMEN",
     },
   ],
@@ -129,7 +134,7 @@ const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
       badge: "✦ Junior Drop",
       price: "₹2,499",
       image:
-        "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?q=80&w=600&auto=format&fit=crop",
       category: "KIDS",
     },
     {
@@ -139,7 +144,7 @@ const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
       badge: "✦ Everyday Edit",
       price: "₹1,999",
       image:
-        "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=600&auto=format&fit=crop",
       category: "KIDS",
     },
     {
@@ -149,7 +154,7 @@ const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
       badge: "✦ Kicks Vault",
       price: "₹2,199",
       image:
-        "https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=600&auto=format&fit=crop",
       category: "KIDS",
     },
     {
@@ -159,7 +164,7 @@ const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
       badge: "✦ Street Casual",
       price: "₹1,799",
       image:
-        "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?q=80&w=600&auto=format&fit=crop",
       category: "KIDS",
     },
     {
@@ -169,11 +174,21 @@ const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
       badge: "✦ Playtime Edit",
       price: "₹1,699",
       image:
-        "https://images.unsplash.com/photo-1471286174890-9c112ffca564?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1471286174890-9c112ffca564?q=80&w=600&auto=format&fit=crop",
       category: "KIDS",
     },
   ],
 };
+
+// Preload all deck images on idle
+if (typeof window !== "undefined") {
+  Object.values(CATEGORY_DECKS).forEach((deck) => {
+    deck.forEach((item) => {
+      const img = new Image();
+      img.src = item.image;
+    });
+  });
+}
 
 interface FeaturedDeckProps {
   category?: Category;
@@ -187,7 +202,7 @@ export function FeaturedDeck({
   onQuickView,
 }: FeaturedDeckProps) {
   const deckRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(deckRef, { once: true, amount: 0.3 });
+  const inView = useInView(deckRef, { once: true, amount: 0.2 });
 
   const [activeIdx, setActiveIdx] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
@@ -195,11 +210,11 @@ export function FeaturedDeck({
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
-    window.addEventListener("resize", checkMobile);
+    window.addEventListener("resize", checkMobile, { passive: true });
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Reset active index when category changes
+  // Reset active index smoothly when category changes
   useEffect(() => {
     setActiveIdx(1);
   }, [category]);
@@ -252,16 +267,16 @@ export function FeaturedDeck({
           </div>
 
           {/* 3D Quiet Luxury Card Deck Carousel */}
-          <div className="relative bg-gradient-to-b from-white to-[#FAF9F6] pt-6 pb-6 overflow-hidden">
+          <div className="relative bg-gradient-to-b from-white to-[#FAF9F6] pt-6 pb-6 overflow-hidden select-none">
             <motion.div
               ref={deckRef}
-              className="relative h-[420px] sm:h-[460px] w-full touch-pan-y flex items-center justify-center"
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.2}
-              onDragEnd={(_, info) => {
-                if (info.offset.x < -35 || info.velocity.x < -180) move(1);
-                else if (info.offset.x > 35 || info.velocity.x > 180) move(-1);
+              className="relative h-[420px] sm:h-[460px] w-full touch-pan-y flex items-center justify-center cursor-grab active:cursor-grabbing"
+              onPanEnd={(_, info) => {
+                if (info.offset.x < -25 || info.velocity.x < -120) {
+                  move(1);
+                } else if (info.offset.x > 25 || info.velocity.x > 120) {
+                  move(-1);
+                }
               }}
             >
               {cards.map((card, i) => {
@@ -273,20 +288,21 @@ export function FeaturedDeck({
                 const isCenter = relativeOffset === 0;
                 const absOffset = Math.abs(relativeOffset);
 
-                // Calculate horizontal displacement
+                // Calculate horizontal displacement with GPU hardware positioning
                 const spacing = isMobile ? 120 : 180;
                 const xOffset = relativeOffset * spacing;
-                const rotate = relativeOffset * 6;
-                const scale = isCenter ? 1.05 : Math.max(0.85, 0.95 - absOffset * 0.08);
-                const opacity = isCenter ? 1 : Math.max(0.4, 0.75 - absOffset * 0.2);
+                const rotate = relativeOffset * 5.5;
+                const scale = isCenter ? 1.05 : Math.max(0.85, 0.94 - absOffset * 0.08);
+                const opacity = isCenter ? 1 : Math.max(0.4, 0.72 - absOffset * 0.2);
                 const zIndex = isCenter ? 30 : 20 - absOffset;
 
                 return (
                   <motion.div
                     key={card.id}
                     onClick={() => {
-                      if (!isCenter) setActiveIdx(i);
-                      else {
+                      if (!isCenter) {
+                        setActiveIdx(i);
+                      } else {
                         onQuickView?.({
                           id: card.id,
                           name: card.title,
@@ -303,12 +319,16 @@ export function FeaturedDeck({
                         });
                       }
                     }}
-                    className={`absolute w-[250px] sm:w-[280px] md:w-[290px] aspect-[9/14] rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 select-none ${
+                    className={`absolute w-[250px] sm:w-[280px] md:w-[290px] aspect-[9/14] rounded-3xl overflow-hidden cursor-pointer ${
                       isCenter
-                        ? "bg-white shadow-[0_20px_50px_rgba(0,0,0,0.12)] ring-1 ring-[#B8860B]/35 z-30"
-                        : "bg-[#F4EFEA] border border-neutral-200/70 opacity-75 blur-[0.4px] hover:opacity-90 hover:blur-none"
+                        ? "bg-white shadow-[0_20px_50px_rgba(0,0,0,0.14)] ring-1 ring-[#B8860B]/40"
+                        : "bg-[#F4EFEA] border border-neutral-200/80"
                     }`}
-                    style={{ zIndex }}
+                    style={{
+                      zIndex,
+                      willChange: "transform, opacity",
+                      transform: "translateZ(0)",
+                    }}
                     animate={
                       inView
                         ? {
@@ -320,7 +340,7 @@ export function FeaturedDeck({
                         : {
                             x: xOffset,
                             opacity: 0,
-                            scale: 0.8,
+                            scale: 0.85,
                           }
                     }
                     transition={springPhysics}
@@ -329,8 +349,8 @@ export function FeaturedDeck({
                     <img
                       src={card.image}
                       alt={card.title}
-                      loading="lazy"
-                      className="h-full w-full object-cover object-center transition-transform duration-700 hover:scale-105"
+                      decoding="async"
+                      className="h-full w-full object-cover object-center pointer-events-none"
                     />
 
                     {/* Subtle Top & Bottom Gradient Protection */}
@@ -338,13 +358,13 @@ export function FeaturedDeck({
 
                     {/* Top-Left Floating Badge */}
                     <div className="absolute top-3.5 left-3.5 z-10">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-white/85 px-3 py-1 text-[10px] font-bold text-[#18181B] backdrop-blur-md border border-white/40 shadow-xs">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold text-[#18181B] backdrop-blur-md border border-white/50 shadow-xs">
                         {card.badge}
                       </span>
                     </div>
 
                     {/* Bottom Floating Info Glass Card */}
-                    <div className="absolute bottom-3 left-3 right-3 bg-white/90 backdrop-blur-md p-3.5 rounded-2xl border border-white/60 shadow-sm text-left z-10 transition-colors hover:bg-white">
+                    <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-white/70 shadow-sm text-left z-10">
                       <div className="flex items-center justify-between">
                         <div className="min-w-0 flex-1 pr-2">
                           <p className="text-[10px] tracking-widest text-[#71717A] uppercase font-bold truncate">
@@ -359,7 +379,7 @@ export function FeaturedDeck({
                         </div>
 
                         {/* Gold Arrow Button */}
-                        <div className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#18181B] text-white shadow-xs transition-transform hover:scale-110 hover:bg-[#B8860B]">
+                        <div className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#18181B] text-white shadow-xs">
                           <ArrowRight className="h-3.5 w-3.5" />
                         </div>
                       </div>
@@ -373,14 +393,14 @@ export function FeaturedDeck({
             <button
               onClick={() => move(-1)}
               aria-label="Previous Drop"
-              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-40 grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full border border-black/[0.08] bg-white/90 text-[#18181B] shadow-md transition-all hover:bg-[#18181B] hover:text-white"
+              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-40 grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full border border-black/[0.08] bg-white/95 text-[#18181B] shadow-md transition-colors hover:bg-[#18181B] hover:text-white cursor-pointer active:scale-95"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
             <button
               onClick={() => move(1)}
               aria-label="Next Drop"
-              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-40 grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full border border-black/[0.08] bg-white/90 text-[#18181B] shadow-md transition-all hover:bg-[#18181B] hover:text-white"
+              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-40 grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full border border-black/[0.08] bg-white/95 text-[#18181B] shadow-md transition-colors hover:bg-[#18181B] hover:text-white cursor-pointer active:scale-95"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -404,9 +424,9 @@ export function FeaturedDeck({
                   <button
                     key={card.id}
                     onClick={() => setActiveIdx(i)}
-                    className={`group relative flex w-[140px] sm:w-[170px] shrink-0 snap-start items-center gap-2.5 rounded-2xl border p-2 text-left transition-all duration-300 cursor-pointer ${
+                    className={`group relative flex w-[140px] sm:w-[170px] shrink-0 snap-start items-center gap-2.5 rounded-2xl border p-2 text-left transition-colors cursor-pointer ${
                       isSelected
-                        ? "border-[#B8860B] bg-[#FAF9F6] shadow-sm ring-1 ring-[#B8860B]/40"
+                        ? "border-[#B8860B] bg-[#FAF9F6] shadow-xs ring-1 ring-[#B8860B]/40"
                         : "border-black/[0.06] bg-white hover:border-neutral-300"
                     }`}
                   >
@@ -414,6 +434,7 @@ export function FeaturedDeck({
                       <img
                         src={card.image}
                         alt={card.title}
+                        loading="lazy"
                         className="h-full w-full object-cover"
                       />
                     </div>
