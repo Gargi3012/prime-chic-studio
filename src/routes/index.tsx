@@ -5,10 +5,8 @@ import { Hero } from "@/components/prime/Hero";
 import { BrandStrip } from "@/components/prime/BrandStrip";
 import { StoreFeatures } from "@/components/prime/StoreFeatures";
 import { FeaturedDeck } from "@/components/prime/FeaturedDeck";
-import { FilterBar, initialFilterState, type FilterState } from "@/components/prime/FilterBar";
 import { Carousel } from "@/components/prime/Carousel";
 import { QuickViewModal } from "@/components/prime/QuickViewModal";
-import { Gallery } from "@/components/prime/Gallery";
 import { VideoSection } from "@/components/prime/VideoSection";
 import { ReviewsSection } from "@/components/prime/ReviewsSection";
 import { Contact } from "@/components/prime/Contact";
@@ -19,24 +17,24 @@ import { SpinWheelModal } from "@/components/prime/SpinWheelModal";
 import { AIStyleAssistant } from "@/components/prime/AIStyleAssistant";
 import { SizeGuideModal } from "@/components/prime/SizeGuideModal";
 import { SpecialOffers } from "@/components/prime/SpecialOffers";
-import { CategoryAvatars, type SubCategoryItem } from "@/components/prime/CategoryAvatars";
+import { CategoryAvatars } from "@/components/prime/CategoryAvatars";
 import { CategoryDetailModal } from "@/components/prime/CategoryDetailModal";
 import { footwear, products, type Category, type Product } from "@/data/catalog";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Prime Outlet — Multibrand Fashion Store in Ganaur, Sonipat" },
+      { title: "Prime Outlet — Ultra-Luxury Fashion Magazine & Flagship Store in Ganaur" },
       {
         name: "description",
         content:
-          "Prime Outlet, Ganaur (Sonipat): premium multibrand clothing, footwear and accessories — Puma, Adidas, Nike, U.S. Polo Assn. Open 10 AM–9 PM, all 7 days.",
+          "Prime Outlet, Ganaur: High-fashion multibrand clothing, footwear and accessories — Zara, Nike, Adidas, Armani. Open 10 AM–9 PM, all 7 days.",
       },
-      { property: "og:title", content: "Prime Outlet — Style That Fits You" },
+      { property: "og:title", content: "Prime Outlet — The Art of Modern Dressing" },
       {
         property: "og:description",
         content:
-          "Premium multibrand clothing, footwear and accessories in Ganaur, Sonipat. Best brands, best prices.",
+          "Curated luxury multibrand apparel, footwear and accessories in Ganaur, Sonipat. Authentic global fashion labels.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -55,7 +53,6 @@ function IndexWrapper() {
 
 function Index() {
   const [category, setCategory] = useState<Category>("MEN");
-  const [filters, setFilters] = useState<FilterState>(initialFilterState);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isOutfitStudioOpen, setIsOutfitStudioOpen] = useState(false);
@@ -75,76 +72,13 @@ function Index() {
     query: "",
   });
 
-  // Active filter count
-  const activeCount = useMemo(() => {
-    let count = 0;
-    if (filters.priceRange !== "ALL") count++;
-    if (filters.color !== "ALL") count++;
-    if (filters.size !== "ALL") count++;
-    if (filters.selectedBrands.length > 0) count += filters.selectedBrands.length;
-    if (filters.sortBy !== "RECOMMENDED") count++;
-    return count;
-  }, [filters]);
-
-  // Dynamic Page-Wide Product Filtering Logic
   const filteredProducts = useMemo(() => {
-    return products
-      .filter((p) => {
-        // Category Match
-        if (p.category !== category) return false;
+    return products.filter((p) => p.category === category);
+  }, [category]);
 
-        // Price Range Match
-        if (filters.priceRange === "UNDER_3K" && p.price >= 3000) return false;
-        if (filters.priceRange === "3K_6K" && (p.price < 3000 || p.price > 6000)) return false;
-        if (filters.priceRange === "ABOVE_6K" && p.price <= 6000) return false;
-
-        // Color Match
-        if (filters.color !== "ALL" && p.colors && !p.colors.includes(filters.color)) return false;
-
-        // Size Match
-        if (filters.size !== "ALL" && p.sizes && !p.sizes.includes(filters.size)) return false;
-
-        // Brand Match
-        if (
-          filters.selectedBrands.length > 0 &&
-          !filters.selectedBrands.map((b) => b.toUpperCase()).includes(p.brand.toUpperCase())
-        ) {
-          return false;
-        }
-
-        return true;
-      })
-      .sort((a, b) => {
-        if (filters.sortBy === "PRICE_LOW") return a.price - b.price;
-        if (filters.sortBy === "PRICE_HIGH") return b.price - a.price;
-        if (filters.sortBy === "RATING") return (b.rating ?? 0) - (a.rating ?? 0);
-        return 0;
-      });
-  }, [category, filters]);
-
-  // Dynamic Footwear Filtering Logic
   const filteredFootwear = useMemo(() => {
-    return footwear
-      .filter((f) => {
-        if (f.category !== category) return false;
-        if (filters.priceRange === "UNDER_3K" && f.price >= 3000) return false;
-        if (filters.priceRange === "3K_6K" && (f.price < 3000 || f.price > 6000)) return false;
-        if (filters.priceRange === "ABOVE_6K" && f.price <= 6000) return false;
-        if (
-          filters.selectedBrands.length > 0 &&
-          !filters.selectedBrands.map((b) => b.toUpperCase()).includes(f.brand.toUpperCase())
-        ) {
-          return false;
-        }
-        return true;
-      })
-      .sort((a, b) => {
-        if (filters.sortBy === "PRICE_LOW") return a.price - b.price;
-        if (filters.sortBy === "PRICE_HIGH") return b.price - a.price;
-        if (filters.sortBy === "RATING") return (b.rating ?? 0) - (a.rating ?? 0);
-        return 0;
-      });
-  }, [category, filters]);
+    return footwear.filter((f) => f.category === category);
+  }, [category]);
 
   const handleSelectSpecialOffer = (offerType: string) => {
     if (offerType === "COMBO") {
@@ -152,21 +86,21 @@ function Index() {
     } else if (offerType === "UNDER_3K") {
       setDetailModal({
         isOpen: true,
-        title: "Deals Under ₹3,000",
+        title: "Luxury Tailoring & Shirts",
         gender: category,
-        query: "",
+        query: "Shirt",
       });
     } else if (offerType === "CLEARANCE") {
       setDetailModal({
         isOpen: true,
-        title: "Clearance Up to 50% OFF",
+        title: "Private Clearance (Up to 40% OFF)",
         gender: category,
         query: "",
       });
     } else if (offerType === "SNEAKERS") {
       setDetailModal({
         isOpen: true,
-        title: "Sneakers & Footwear",
+        title: "The Vault: Sneakers & Streetwear",
         gender: category,
         query: "Sneaker",
       });
@@ -174,34 +108,46 @@ function Index() {
   };
 
   return (
-    <main className="mx-auto w-full max-w-6xl pb-20">
-      <Hero />
-      <BrandStrip />
+    <div className="min-h-screen bg-[#FAF9F6] flex justify-center text-[#141414] selection:bg-[#D4AF37]/20 selection:text-[#141414]">
+      <main className="w-full max-w-6xl min-h-screen bg-[#FAF9F6] relative flex flex-col pb-24 overflow-x-hidden">
+        
+        {/* SLIDE 1: The Magazine Hero (Height: 92vh) */}
+        <Hero
+          onSelectGender={(g) => setCategory(g)}
+          onExplore={() => {
+            const el = document.getElementById("curated-drops");
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          }}
+        />
 
-      {/* Single Master Category Selector Bar */}
-      <div className="my-6 flex justify-center px-4">
-        <div className="flex gap-1.5 rounded-full border border-gold/50 bg-black/90 p-2 shadow-[0_0_25px_rgba(212,175,55,0.25)] backdrop-blur-md">
-          {(["MEN", "WOMEN", "KIDS"] as Category[]).map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setCategory(cat)}
-              className={`relative flex min-h-[46px] min-w-[100px] items-center justify-center rounded-full px-6 py-2.5 text-xs font-extrabold tracking-[0.2em] transition-all sm:min-w-[120px] ${
-                category === cat
-                  ? "bg-gold-gradient text-black shadow-lg"
-                  : "text-muted-foreground hover:text-gold"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+        {/* Minimal Brand Ribbon */}
+        <div className="my-2">
+          <BrandStrip />
         </div>
-      </div>
 
-      {/* 1. SPECIAL OFFERS Grid (Matching Screenshot 1) */}
-      <SpecialOffers onSelectOffer={handleSelectSpecialOffer} />
+        {/* Master Floating Gender Tab */}
+        <div className="my-6 flex justify-center px-4">
+          <div className="flex w-full max-w-sm items-center justify-between rounded-full border border-neutral-200/80 bg-white p-1.5 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+            {(["MEN", "WOMEN", "KIDS"] as Category[]).map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setCategory(cat)}
+                className={`relative flex min-h-[40px] flex-1 items-center justify-center rounded-full px-4 py-1.5 text-xs font-extrabold tracking-wider transition-all duration-300 cursor-pointer ${
+                  category === cat
+                    ? "bg-[#18181B] text-white shadow-md font-extrabold"
+                    : "text-[#64748B] hover:text-[#18181B]"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
 
-      {/* 2. CATEGORIES Circular Avatars (Matching Screenshot 1) */}
-      <div id="category-avatars">
+        {/* 1. Special Offers Cards */}
+        <SpecialOffers onSelectOffer={handleSelectSpecialOffer} />
+
+        {/* Visual Category Grid */}
         <CategoryAvatars
           category={category}
           onSelectSubCategory={(genderCat, subCat) => {
@@ -213,80 +159,88 @@ function Index() {
             });
           }}
         />
-      </div>
 
-      <StoreFeatures />
-      <FeaturedDeck category={category} onCategoryChange={setCategory} />
+        {/* Runway & New Arrivals Lookbook Showcase */}
+        <FeaturedDeck
+          category={category}
+          onCategoryChange={setCategory}
+          onQuickView={setQuickViewProduct}
+        />
 
-      {/* Compact Banner triggering full Outfit Studio */}
-      <OutfitBuilderBanner onOpenStudio={() => setIsOutfitStudioOpen(true)} />
+        {/* Store Trust Ribbon */}
+        <StoreFeatures />
 
-      <Carousel
-        eyebrow={`CURATED FOR ${category}`}
-        title="You May Also Like"
-        items={filteredProducts.length > 0 ? filteredProducts : products.filter((p) => p.category === category)}
-        showTags
-        onQuickView={setQuickViewProduct}
-      />
-      <Carousel
-        id="footwear"
-        eyebrow={`${category} FOOTWEAR DROP`}
-        title="Footwear Edit"
-        items={filteredFootwear.length > 0 ? filteredFootwear : footwear.filter((f) => f.category === category)}
-        onQuickView={setQuickViewProduct}
-      />
-      <div id="gallery">
-        <Gallery />
-      </div>
+        {/* Outfit Studio Banner */}
+        <OutfitBuilderBanner onOpenStudio={() => setIsOutfitStudioOpen(true)} />
 
-      {/* Video section placed directly above Location & Contact */}
-      <VideoSection />
+        {/* Carousels */}
+        <Carousel
+          eyebrow={`CURATED FOR ${category}`}
+          title="You May Also Like"
+          items={filteredProducts}
+          showTags
+          onQuickView={setQuickViewProduct}
+        />
+        <Carousel
+          id="footwear"
+          eyebrow={`${category} FOOTWEAR DROP`}
+          title="Footwear Edit"
+          items={filteredFootwear}
+          onQuickView={setQuickViewProduct}
+        />
 
-      {/* Dedicated Customer Reviews & Feedback Section */}
-      <ReviewsSection />
+        {/* Video Tour Section */}
+        <VideoSection />
 
-      <Contact />
-      <Footer />
-      
-      {/* Fixed Bottom Navigation Bar (Matching Screenshot 1) */}
-      <BottomNavBar
-        onOpenSpinWheel={() => setIsSpinWheelOpen(true)}
-        onOpenAIStylist={() => setIsAIStylistOpen(true)}
-      />
+        {/* Client Reviews */}
+        <ReviewsSection />
 
-      {/* Interactive Modals & Drawers */}
-      <CartDrawer />
-      <QuickViewModal
-        product={quickViewProduct}
-        onClose={() => setQuickViewProduct(null)}
-      />
-      <SizeGuideModal
-        isOpen={isSizeGuideOpen}
-        onClose={() => setIsSizeGuideOpen(false)}
-      />
-      <OutfitStudioModal
-        isOpen={isOutfitStudioOpen}
-        onClose={() => setIsOutfitStudioOpen(false)}
-      />
-      <SpinWheelModal
-        isOpen={isSpinWheelOpen}
-        onClose={() => setIsSpinWheelOpen(false)}
-      />
-      <AIStyleAssistant
-        isOpen={isAIStylistOpen}
-        onClose={() => setIsAIStylistOpen(false)}
-        onQuickView={setQuickViewProduct}
-      />
+        {/* SLIDE 4: VIP Concierge & Flagship Trust */}
+        <Contact />
 
-      {/* 3. Sub-Category Marquee Detail View Modal (Matching Screenshot 2) */}
-      <CategoryDetailModal
-        isOpen={detailModal.isOpen}
-        onClose={() => setDetailModal((prev) => ({ ...prev, isOpen: false }))}
-        title={detailModal.title}
-        categoryGender={detailModal.gender}
-        filterQuery={detailModal.query}
-        onQuickView={setQuickViewProduct}
-      />
-    </main>
+        {/* Footer */}
+        <Footer />
+        
+        {/* Mobile-First Floating Glass Navigation Dock with Gold Active Indicator */}
+        <BottomNavBar
+          onOpenSpinWheel={() => setIsSpinWheelOpen(true)}
+          onOpenAIStylist={() => setIsAIStylistOpen(true)}
+        />
+
+        {/* Interactive Drawers & Modals */}
+        <CartDrawer />
+        <QuickViewModal
+          product={quickViewProduct}
+          onClose={() => setQuickViewProduct(null)}
+        />
+        <SizeGuideModal
+          isOpen={isSizeGuideOpen}
+          onClose={() => setIsSizeGuideOpen(false)}
+        />
+        <OutfitStudioModal
+          isOpen={isOutfitStudioOpen}
+          onClose={() => setIsOutfitStudioOpen(false)}
+        />
+        <SpinWheelModal
+          isOpen={isSpinWheelOpen}
+          onClose={() => setIsSpinWheelOpen(false)}
+        />
+        <AIStyleAssistant
+          isOpen={isAIStylistOpen}
+          onClose={() => setIsAIStylistOpen(false)}
+          onQuickView={setQuickViewProduct}
+        />
+
+        {/* Sub-Category Detail View Modal */}
+        <CategoryDetailModal
+          isOpen={detailModal.isOpen}
+          onClose={() => setDetailModal((prev) => ({ ...prev, isOpen: false }))}
+          title={detailModal.title}
+          categoryGender={detailModal.gender}
+          filterQuery={detailModal.query}
+          onQuickView={setQuickViewProduct}
+        />
+      </main>
+    </div>
   );
 }

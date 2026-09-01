@@ -7,35 +7,35 @@ import { useCart } from "@/context/CartContext";
 export function OutfitBuilderBanner({ onOpenStudio }: { onOpenStudio: () => void }) {
   return (
     <div className="my-8 px-4 sm:px-6">
-      <div className="relative overflow-hidden rounded-3xl border border-gold/40 bg-gradient-to-r from-black via-surface-2 to-black p-6 shadow-2xl backdrop-blur-xl sm:p-8">
-        <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gold/10 blur-3xl pointer-events-none" />
-
-        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
-          <div className="space-y-2">
+      <div className="relative overflow-hidden rounded-3xl border border-black/[0.06] bg-white p-5 shadow-[0_12px_36px_rgba(0,0,0,0.04)] sm:p-7">
+        <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
+          <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="flex items-center gap-1 rounded-full border border-gold/40 bg-gold/15 px-3 py-1 text-[0.65rem] font-extrabold tracking-widest text-gold uppercase">
+              <span className="flex items-center gap-1 rounded-full border border-[#C59B27]/30 bg-[#FAF9F6] px-2.5 py-0.5 text-[0.6rem] font-bold tracking-wider text-[#C59B27] uppercase">
                 <Sparkles className="h-3 w-3" /> EXCLUSIVE COMBOS
               </span>
-              <span className="text-[0.65rem] font-bold text-emerald-400">FLAT 10% EXTRA OFF</span>
+              <span className="rounded-full border border-[#800020]/20 bg-[#800020]/10 px-2 py-0.5 text-[0.6rem] font-bold text-[#800020]">
+                FLAT 10% EXTRA OFF
+              </span>
             </div>
 
-            <h3 className="text-xl font-extrabold text-white sm:text-2xl tracking-wide">
+            <h3 className="text-lg font-extrabold text-[#18181B] sm:text-xl tracking-tight">
               Create Your Complete Outfit Combo
             </h3>
-            <p className="max-w-xl text-xs text-muted-foreground leading-relaxed">
-              Mix & match Topwear, Pants & Sneakers in our dedicated Studio to get a 10% Bundle Discount + VIP Loyalty Points.
+            <p className="max-w-md text-xs text-[#71717A] leading-relaxed">
+              Pair Topwear, Bottoms & Sneakers in our interactive Studio for a 10% Bundle Privilege.
             </p>
           </div>
 
           <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={onOpenStudio}
-            className="flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-2xl bg-gold-gradient px-6 py-3 text-xs font-extrabold tracking-wider text-black shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all hover:brightness-110 uppercase"
+            className="glow-gold flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-full bg-gold-gradient px-5 py-2.5 text-xs font-bold tracking-wider text-white shadow-md transition-all uppercase"
           >
-            <Shirt className="h-4 w-4" />
-            EXPLORE & BUILD COMBOS
-            <ArrowRight className="h-4 w-4" />
+            <Shirt className="h-3.5 w-3.5" />
+            <span>BUILD OUTFIT</span>
+            <ArrowRight className="h-3.5 w-3.5" />
           </motion.button>
         </div>
       </div>
@@ -119,7 +119,7 @@ export function OutfitStudioModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/90 backdrop-blur-lg"
+          className="fixed inset-0 bg-black/40 backdrop-blur-md"
         />
 
         {/* Modal Window */}
@@ -127,46 +127,46 @@ export function OutfitStudioModal({
           initial={{ opacity: 0, scale: 0.96, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 20 }}
-          className="relative max-h-[92vh] w-full max-w-5xl overflow-y-auto rounded-3xl border border-gold/40 bg-surface-2 p-5 shadow-2xl sm:p-8 text-foreground"
+          className="relative max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-3xl border border-black/[0.08] bg-white p-5 shadow-2xl sm:p-7 text-[#18181B]"
         >
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-border/60 pb-4 mb-6">
+          <div className="flex items-center justify-between border-b border-black/[0.06] pb-3 mb-5">
             <button
               onClick={onClose}
-              className="flex items-center gap-1.5 rounded-full border border-border bg-surface px-4 py-1.5 text-xs font-bold text-muted-foreground transition-colors hover:text-gold hover:border-gold/40"
+              className="flex items-center gap-1 rounded-full border border-black/[0.08] bg-[#FAF9F6] px-3 py-1 text-xs font-bold text-[#71717A] hover:text-[#18181B]"
             >
-              <ArrowLeft className="h-4 w-4" /> BACK TO STORE
+              <ArrowLeft className="h-3.5 w-3.5" /> BACK
             </button>
 
             <div className="text-center">
-              <div className="flex items-center justify-center gap-1.5">
-                <Sparkles className="h-4 w-4 text-gold" />
-                <h2 className="text-base font-extrabold tracking-widest text-gold uppercase">
-                  PRIME OUTFIT STUDIO
+              <div className="flex items-center justify-center gap-1">
+                <Sparkles className="h-3.5 w-3.5 text-[#C59B27]" />
+                <h2 className="text-sm font-extrabold tracking-wider text-[#18181B] uppercase">
+                  OUTFIT STUDIO
                 </h2>
               </div>
-              <p className="text-[0.65rem] text-muted-foreground">Select 3 items to unlock 10% Extra Discount</p>
+              <p className="text-[0.62rem] text-[#71717A]">Select 3 items to unlock 10% Extra Bundle Discount</p>
             </div>
 
             <button
               onClick={onClose}
-              className="grid h-9 w-9 place-items-center rounded-full bg-surface text-muted-foreground hover:text-gold"
+              className="grid h-8 w-8 place-items-center rounded-full bg-[#FAF9F6] text-[#18181B] hover:scale-105"
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4" />
             </button>
           </div>
 
           {/* Category Selector */}
-          <div className="mb-6 flex justify-center">
-            <div className="flex gap-1 rounded-full border border-border bg-surface p-1 shadow-md">
+          <div className="mb-5 flex justify-center">
+            <div className="flex gap-1 rounded-full border border-black/[0.06] bg-[#FAF9F6] p-1 shadow-xs">
               {(["MEN", "WOMEN", "KIDS"] as Category[]).map((cat) => (
                 <button
                   key={cat}
                   onClick={() => handleCategoryChange(cat)}
-                  className={`rounded-full px-5 py-2 text-xs font-semibold tracking-wider transition-colors ${
+                  className={`rounded-full px-4 py-1.5 text-xs font-bold tracking-wider transition-colors ${
                     category === cat
-                      ? "bg-gold-gradient text-black font-bold shadow-md"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "bg-[#C59B27] text-white shadow-xs"
+                      : "text-[#71717A] hover:text-[#18181B]"
                   }`}
                 >
                   {cat} COMBOS
@@ -176,34 +176,31 @@ export function OutfitStudioModal({
           </div>
 
           {/* 3-Item Selector & Summary Grid */}
-          <div className="grid gap-8 lg:grid-cols-12">
-            
+          <div className="grid gap-6 md:grid-cols-12">
             {/* Left: Selectors */}
-            <div className="space-y-6 lg:col-span-7">
+            <div className="space-y-4 md:col-span-7">
               {/* Topwear */}
               <div>
-                <div className="mb-2 flex items-center justify-between">
-                  <span className="text-xs font-extrabold tracking-widest text-gold uppercase">
+                <div className="mb-1.5 flex items-center justify-between">
+                  <span className="text-[0.65rem] font-bold tracking-wider text-[#C59B27] uppercase">
                     1. TOPWEAR
                   </span>
-                  <span className="text-xs text-muted-foreground">{selectedTop.brand}</span>
+                  <span className="text-xs text-[#71717A] font-semibold">{selectedTop.brand}</span>
                 </div>
                 <div className="grid grid-cols-3 gap-2">
                   {(topwears.length > 0 ? topwears : categoryProducts.slice(0, 3)).map((item) => (
                     <button
                       key={item.id}
                       onClick={() => setSelectedTop(item)}
-                      className={`flex flex-col items-center rounded-xl border p-2 text-left transition-all ${
+                      className={`flex flex-col items-center rounded-xl border p-1.5 text-left transition-all ${
                         selectedTop.id === item.id
-                          ? "border-gold bg-gold/15 shadow-[0_0_15px_rgba(212,175,55,0.25)] ring-1 ring-gold"
-                          : "border-border/60 bg-surface hover:border-gold/40"
+                          ? "border-[#C59B27] bg-[#FAF9F6] ring-1 ring-[#C59B27]"
+                          : "border-black/[0.06] bg-white hover:border-[#C59B27]/40"
                       }`}
                     >
-                      <img src={item.image} alt={item.name} className="h-16 w-full rounded-lg object-cover sm:h-20" />
-                      <p className="mt-1.5 truncate text-[0.65rem] font-bold text-foreground text-center w-full">
-                        {item.name}
-                      </p>
-                      <p className="text-[0.65rem] font-extrabold text-gold">{inr(item.price)}</p>
+                      <img src={item.image} alt={item.name} className="h-16 w-full rounded-lg object-cover" />
+                      <p className="mt-1 truncate w-full text-[0.62rem] font-bold text-[#18181B]">{item.name}</p>
+                      <p className="text-[0.62rem] font-bold text-[#C59B27]">{inr(item.price)}</p>
                     </button>
                   ))}
                 </div>
@@ -211,28 +208,26 @@ export function OutfitStudioModal({
 
               {/* Bottomwear */}
               <div>
-                <div className="mb-2 flex items-center justify-between">
-                  <span className="text-xs font-extrabold tracking-widest text-gold uppercase">
-                    2. BOTTOMWEAR / PANTS
+                <div className="mb-1.5 flex items-center justify-between">
+                  <span className="text-[0.65rem] font-bold tracking-wider text-[#C59B27] uppercase">
+                    2. BOTTOMWEAR
                   </span>
-                  <span className="text-xs text-muted-foreground">{selectedBottom.brand}</span>
+                  <span className="text-xs text-[#71717A] font-semibold">{selectedBottom.brand}</span>
                 </div>
                 <div className="grid grid-cols-3 gap-2">
                   {(bottomwears.length > 0 ? bottomwears : categoryProducts.slice(1, 4)).map((item) => (
                     <button
                       key={item.id}
                       onClick={() => setSelectedBottom(item)}
-                      className={`flex flex-col items-center rounded-xl border p-2 text-left transition-all ${
+                      className={`flex flex-col items-center rounded-xl border p-1.5 text-left transition-all ${
                         selectedBottom.id === item.id
-                          ? "border-gold bg-gold/15 shadow-[0_0_15px_rgba(212,175,55,0.25)] ring-1 ring-gold"
-                          : "border-border/60 bg-surface hover:border-gold/40"
+                          ? "border-[#C59B27] bg-[#FAF9F6] ring-1 ring-[#C59B27]"
+                          : "border-black/[0.06] bg-white hover:border-[#C59B27]/40"
                       }`}
                     >
-                      <img src={item.image} alt={item.name} className="h-16 w-full rounded-lg object-cover sm:h-20" />
-                      <p className="mt-1.5 truncate text-[0.65rem] font-bold text-foreground text-center w-full">
-                        {item.name}
-                      </p>
-                      <p className="text-[0.65rem] font-extrabold text-gold">{inr(item.price)}</p>
+                      <img src={item.image} alt={item.name} className="h-16 w-full rounded-lg object-cover" />
+                      <p className="mt-1 truncate w-full text-[0.62rem] font-bold text-[#18181B]">{item.name}</p>
+                      <p className="text-[0.62rem] font-bold text-[#C59B27]">{inr(item.price)}</p>
                     </button>
                   ))}
                 </div>
@@ -240,100 +235,83 @@ export function OutfitStudioModal({
 
               {/* Footwear */}
               <div>
-                <div className="mb-2 flex items-center justify-between">
-                  <span className="text-xs font-extrabold tracking-widest text-gold uppercase">
-                    3. FOOTWEAR / SNEAKERS
+                <div className="mb-1.5 flex items-center justify-between">
+                  <span className="text-[0.65rem] font-bold tracking-wider text-[#C59B27] uppercase">
+                    3. FOOTWEAR
                   </span>
-                  <span className="text-xs text-muted-foreground">{selectedShoes.brand}</span>
+                  <span className="text-xs text-[#71717A] font-semibold">{selectedShoes.brand}</span>
                 </div>
                 <div className="grid grid-cols-3 gap-2">
                   {(categoryFootwear.length > 0 ? categoryFootwear : categoryProducts.slice(2, 5)).map((item) => (
                     <button
                       key={item.id}
                       onClick={() => setSelectedShoes(item)}
-                      className={`flex flex-col items-center rounded-xl border p-2 text-left transition-all ${
+                      className={`flex flex-col items-center rounded-xl border p-1.5 text-left transition-all ${
                         selectedShoes.id === item.id
-                          ? "border-gold bg-gold/15 shadow-[0_0_15px_rgba(212,175,55,0.25)] ring-1 ring-gold"
-                          : "border-border/60 bg-surface hover:border-gold/40"
+                          ? "border-[#C59B27] bg-[#FAF9F6] ring-1 ring-[#C59B27]"
+                          : "border-black/[0.06] bg-white hover:border-[#C59B27]/40"
                       }`}
                     >
-                      <img src={item.image} alt={item.name} className="h-16 w-full rounded-lg object-cover sm:h-20" />
-                      <p className="mt-1.5 truncate text-[0.65rem] font-bold text-foreground text-center w-full">
-                        {item.name}
-                      </p>
-                      <p className="text-[0.65rem] font-extrabold text-gold">{inr(item.price)}</p>
+                      <img src={item.image} alt={item.name} className="h-16 w-full rounded-lg object-cover" />
+                      <p className="mt-1 truncate w-full text-[0.62rem] font-bold text-[#18181B]">{item.name}</p>
+                      <p className="text-[0.62rem] font-bold text-[#C59B27]">{inr(item.price)}</p>
                     </button>
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* Right: Summary Card */}
-            <div className="flex flex-col justify-between rounded-2xl border border-gold/40 bg-black/80 p-5 lg:col-span-5 sm:p-6">
+            {/* Right: Outfit Live Preview & Checkout */}
+            <div className="flex flex-col justify-between rounded-3xl border border-black/[0.06] bg-[#FAF9F6] p-4.5 md:col-span-5 sm:p-5">
               <div>
-                <div className="flex items-center justify-between border-b border-border/60 pb-3">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-gold" />
-                    <span className="text-xs font-bold tracking-widest text-gold uppercase">
-                      COMBO SUMMARY
-                    </span>
+                <span className="text-[0.62rem] font-bold tracking-wider text-[#C59B27] uppercase">
+                  OUTFIT SUMMARY
+                </span>
+                
+                <div className="mt-3 flex gap-2 justify-center">
+                  <img src={selectedTop.image} alt="Top" className="h-20 w-16 rounded-xl object-cover border border-black/[0.06]" />
+                  <img src={selectedBottom.image} alt="Bottom" className="h-20 w-16 rounded-xl object-cover border border-black/[0.06]" />
+                  <img src={selectedShoes.image} alt="Shoes" className="h-20 w-16 rounded-xl object-cover border border-black/[0.06]" />
+                </div>
+
+                <div className="mt-4 space-y-1.5 border-t border-black/[0.06] pt-3 text-xs">
+                  <div className="flex justify-between text-[#71717A]">
+                    <span>Standard MRP Total:</span>
+                    <span>{inr(rawTotal)}</span>
                   </div>
-                  <span className="rounded-full bg-gold/20 px-2.5 py-0.5 text-[0.65rem] font-extrabold text-gold uppercase border border-gold/40">
-                    SAVE 10% EXTRA
-                  </span>
-                </div>
-
-                <div className="my-4 space-y-3">
-                  {[selectedTop, selectedBottom, selectedShoes].map((item, idx) => (
-                    <div key={`${item.id}-${idx}`} className="flex items-center gap-3 rounded-xl bg-surface/70 p-2.5 border border-border/50">
-                      <img src={item.image} alt={item.name} className="h-10 w-10 rounded-lg object-cover" />
-                      <div className="min-w-0 flex-1">
-                        <p className="text-[0.6rem] font-bold text-gold uppercase tracking-wider">{item.brand}</p>
-                        <p className="truncate text-xs font-semibold text-foreground">{item.name}</p>
-                      </div>
-                      <span className="text-xs font-bold text-foreground">{inr(item.price)}</span>
-                    </div>
-                  ))}
+                  <div className="flex justify-between font-bold text-[#800020]">
+                    <span>Combo Discount (10%):</span>
+                    <span>-{inr(bundleDiscount)}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-base font-extrabold text-[#18181B] pt-2 border-t border-black/[0.06]">
+                    <span>COMBO PRICE</span>
+                    <span className="text-lg text-[#18181B]">{inr(finalPrice)}</span>
+                  </div>
+                  <p className="text-[0.62rem] font-semibold text-[#8C6D1F]">
+                    +{pointsEarned} VIP Loyalty Points
+                  </p>
                 </div>
               </div>
 
-              <div className="space-y-3 pt-3 border-t border-border/60">
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>Regular Total:</span>
-                  <span className="line-through">{inr(rawTotal)}</span>
-                </div>
-                <div className="flex justify-between text-xs text-emerald-400 font-semibold">
-                  <span>10% Combo Discount:</span>
-                  <span>-{inr(bundleDiscount)}</span>
-                </div>
-                <div className="flex justify-between items-center text-sm font-extrabold text-white pt-1">
-                  <span>Special Combo Price:</span>
-                  <span className="text-lg text-gold">{inr(finalPrice)}</span>
-                </div>
-
-                <div className="rounded-lg bg-gold/10 p-2 text-center text-[0.7rem] font-semibold text-gold border border-gold/20">
-                  ✨ Plus earn +{pointsEarned} Prime Gold Reward Points!
-                </div>
-
-                <motion.button
-                  whileTap={{ scale: 0.97 }}
-                  onClick={handleAddOutfit}
-                  className="flex w-full min-h-[46px] items-center justify-center gap-2 rounded-xl bg-gold-gradient text-black font-extrabold text-xs tracking-wider shadow-lg transition-transform hover:brightness-110 uppercase"
-                >
-                  {added ? (
-                    <>
-                      <Check className="h-4 w-4" /> ADDED TO CART!
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingBag className="h-4 w-4" /> ADD COMPLETE OUTFIT ({inr(finalPrice)})
-                    </>
-                  )}
-                </motion.button>
-              </div>
-
+              <button
+                type="button"
+                onClick={handleAddOutfit}
+                disabled={added}
+                className="glow-gold mt-4 flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-gold-gradient py-2.5 text-xs font-bold tracking-wider text-white shadow-md transition-transform hover:scale-[1.02] active:scale-95"
+              >
+                {added ? (
+                  <>
+                    <Check className="h-4 w-4" />
+                    OUTFIT ADDED TO BAG!
+                  </>
+                ) : (
+                  <>
+                    <ShoppingBag className="h-4 w-4" />
+                    ADD ENTIRE COMBO TO BAG
+                  </>
+                )}
+              </button>
             </div>
-
           </div>
         </motion.div>
       </div>

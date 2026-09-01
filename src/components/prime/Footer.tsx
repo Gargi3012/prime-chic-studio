@@ -1,53 +1,43 @@
-import { Facebook, Instagram, MessageCircle, ShoppingBag, ChevronUp, LayoutGrid, Gift, Bot } from "lucide-react";
-import { INSTAGRAM, WHATSAPP } from "@/data/catalog";
-import { useCart } from "@/context/CartContext";
-import { LogoLockup } from "./Logo";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { LayoutGrid, Bot, ShoppingBag, Gift, Sparkles } from "lucide-react";
+import { CrownP } from "./Logo";
 import { Reveal } from "./Reveal";
-
-const links = [
-  { label: "Collection", href: "#collection" },
-  { label: "Footwear", href: "#footwear" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Visit Store", href: "#visit" },
-];
+import { useCart } from "@/context/CartContext";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-surface/40 px-6 pb-24 pt-14 sm:pb-14">
-      <Reveal className="flex flex-col items-center gap-8 text-center">
-        <LogoLockup size="sm" />
-        <nav className="flex flex-wrap justify-center gap-x-4 gap-y-2">
-          {links.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-              className="flex min-h-[44px] items-center px-3 py-2 text-xs tracking-[0.2em] text-muted-foreground transition-colors hover:text-gold"
-            >
-              {l.label.toUpperCase()}
-            </a>
-          ))}
-        </nav>
-        <div className="flex gap-4">
-          {[
-            { icon: Instagram, href: INSTAGRAM, label: "Instagram" },
-            { icon: MessageCircle, href: WHATSAPP, label: "WhatsApp" },
-            { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
-          ].map(({ icon: Icon, href, label }) => (
-            <a
-              key={label}
-              href={href}
-              aria-label={label}
-              target="_blank"
-              rel="noreferrer"
-              className="grid h-11 w-11 place-items-center rounded-full border border-gold/40 text-gold transition-colors hover:bg-gold/10 active:scale-95"
-            >
-              <Icon className="h-5 w-5" />
-            </a>
-          ))}
+    <footer className="border-t border-black/[0.05] bg-[#FAF9F6] py-12 px-5 text-center sm:px-8">
+      <Reveal className="mx-auto flex max-w-2xl flex-col items-center gap-4">
+        <div className="flex items-center gap-2">
+          <CrownP className="h-6 w-6 text-[#141414]" />
+          <span className="font-display text-sm font-extrabold tracking-[0.2em] text-[#141414]">
+            PRIME OUTLET
+          </span>
         </div>
-        <p className="text-[0.65rem] tracking-[0.15em] text-muted-foreground">
-          © 2026 Prime Outlet. All rights reserved.
+
+        <p className="max-w-md text-xs leading-relaxed text-[#52525B]">
+          Ganaur's premier multibrand luxury fashion destination. Genuine authenticated apparel, premium footwear, and seasonal collections.
         </p>
+
+        <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-[#141414]">
+          <a href="#curated-drops" className="hover:text-[#D4AF37] transition-colors">Edits</a>
+          <span>·</span>
+          <a href="#category-avatars" className="hover:text-[#D4AF37] transition-colors">Categories</a>
+          <span>·</span>
+          <a href="#collection" className="hover:text-[#D4AF37] transition-colors">Runway</a>
+          <span>·</span>
+          <a href="#visit" className="hover:text-[#D4AF37] transition-colors">VIP Concierge</a>
+        </div>
+
+        <div className="space-y-1 pt-2">
+          <p className="text-[0.65rem] font-medium tracking-wider text-[#71717A]">
+            Prime Outlet · Multibrand Luxury Fashion Store
+          </p>
+          <p className="text-[0.6rem] tracking-wider text-[#71717A]/70">
+            Railway Road, Ganaur, Sonipat, Haryana · © 2026 Prime Outlet
+          </p>
+        </div>
       </Reveal>
     </footer>
   );
@@ -61,70 +51,120 @@ export function BottomNavBar({
   onOpenAIStylist?: () => void;
 }) {
   const { totalItems, setIsCartOpen } = useCart();
+  const [activeTab, setActiveTab] = useState<string>("drops");
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const scrollToCategories = () => {
-    const el = document.getElementById("category-avatars");
+  const scrollToSection = (id: string, tabName: string) => {
+    setActiveTab(tabName);
+    const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.scrollTo({ top: 400, behavior: "smooth" });
     }
   };
 
   return (
-    <div className="fixed bottom-0 inset-x-0 z-40 flex items-center justify-around border-t border-border/80 bg-black/95 px-2 py-2 shadow-2xl backdrop-blur-lg">
-      {/* 1. Categories */}
-      <button
-        onClick={scrollToCategories}
-        className="flex flex-col items-center gap-1 text-[0.6rem] font-bold text-muted-foreground transition-colors hover:text-gold"
-      >
-        <div className="grid h-7 w-7 place-items-center rounded-full bg-surface">
-          <LayoutGrid className="h-4 w-4" />
-        </div>
-        <span>Categories</span>
-      </button>
+    <nav className="fixed bottom-4 left-4 right-4 max-w-md mx-auto z-50 pointer-events-auto block md:hidden">
+      <div className="flex items-center justify-around rounded-full border border-white/60 bg-white/85 py-2 px-3 shadow-[0_12px_36px_rgba(0,0,0,0.12)] backdrop-blur-xl">
+        {/* 1. Curated Drops Tab */}
+        <button
+          onClick={() => scrollToSection("curated-drops", "drops")}
+          className={`relative flex flex-col items-center gap-0.5 px-3 py-1 text-[0.62rem] font-bold transition-colors ${
+            activeTab === "drops" ? "text-[#141414]" : "text-[#71717A] hover:text-[#141414]"
+          }`}
+        >
+          <div
+            className={`grid h-6 w-6 place-items-center rounded-full transition-colors ${
+              activeTab === "drops"
+                ? "bg-gradient-to-r from-[#D4AF37] to-[#AA771C] text-[#141414]"
+                : "bg-transparent text-[#71717A]"
+            }`}
+          >
+            <Sparkles className="h-3.5 w-3.5" />
+          </div>
+          <span>Edits</span>
+        </button>
 
-      {/* 2. AI Stylist */}
-      <button
-        onClick={onOpenAIStylist}
-        className="flex flex-col items-center gap-1 text-[0.6rem] font-bold text-muted-foreground transition-colors hover:text-gold"
-      >
-        <div className="grid h-7 w-7 place-items-center rounded-full bg-surface">
-          <Bot className="h-4 w-4 text-gold" />
-        </div>
-        <span>AI Stylist</span>
-      </button>
+        {/* 2. Categories Tab */}
+        <button
+          onClick={() => scrollToSection("category-avatars", "categories")}
+          className={`relative flex flex-col items-center gap-0.5 px-3 py-1 text-[0.62rem] font-bold transition-colors ${
+            activeTab === "categories" ? "text-[#141414]" : "text-[#71717A] hover:text-[#141414]"
+          }`}
+        >
+          <div
+            className={`grid h-6 w-6 place-items-center rounded-full transition-colors ${
+              activeTab === "categories"
+                ? "bg-gradient-to-r from-[#D4AF37] to-[#AA771C] text-[#141414]"
+                : "bg-transparent text-[#71717A]"
+            }`}
+          >
+            <LayoutGrid className="h-3.5 w-3.5" />
+          </div>
+          <span>Categories</span>
+        </button>
 
-      {/* 3. Shopping Bag */}
-      <button
-        onClick={() => setIsCartOpen(true)}
-        className="relative flex flex-col items-center gap-1 text-[0.6rem] font-bold text-gold transition-colors"
-      >
-        <div className="grid h-7 w-7 place-items-center rounded-full bg-gold/20 text-gold border border-gold/40">
-          <ShoppingBag className="h-4 w-4" />
-        </div>
-        <span>Bag</span>
-        {totalItems > 0 && (
-          <span className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-gold text-[0.55rem] font-black text-black">
-            {totalItems}
-          </span>
-        )}
-      </button>
+        {/* 3. AI Stylist */}
+        <button
+          onClick={() => {
+            setActiveTab("stylist");
+            onOpenAIStylist?.();
+          }}
+          className={`relative flex flex-col items-center gap-0.5 px-3 py-1 text-[0.62rem] font-bold transition-colors ${
+            activeTab === "stylist" ? "text-[#141414]" : "text-[#71717A] hover:text-[#141414]"
+          }`}
+        >
+          <div
+            className={`grid h-6 w-6 place-items-center rounded-full transition-colors ${
+              activeTab === "stylist"
+                ? "bg-gradient-to-r from-[#D4AF37] to-[#AA771C] text-[#141414]"
+                : "bg-transparent text-[#71717A]"
+            }`}
+          >
+            <Bot className="h-3.5 w-3.5" />
+          </div>
+          <span>Stylist</span>
+        </button>
 
-      {/* 4. Offers / Spin */}
-      <button
-        onClick={onOpenSpinWheel}
-        className="flex flex-col items-center gap-1 text-[0.6rem] font-bold text-muted-foreground transition-colors hover:text-gold"
-      >
-        <div className="grid h-7 w-7 place-items-center rounded-full bg-surface">
-          <Gift className="h-4 w-4 text-gold" />
-        </div>
-        <span>Spin & Win</span>
-      </button>
-    </div>
+        {/* 4. Bag / Checkout */}
+        <button
+          onClick={() => {
+            setActiveTab("bag");
+            setIsCartOpen(true);
+          }}
+          className="relative flex flex-col items-center gap-0.5 px-3 py-1 text-[0.62rem] font-bold text-[#141414]"
+        >
+          <div className="relative grid h-6 w-6 place-items-center rounded-full bg-[#141414] text-white shadow-xs">
+            <ShoppingBag className="h-3.5 w-3.5" />
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 grid h-4 w-4 place-items-center rounded-full bg-[#800020] text-[0.55rem] font-bold text-white">
+                {totalItems}
+              </span>
+            )}
+          </div>
+          <span>Bag</span>
+        </button>
+
+        {/* 5. Spin Wheel / VIP Reward */}
+        <button
+          onClick={() => {
+            setActiveTab("spin");
+            onOpenSpinWheel?.();
+          }}
+          className={`relative flex flex-col items-center gap-0.5 px-3 py-1 text-[0.62rem] font-bold transition-colors ${
+            activeTab === "spin" ? "text-[#141414]" : "text-[#71717A] hover:text-[#141414]"
+          }`}
+        >
+          <div
+            className={`grid h-6 w-6 place-items-center rounded-full transition-colors ${
+              activeTab === "spin"
+                ? "bg-gradient-to-r from-[#D4AF37] to-[#AA771C] text-[#141414]"
+                : "bg-transparent text-[#71717A]"
+            }`}
+          >
+            <Gift className="h-3.5 w-3.5" />
+          </div>
+          <span>Rewards</span>
+        </button>
+      </div>
+    </nav>
   );
 }

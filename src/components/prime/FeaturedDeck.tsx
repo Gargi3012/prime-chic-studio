@@ -1,254 +1,261 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
-import { Heart, Sparkles, Star, ChevronLeft, ChevronRight } from "lucide-react";
-import { inr, products, type Category, type Product } from "@/data/catalog";
+import { Sparkles, ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight } from "lucide-react";
 import { Reveal, SectionHeading } from "./Reveal";
+import { type Product, type Category } from "@/data/catalog";
 
 const springPhysics = { type: "spring" as const, stiffness: 260, damping: 25, mass: 0.8 };
-const tabs: Category[] = ["MEN", "WOMEN", "KIDS"];
 
-interface DeckCardProps {
-  product: Product;
-  index: number;
-  activeIdx: number;
-  totalCards: number;
-  revealed: boolean;
-  hasAnimatedIn: boolean;
-  isMobile: boolean;
-  onSelect: () => void;
+interface DeckCardItem {
+  id: string;
+  brand: string;
+  title: string;
+  badge: string;
+  price: string;
+  image: string;
+  category: Category;
 }
 
-function DeckCard({
-  product,
-  index,
-  activeIdx,
-  totalCards,
-  revealed,
-  hasAnimatedIn,
-  isMobile,
-  onSelect,
-}: DeckCardProps) {
-  let relativeOffset = index - activeIdx;
-  if (totalCards > 0) {
-    const half = totalCards / 2;
-    while (relativeOffset > half) relativeOffset -= totalCards;
-    while (relativeOffset < -half) relativeOffset += totalCards;
-  }
-  const absOffset = Math.abs(relativeOffset);
-  const isCenter = relativeOffset === 0;
-
-  const getCardProps = () => {
-    if (relativeOffset === 0) {
-      return {
-        rotate: 0,
-        scale: 1,
-        opacity: 1,
-        zIndex: 30,
-        xOffset: 0,
-      };
-    } else if (relativeOffset === -1) {
-      return {
-        rotate: -8,
-        scale: isMobile ? 0.88 : 0.9,
-        opacity: 1,
-        zIndex: 20,
-        xOffset: isMobile ? -65 : -95,
-      };
-    } else if (relativeOffset === 1) {
-      return {
-        rotate: 8,
-        scale: isMobile ? 0.88 : 0.9,
-        opacity: 1,
-        zIndex: 20,
-        xOffset: isMobile ? 65 : 95,
-      };
-    } else if (relativeOffset === -2) {
-      return {
-        rotate: -16,
-        scale: 0.8,
-        opacity: isMobile ? 0 : 0.85,
-        zIndex: 10,
-        xOffset: isMobile ? -120 : -175,
-      };
-    } else if (relativeOffset === 2) {
-      return {
-        rotate: 16,
-        scale: 0.8,
-        opacity: isMobile ? 0 : 0.85,
-        zIndex: 10,
-        xOffset: isMobile ? 120 : 175,
-      };
-    } else {
-      const sign = Math.sign(relativeOffset);
-      return {
-        rotate: sign * 24,
-        scale: 0.7,
-        opacity: 0,
-        zIndex: Math.max(0, 5 - absOffset),
-        xOffset: sign * (175 + (absOffset - 2) * 60),
-      };
-    }
-  };
-
-  const currentProps = getCardProps();
-  const initialCenterOffset = Math.abs(index - 2);
-  const entranceDelay = initialCenterOffset * 0.15;
-  const delay = !hasAnimatedIn && revealed ? entranceDelay : 0;
-
-  return (
-    <motion.button
-      type="button"
-      onClick={onSelect}
-      aria-label={product.name}
-      className={`absolute left-1/2 top-1/2 h-[270px] w-[175px] cursor-pointer overflow-hidden rounded-2xl border bg-surface-2 text-left transition-shadow duration-300 sm:h-[350px] sm:w-[230px] ${
-        isCenter
-          ? "border-gold/80 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_35px_rgba(212,175,55,0.35)]"
-          : "border-border/80 shadow-lg hover:border-gold/40"
-      }`}
-      style={{ zIndex: currentProps.zIndex, pointerEvents: currentProps.opacity === 0 ? "none" : "auto" }}
-      initial={{
-        opacity: 0,
-        y: "-160%",
-        x: `calc(-50% + ${currentProps.xOffset}px)`,
-        scale: 0.8,
-        rotate: 0,
-      }}
-      animate={
-        revealed
-          ? {
-              opacity: currentProps.opacity,
-              y: "-50%",
-              x: `calc(-50% + ${currentProps.xOffset}px)`,
-              scale: currentProps.scale,
-              rotate: currentProps.rotate,
-            }
-          : {
-              opacity: 0,
-              y: "-160%",
-              x: `calc(-50% + ${currentProps.xOffset}px)`,
-              scale: 0.8,
-              rotate: 0,
-            }
-      }
-      transition={{
-        ...springPhysics,
-        delay,
-      }}
-    >
-      <img
-        src={product.image}
-        alt={product.name}
-        loading="lazy"
-        className="h-full w-full object-cover select-none"
-      />
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent p-3 sm:p-4">
-        <p className="text-[0.55rem] font-bold tracking-[0.25em] text-gold uppercase">{product.brand}</p>
-        <p className="truncate text-xs font-semibold text-white sm:text-sm">{product.name}</p>
-      </div>
-
-      {isCenter && (
-        <span className="pointer-events-none absolute inset-0 rounded-2xl border border-gold/60 shadow-[inset_0_0_20px_rgba(212,175,55,0.2)]" />
-      )}
-    </motion.button>
-  );
-}
+const CATEGORY_DECKS: Record<Category, DeckCardItem[]> = {
+  MEN: [
+    {
+      id: "deck-m1",
+      brand: "RALPH LAUREN",
+      title: "Cashmere Double-Breasted Coat",
+      badge: "✦ Runway Edit",
+      price: "₹4,999",
+      image:
+        "https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=800&auto=format&fit=crop",
+      category: "MEN",
+    },
+    {
+      id: "deck-m2",
+      brand: "ARMANI EXCHANGE",
+      title: "Italian Structured Navy Blazer",
+      badge: "✦ Tailored Suit",
+      price: "₹4,599",
+      image:
+        "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop",
+      category: "MEN",
+    },
+    {
+      id: "deck-m3",
+      brand: "NIKE LAB",
+      title: "Air Max & Court Low Kicks",
+      badge: "✦ Vault Drop",
+      price: "₹3,499",
+      image:
+        "https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=800&auto=format&fit=crop",
+      category: "MEN",
+    },
+    {
+      id: "deck-m4",
+      brand: "ZARA MAN",
+      title: "Espresso Brushed Suede Bomber",
+      badge: "✦ Limited Drop",
+      price: "₹3,999",
+      image:
+        "https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?q=80&w=800&auto=format&fit=crop",
+      category: "MEN",
+    },
+    {
+      id: "deck-m5",
+      brand: "CALVIN KLEIN",
+      title: "Relaxed Linen Overshirt",
+      badge: "✦ New Arrival",
+      price: "₹2,899",
+      image:
+        "https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?q=80&w=800&auto=format&fit=crop",
+      category: "MEN",
+    },
+  ],
+  WOMEN: [
+    {
+      id: "deck-w1",
+      brand: "ZARA STUDIO",
+      title: "Oatmeal Tailored Blazer Set",
+      badge: "✦ Runway Edit",
+      price: "₹3,899",
+      image:
+        "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop",
+      category: "WOMEN",
+    },
+    {
+      id: "deck-w2",
+      brand: "MASSIMO DUTTI",
+      title: "Sand Classic Storm Trench",
+      badge: "✦ Couture Drop",
+      price: "₹4,199",
+      image:
+        "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=800&auto=format&fit=crop",
+      category: "WOMEN",
+    },
+    {
+      id: "deck-w3",
+      brand: "NIKE LUXE",
+      title: "Air Force 1 Velvet Pastel",
+      badge: "✦ Kicks Vault",
+      price: "₹3,299",
+      image:
+        "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop",
+      category: "WOMEN",
+    },
+    {
+      id: "deck-w4",
+      brand: "MANGO LUXE",
+      title: "Ivory Knitted Co-ord Set",
+      badge: "✦ Spring Capsule",
+      price: "₹3,499",
+      image:
+        "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop",
+      category: "WOMEN",
+    },
+    {
+      id: "deck-w5",
+      brand: "VERO MODA",
+      title: "Emerald Silk Wrap Gown",
+      badge: "✦ Evening Edit",
+      price: "₹4,499",
+      image:
+        "https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=800&auto=format&fit=crop",
+      category: "WOMEN",
+    },
+  ],
+  KIDS: [
+    {
+      id: "deck-k1",
+      brand: "TOMMY HILFIGER",
+      title: "Varsity Colorblock Bomber",
+      badge: "✦ Junior Drop",
+      price: "₹2,499",
+      image:
+        "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?q=80&w=800&auto=format&fit=crop",
+      category: "KIDS",
+    },
+    {
+      id: "deck-k2",
+      brand: "LEVI'S KIDS",
+      title: "Distressed Comfort Denim Set",
+      badge: "✦ Everyday Edit",
+      price: "₹1,999",
+      image:
+        "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=800&auto=format&fit=crop",
+      category: "KIDS",
+    },
+    {
+      id: "deck-k3",
+      brand: "PUMA KIDS",
+      title: "Softride Retro Court Runners",
+      badge: "✦ Kicks Vault",
+      price: "₹2,199",
+      image:
+        "https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=800&auto=format&fit=crop",
+      category: "KIDS",
+    },
+    {
+      id: "deck-k4",
+      brand: "ZARA KIDS",
+      title: "Pastel Hoodie & Cargo Joggers",
+      badge: "✦ Street Casual",
+      price: "₹1,799",
+      image:
+        "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?q=80&w=800&auto=format&fit=crop",
+      category: "KIDS",
+    },
+    {
+      id: "deck-k5",
+      brand: "GAP KIDS",
+      title: "Striped Organic Cotton Dungaree",
+      badge: "✦ Playtime Edit",
+      price: "₹1,699",
+      image:
+        "https://images.unsplash.com/photo-1471286174890-9c112ffca564?q=80&w=800&auto=format&fit=crop",
+      category: "KIDS",
+    },
+  ],
+};
 
 interface FeaturedDeckProps {
   category?: Category;
   onCategoryChange?: (cat: Category) => void;
+  onQuickView?: (product: Product) => void;
 }
 
-export function FeaturedDeck({ category: externalCategory, onCategoryChange }: FeaturedDeckProps) {
+export function FeaturedDeck({
+  category = "MEN",
+  onCategoryChange,
+  onQuickView,
+}: FeaturedDeckProps) {
   const deckRef = useRef<HTMLDivElement>(null);
-  const stripRef = useRef<HTMLDivElement>(null);
   const inView = useInView(deckRef, { once: true, amount: 0.3 });
-  const [internalCategory, setInternalCategory] = useState<Category>("MEN");
-  const category = externalCategory ?? internalCategory;
 
-  const [activeIdx, setActiveIdx] = useState(2);
-  const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
+  const [activeIdx, setActiveIdx] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
-  const [likedMap, setLikedMap] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const deck = products.filter((p) => p.category === category).slice(0, 5);
-
+  // Reset active index when category changes
   useEffect(() => {
-    if (inView && !hasAnimatedIn) {
-      const timer = setTimeout(() => {
-        setHasAnimatedIn(true);
-      }, 950);
-      return () => clearTimeout(timer);
-    }
-  }, [inView, hasAnimatedIn]);
+    setActiveIdx(1);
+  }, [category]);
+
+  const cards = CATEGORY_DECKS[category] || CATEGORY_DECKS.MEN;
+  const totalCards = cards.length;
 
   const move = (dir: number) => {
-    setHasAnimatedIn(true);
-    setActiveIdx((i) => {
-      if (deck.length === 0) return 0;
-      return (i + dir + deck.length) % deck.length;
-    });
-  };
-
-  const handleSelectCard = (i: number) => {
-    setHasAnimatedIn(true);
-    setActiveIdx(i);
-  };
-
-  const handleCategoryChange = (cat: Category) => {
-    if (onCategoryChange) {
-      onCategoryChange(cat);
-    } else {
-      setInternalCategory(cat);
-    }
-    setActiveIdx(2);
-  };
-
-  const toggleLike = (productId: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setLikedMap((prev) => ({ ...prev, [productId]: !prev[productId] }));
+    setActiveIdx((i) => (i + dir + totalCards) % totalCards);
   };
 
   return (
-    <section id="collection" className="section-pad">
-      {/* Section Heading */}
-      <SectionHeading eyebrow="FEATURED COLLECTION" title={`The Prime Deck — ${category}`} className="text-center mb-8" />
+    <section id="collection" className="my-10 px-4 sm:px-6 md:px-8">
+      {/* Section Header */}
+      <SectionHeading
+        eyebrow={`✦ ${category} ARCHIVE SHOWCASE`}
+        title={`The Prime Deck · ${category}`}
+        subtitle={`Swipe to browse quiet luxury tailoring, apparel & footwear exclusively curated for ${category}`}
+        className="text-left mb-6"
+      />
 
-      {/* ZEVANA-Style Single-Screen Showcase Container */}
+      {/* Main Luxury Showcase Card */}
       <Reveal delay={0.05}>
-        <div className="relative overflow-hidden rounded-3xl border border-border bg-black/95 shadow-2xl backdrop-blur-md">
-          {/* Showcase Top Bar */}
-          <div className="flex items-center justify-between border-b border-border/60 px-4 py-3 sm:px-6 sm:py-4">
-            {/* Brand Logo Badge */}
+        <div className="relative overflow-hidden rounded-3xl border border-neutral-200/80 bg-[#FAF9F6] shadow-xl">
+          {/* Top Bar with Category Selector */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/[0.06] bg-white px-5 py-3.5 sm:px-7">
             <div className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-gold" />
-              <span className="text-xs font-extrabold tracking-[0.25em] text-gold-gradient uppercase sm:text-sm">
-                PRIME
+              <Sparkles className="h-3.5 w-3.5 text-[#B8860B]" />
+              <span className="text-xs font-extrabold tracking-[0.2em] text-[#18181B] uppercase">
+                {category} QUIET LUXURY LINEUP
               </span>
             </div>
 
-            {/* Quick Actions */}
-            <div className="flex items-center gap-2">
-              <a
-                href="#visit"
-                className="flex min-h-[36px] items-center justify-center rounded-full border border-gold/70 bg-gold/10 px-4 py-1.5 text-xs font-bold tracking-[0.15em] text-gold transition-colors hover:bg-gold hover:text-black"
-              >
-                VISIT STORE
-              </a>
+            {/* In-Deck Gender Switcher */}
+            <div className="flex items-center gap-1 rounded-full bg-[#FAF9F6] p-1 border border-neutral-200">
+              {(["MEN", "WOMEN", "KIDS"] as Category[]).map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => onCategoryChange?.(cat)}
+                  className={`rounded-full px-3 py-1 text-[0.65rem] font-bold tracking-wider transition-colors cursor-pointer ${
+                    category === cat
+                      ? "bg-[#18181B] text-white shadow-xs"
+                      : "text-[#71717A] hover:text-[#18181B]"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Upper Card Deck Showcase */}
-          <div className="relative pt-4 pb-2 sm:pt-6">
+          {/* 3D Quiet Luxury Card Deck Carousel */}
+          <div className="relative bg-gradient-to-b from-white to-[#FAF9F6] pt-6 pb-6 overflow-hidden">
             <motion.div
               ref={deckRef}
-              className="relative h-[340px] w-full touch-pan-y sm:h-[430px]"
+              className="relative h-[420px] sm:h-[460px] w-full touch-pan-y flex items-center justify-center"
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.2}
@@ -257,108 +264,167 @@ export function FeaturedDeck({ category: externalCategory, onCategoryChange }: F
                 else if (info.offset.x > 35 || info.velocity.x > 180) move(-1);
               }}
             >
-              {deck.map((p, i) => (
-                <DeckCard
-                  key={p.id}
-                  product={p}
-                  index={i}
-                  activeIdx={activeIdx}
-                  totalCards={deck.length}
-                  revealed={inView}
-                  hasAnimatedIn={hasAnimatedIn}
-                  isMobile={isMobile}
-                  onSelect={() => handleSelectCard(i)}
-                />
-              ))}
+              {cards.map((card, i) => {
+                let relativeOffset = i - activeIdx;
+                const half = totalCards / 2;
+                while (relativeOffset > half) relativeOffset -= totalCards;
+                while (relativeOffset < -half) relativeOffset += totalCards;
+
+                const isCenter = relativeOffset === 0;
+                const absOffset = Math.abs(relativeOffset);
+
+                // Calculate horizontal displacement
+                const spacing = isMobile ? 120 : 180;
+                const xOffset = relativeOffset * spacing;
+                const rotate = relativeOffset * 6;
+                const scale = isCenter ? 1.05 : Math.max(0.85, 0.95 - absOffset * 0.08);
+                const opacity = isCenter ? 1 : Math.max(0.4, 0.75 - absOffset * 0.2);
+                const zIndex = isCenter ? 30 : 20 - absOffset;
+
+                return (
+                  <motion.div
+                    key={card.id}
+                    onClick={() => {
+                      if (!isCenter) setActiveIdx(i);
+                      else {
+                        onQuickView?.({
+                          id: card.id,
+                          name: card.title,
+                          brand: card.brand,
+                          price: parseInt(card.price.replace(/[^\d]/g, "")) || 3999,
+                          originalPrice: 7999,
+                          category: card.category,
+                          image: card.image,
+                          rating: 4.9,
+                          reviewsCount: 28,
+                          tags: [card.badge],
+                          description: `${card.title} by ${card.brand}. Available at Prime Outlet Flagship Ganaur for ${category}.`,
+                          inStock: true,
+                        });
+                      }
+                    }}
+                    className={`absolute w-[250px] sm:w-[280px] md:w-[290px] aspect-[9/14] rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 select-none ${
+                      isCenter
+                        ? "bg-white shadow-[0_20px_50px_rgba(0,0,0,0.12)] ring-1 ring-[#B8860B]/35 z-30"
+                        : "bg-[#F4EFEA] border border-neutral-200/70 opacity-75 blur-[0.4px] hover:opacity-90 hover:blur-none"
+                    }`}
+                    style={{ zIndex }}
+                    animate={
+                      inView
+                        ? {
+                            x: xOffset,
+                            rotate,
+                            scale,
+                            opacity,
+                          }
+                        : {
+                            x: xOffset,
+                            opacity: 0,
+                            scale: 0.8,
+                          }
+                    }
+                    transition={springPhysics}
+                  >
+                    {/* Background Studio Photography */}
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover object-center transition-transform duration-700 hover:scale-105"
+                    />
+
+                    {/* Subtle Top & Bottom Gradient Protection */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
+
+                    {/* Top-Left Floating Badge */}
+                    <div className="absolute top-3.5 left-3.5 z-10">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-white/85 px-3 py-1 text-[10px] font-bold text-[#18181B] backdrop-blur-md border border-white/40 shadow-xs">
+                        {card.badge}
+                      </span>
+                    </div>
+
+                    {/* Bottom Floating Info Glass Card */}
+                    <div className="absolute bottom-3 left-3 right-3 bg-white/90 backdrop-blur-md p-3.5 rounded-2xl border border-white/60 shadow-sm text-left z-10 transition-colors hover:bg-white">
+                      <div className="flex items-center justify-between">
+                        <div className="min-w-0 flex-1 pr-2">
+                          <p className="text-[10px] tracking-widest text-[#71717A] uppercase font-bold truncate">
+                            {card.brand}
+                          </p>
+                          <h4 className="text-xs sm:text-sm font-semibold text-[#18181B] truncate leading-snug">
+                            {card.title}
+                          </h4>
+                          <p className="text-xs font-black text-[#18181B] mt-0.5">
+                            {card.price}
+                          </p>
+                        </div>
+
+                        {/* Gold Arrow Button */}
+                        <div className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#18181B] text-white shadow-xs transition-transform hover:scale-110 hover:bg-[#B8860B]">
+                          <ArrowRight className="h-3.5 w-3.5" />
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </motion.div>
 
-            {/* Left / Right Nav Arrows */}
+            {/* Left & Right Chevron Controls */}
             <button
               onClick={() => move(-1)}
-              aria-label="Previous card"
-              className="absolute left-2 top-[45%] z-40 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-border/80 bg-black/60 text-foreground transition-all hover:bg-gold hover:text-black sm:left-4 sm:h-11 sm:w-11"
+              aria-label="Previous Drop"
+              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-40 grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full border border-black/[0.08] bg-white/90 text-[#18181B] shadow-md transition-all hover:bg-[#18181B] hover:text-white"
             >
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="h-4 w-4" />
             </button>
             <button
               onClick={() => move(1)}
-              aria-label="Next card"
-              className="absolute right-2 top-[45%] z-40 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-border/80 bg-black/60 text-foreground transition-all hover:bg-gold hover:text-black sm:right-4 sm:h-11 sm:w-11"
+              aria-label="Next Drop"
+              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-40 grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full border border-black/[0.08] bg-white/90 text-[#18181B] shadow-md transition-all hover:bg-[#18181B] hover:text-white"
             >
-              <ChevronRight className="h-5 w-5" />
+              <ChevronRight className="h-4 w-4" />
             </button>
           </div>
 
-          {/* Integrated ZEVANA Bottom Product Thumbnail Strip */}
-          <div className="border-t border-border/70 bg-surface/50 p-2 sm:p-4">
+          {/* Bottom Interactive Thumbnail Selector Strip */}
+          <div className="border-t border-black/[0.06] bg-white p-3.5 sm:p-4">
             <div className="mb-2 flex items-center justify-between px-1">
-              <span className="text-[0.6rem] font-bold tracking-[0.25em] text-gold uppercase">
-                COLLECTION ITEMS ({deck.length})
+              <span className="text-[0.62rem] font-bold tracking-[0.2em] text-[#18181B] uppercase">
+                {category} CURATED PIECES ({totalCards})
               </span>
-              <span className="text-[0.6rem] tracking-[0.18em] text-muted-foreground">
-                TAP TO FOCUS
+              <span className="text-[0.62rem] font-medium text-[#71717A]">
+                TAP ANY PIECE TO FOCUS
               </span>
             </div>
 
-            <div
-              ref={stripRef}
-              className="no-scrollbar flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-1 pt-1 sm:gap-3"
-            >
-              {deck.map((p, i) => {
+            <div className="no-scrollbar flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-1 pt-1 md:justify-center">
+              {cards.map((card, i) => {
                 const isSelected = i === activeIdx;
-                const isLiked = likedMap[p.id];
                 return (
                   <button
-                    key={p.id}
-                    onClick={() => handleSelectCard(i)}
-                    className={`group relative flex w-[140px] shrink-0 snap-start items-center gap-2.5 rounded-xl border p-2 text-left transition-all duration-300 sm:w-[190px] sm:gap-3 sm:p-2.5 ${
+                    key={card.id}
+                    onClick={() => setActiveIdx(i)}
+                    className={`group relative flex w-[140px] sm:w-[170px] shrink-0 snap-start items-center gap-2.5 rounded-2xl border p-2 text-left transition-all duration-300 cursor-pointer ${
                       isSelected
-                        ? "border-gold bg-gold/15 shadow-[0_0_20px_rgba(212,175,55,0.25)] ring-1 ring-gold"
-                        : "border-border/70 bg-surface-2/90 hover:border-gold/50 hover:bg-surface-2"
+                        ? "border-[#B8860B] bg-[#FAF9F6] shadow-sm ring-1 ring-[#B8860B]/40"
+                        : "border-black/[0.06] bg-white hover:border-neutral-300"
                     }`}
                   >
-                    {/* Thumbnail Image */}
-                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-black/40 sm:h-14 sm:w-14">
+                    <div className="h-10 w-10 shrink-0 overflow-hidden rounded-xl bg-neutral-100">
                       <img
-                        src={p.image}
-                        alt={p.name}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        src={card.image}
+                        alt={card.title}
+                        className="h-full w-full object-cover"
                       />
                     </div>
-
-                    {/* Product Meta Info */}
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between">
-                        <p className="truncate text-[0.55rem] font-bold tracking-[0.15em] text-gold uppercase">
-                          {p.brand}
-                        </p>
-                        <span className="flex items-center gap-0.5 text-[0.55rem] font-semibold text-amber-400">
-                          <Star className="h-2.5 w-2.5 fill-amber-400 text-amber-400" />
-                          4.8
-                        </span>
-                      </div>
-                      <h4 className="truncate text-xs font-bold text-foreground">
-                        {p.name}
-                      </h4>
-                      <p className="text-xs font-extrabold text-gold">
-                        {inr(p.price)}
+                      <p className="truncate text-[0.55rem] font-bold tracking-wider text-[#71717A] uppercase">
+                        {card.brand}
                       </p>
+                      <h5 className="truncate text-[0.68rem] font-semibold text-[#18181B]">
+                        {card.title}
+                      </h5>
                     </div>
-
-                    {/* Favorite Heart Button */}
-                    <button
-                      type="button"
-                      onClick={(e) => toggleLike(p.id, e)}
-                      aria-label="Favorite product"
-                      className="absolute right-1.5 top-1.5 text-muted-foreground transition-colors hover:text-rose-500"
-                    >
-                      <Heart
-                        className={`h-3.5 w-3.5 ${
-                          isLiked ? "fill-rose-500 text-rose-500" : "text-muted-foreground/60"
-                        }`}
-                      />
-                    </button>
                   </button>
                 );
               })}

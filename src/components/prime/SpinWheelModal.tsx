@@ -4,12 +4,12 @@ import { X, Sparkles, Trophy } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
 const PRIZES = [
-  { label: "10% OFF COUPON", code: "SPIN10", color: "#D4AF37" },
-  { label: "₹500 VOUCHER", code: "VOUCHER500", color: "#1E1E1E" },
-  { label: "FREE SOCKS", code: "FREESOCKS", color: "#B8860B" },
-  { label: "VIP 15% PASS", code: "VIPGOLD", color: "#2B2B2B" },
-  { label: "FREE EXPRESS SHIPPING", code: "PRIME10", color: "#E6CA65" },
-  { label: "EXTRA 10% OFF", code: "SPIN10", color: "#171717" },
+  { label: "10% OFF", code: "SPIN10", color: "#D4AF37", textColor: "#FFFFFF" },
+  { label: "₹500 OFF", code: "VOUCHER500", color: "#F4EFE6", textColor: "#18181B" },
+  { label: "FREE SOCKS", code: "FREESOCKS", color: "#C59B27", textColor: "#FFFFFF" },
+  { label: "15% VIP", code: "VIPGOLD", color: "#E8DFC8", textColor: "#18181B" },
+  { label: "FREE TRIAL", code: "PRIME10", color: "#B8860B", textColor: "#FFFFFF" },
+  { label: "EXTRA 10%", code: "SPIN10", color: "#FAF9F6", textColor: "#18181B" },
 ];
 
 interface SpinWheelModalProps {
@@ -68,93 +68,122 @@ export function SpinWheelModal({ isOpen, onClose }: SpinWheelModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/85 backdrop-blur-md"
+            className="fixed inset-0 bg-black/40 backdrop-blur-md"
           />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={{ opacity: 0, scale: 0.94, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-md overflow-hidden rounded-3xl border border-gold/50 bg-surface-2 p-6 text-center shadow-2xl text-foreground z-10"
+            exit={{ opacity: 0, scale: 0.94, y: 20 }}
+            className="relative w-full max-w-sm overflow-hidden rounded-3xl border border-black/[0.08] bg-white p-6 text-center shadow-2xl text-[#18181B] z-10"
           >
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute right-4 top-4 rounded-full bg-surface p-1 text-muted-foreground hover:text-gold"
+              className="absolute right-4 top-4 grid h-8 w-8 place-items-center rounded-full bg-[#FAF9F6] text-[#18181B] hover:scale-105"
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4" />
             </button>
 
             <div className="flex justify-center mb-1">
-              <Sparkles className="h-6 w-6 text-gold" />
+              <Sparkles className="h-5 w-5 text-[#C59B27]" />
             </div>
-            <h3 className="text-xl font-extrabold text-gold tracking-wide uppercase">
-              PRIME LUCKY WHEEL
+            <h3 className="text-base font-extrabold text-[#18181B] tracking-wider uppercase">
+              LUCKY PRIVILEGE WHEEL
             </h3>
-            <p className="text-xs text-muted-foreground mb-6">
-              Spin the gold wheel to win exclusive in-store & online discounts!
+            <p className="text-xs text-[#71717A] mb-4">
+              Spin to unlock your exclusive shopping privilege
             </p>
 
             {/* Wheel Container */}
-            <div className="relative mx-auto my-4 h-64 w-64">
-              {/* Wheel Pointer Arrow */}
-              <div className="absolute top-0 left-1/2 z-20 h-0 w-0 -translate-x-1/2 -translate-y-2 border-x-8 border-t-[16px] border-x-transparent border-t-gold drop-shadow-md" />
-
-              {/* Rotating Canvas Container */}
-              <div
-                className="h-full w-full rounded-full border-4 border-gold shadow-[0_0_30px_rgba(212,175,55,0.4)] overflow-hidden transition-transform duration-[4000ms] cubic-bezier(0.15, 0.9, 0.2, 1)"
-                style={{ transform: `rotate(${rotation}deg)` }}
-              >
-                <div className="relative h-full w-full rounded-full bg-black">
-                  {PRIZES.map((prize, idx) => {
-                    const angle = (360 / PRIZES.length) * idx;
-                    return (
-                      <div
-                        key={idx}
-                        className="absolute left-1/2 top-1/2 h-full w-full origin-top-left border-l border-gold/20 flex items-start justify-center pt-3"
-                        style={{
-                          transform: `rotate(${angle}deg)`,
-                          backgroundColor: prize.color,
-                        }}
-                      >
-                        <span className="text-[0.55rem] font-extrabold tracking-widest text-gold uppercase drop-shadow">
-                          {prize.label}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
+            <div className="relative mx-auto my-3 h-56 w-56">
+              {/* Pointer Arrow */}
+              <div className="absolute -top-3 left-1/2 z-20 -translate-x-1/2">
+                <div className="h-0 w-0 border-x-[10px] border-x-transparent border-t-[16px] border-t-[#C59B27] drop-shadow-md" />
               </div>
 
+              {/* Wheel SVG */}
+              <motion.div
+                className="h-full w-full rounded-full border-4 border-[#C59B27] shadow-xl overflow-hidden"
+                style={{ rotate: rotation }}
+                transition={{ duration: 4, ease: [0.15, 0.99, 0.35, 1] }}
+              >
+                <svg viewBox="0 0 100 100" className="h-full w-full">
+                  {PRIZES.map((prize, i) => {
+                    const sliceAngle = 360 / PRIZES.length;
+                    const startAngle = i * sliceAngle;
+                    const endAngle = (i + 1) * sliceAngle;
+
+                    const x1 = 50 + 50 * Math.cos((Math.PI * (startAngle - 90)) / 180);
+                    const y1 = 50 + 50 * Math.sin((Math.PI * (startAngle - 90)) / 180);
+                    const x2 = 50 + 50 * Math.cos((Math.PI * (endAngle - 90)) / 180);
+                    const y2 = 50 + 50 * Math.sin((Math.PI * (endAngle - 90)) / 180);
+
+                    const textAngle = startAngle + sliceAngle / 2;
+                    const tx = 50 + 32 * Math.cos((Math.PI * (textAngle - 90)) / 180);
+                    const ty = 50 + 32 * Math.sin((Math.PI * (textAngle - 90)) / 180);
+
+                    return (
+                      <g key={i}>
+                        <path
+                          d={`M 50 50 L ${x1} ${y1} A 50 50 0 0 1 ${x2} ${y2} Z`}
+                          fill={prize.color}
+                          stroke="#FFFFFF"
+                          strokeWidth="0.8"
+                        />
+                        <text
+                          x={tx}
+                          y={ty}
+                          fill={prize.textColor}
+                          fontSize="4"
+                          fontWeight="bold"
+                          textAnchor="middle"
+                          dominantBaseline="middle"
+                          transform={`rotate(${textAngle + 90}, ${tx}, ${ty})`}
+                        >
+                          {prize.label}
+                        </text>
+                      </g>
+                    );
+                  })}
+                </svg>
+              </motion.div>
+
               {/* Center Hub */}
-              <div className="absolute left-1/2 top-1/2 z-10 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 border-gold bg-black text-gold shadow-lg font-bold text-xs">
+              <div className="absolute left-1/2 top-1/2 z-10 grid h-10 w-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 border-white bg-[#C59B27] text-white shadow-md font-bold text-[0.6rem]">
                 PRIME
               </div>
             </div>
 
-            {/* Action Buttons / Winner Display */}
+            {/* Results or Spin CTA */}
             {wonPrize ? (
-              <div className="mt-6 space-y-3 rounded-2xl border border-gold/40 bg-gold/10 p-4">
-                <Trophy className="mx-auto h-8 w-8 text-gold" />
-                <p className="text-xs text-muted-foreground uppercase font-bold">CONGRATULATIONS!</p>
-                <p className="text-lg font-extrabold text-gold">{wonPrize.label}</p>
-                <p className="text-xs text-white">Coupon Code: <span className="font-mono font-bold text-gold">{wonPrize.code}</span></p>
-
+              <div className="mt-4 space-y-2">
+                <div className="rounded-2xl border border-black/[0.06] bg-[#FAF9F6] p-3 text-center">
+                  <Trophy className="mx-auto h-6 w-6 text-[#C59B27]" />
+                  <p className="text-xs font-bold text-[#71717A] mt-1 uppercase">Congratulations!</p>
+                  <p className="text-base font-extrabold text-[#800020]">{wonPrize.label}</p>
+                  <p className="text-[0.65rem] text-[#71717A]">Promo Code Applied: {wonPrize.code}</p>
+                </div>
                 <button
                   onClick={handleClaim}
-                  className="w-full min-h-[42px] rounded-xl bg-gold-gradient font-extrabold text-xs text-black uppercase tracking-wider hover:brightness-110"
+                  className="glow-gold flex min-h-[42px] w-full items-center justify-center rounded-full bg-gold-gradient text-xs font-bold text-white shadow-md"
                 >
-                  CLAIM & AUTO-APPLY TO CART
+                  CLAIM & SHOP NOW
                 </button>
               </div>
             ) : (
-              <button
-                onClick={handleSpin}
-                disabled={spinning || hasSpun}
-                className="mt-4 w-full min-h-[44px] rounded-xl bg-gold-gradient font-extrabold text-xs text-black uppercase tracking-wider hover:brightness-110 disabled:opacity-50"
-              >
-                {spinning ? "SPINNING..." : hasSpun ? "ALREADY SPUN TODAY" : "SPIN NOW 🎯"}
-              </button>
+              <div className="mt-4">
+                <button
+                  disabled={spinning || hasSpun}
+                  onClick={handleSpin}
+                  className={`glow-gold flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-gold-gradient px-6 py-2.5 text-xs font-bold tracking-wider text-white shadow-md transition-transform ${
+                    spinning || hasSpun ? "opacity-60 cursor-not-allowed" : "hover:scale-[1.02] active:scale-95"
+                  }`}
+                >
+                  <Sparkles className="h-4 w-4" />
+                  {spinning ? "SPINNING WHEEL..." : hasSpun ? "OFFER ALREADY CLAIMED" : "SPIN THE WHEEL"}
+                </button>
+              </div>
             )}
           </motion.div>
         </div>

@@ -14,7 +14,7 @@ export function PrimeQuickMenu({ onOpenSpinWheel, onOpenAIStylist }: PrimeQuickM
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end">
+    <div className="fixed bottom-20 right-4 z-40 flex flex-col items-end">
       {/* Speed Dial Menu items */}
       <AnimatePresence>
         {isOpen && (
@@ -26,88 +26,71 @@ export function PrimeQuickMenu({ onOpenSpinWheel, onOpenAIStylist }: PrimeQuickM
           >
             {/* Action 1: Spin & Win */}
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => {
                 setIsOpen(false);
                 onOpenSpinWheel();
               }}
-              className="flex items-center gap-2.5 rounded-full border border-gold/50 bg-black/90 px-4 py-2 text-xs font-bold text-gold shadow-xl backdrop-blur-md hover:bg-gold/15"
+              className="flex items-center gap-2 rounded-full border border-black/[0.08] bg-white px-3.5 py-1.5 text-xs font-bold text-[#18181B] shadow-md backdrop-blur-md hover:border-[#C59B27]"
             >
               <span>Spin & Win Wheel</span>
-              <div className="grid h-7 w-7 place-items-center rounded-full bg-gold/20 text-gold">
-                <Gift className="h-4 w-4" />
+              <div className="grid h-6 w-6 place-items-center rounded-full bg-[#FAF9F6] text-[#C59B27]">
+                <Gift className="h-3.5 w-3.5" />
               </div>
             </motion.button>
 
             {/* Action 2: AI Stylist */}
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => {
                 setIsOpen(false);
                 onOpenAIStylist();
               }}
-              className="flex items-center gap-2.5 rounded-full border border-gold/50 bg-black/90 px-4 py-2 text-xs font-bold text-gold shadow-xl backdrop-blur-md hover:bg-gold/15"
+              className="flex items-center gap-2 rounded-full border border-black/[0.08] bg-white px-3.5 py-1.5 text-xs font-bold text-[#18181B] shadow-md backdrop-blur-md hover:border-[#C59B27]"
             >
-              <span>AI Style Assistant</span>
-              <div className="grid h-7 w-7 place-items-center rounded-full bg-gold/20 text-gold">
-                <Bot className="h-4 w-4" />
+              <span>AI Luxury Stylist</span>
+              <div className="grid h-6 w-6 place-items-center rounded-full bg-[#FAF9F6] text-[#C59B27]">
+                <Bot className="h-3.5 w-3.5" />
               </div>
             </motion.button>
 
-            {/* Action 3: Shopping Bag */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => {
-                setIsOpen(false);
-                setIsCartOpen(true);
-              }}
-              className="flex items-center gap-2.5 rounded-full border border-gold/50 bg-black/90 px-4 py-2 text-xs font-bold text-gold shadow-xl backdrop-blur-md hover:bg-gold/15"
-            >
-              <span>Shopping Bag ({totalItems})</span>
-              <div className="grid h-7 w-7 place-items-center rounded-full bg-gold/20 text-gold">
-                <ShoppingBag className="h-4 w-4" />
-              </div>
-            </motion.button>
-
-            {/* Action 4: WhatsApp */}
+            {/* Action 3: WhatsApp */}
             <a
               href={WHATSAPP}
               target="_blank"
               rel="noreferrer"
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-2.5 rounded-full border border-emerald-500/50 bg-black/90 px-4 py-2 text-xs font-bold text-emerald-400 shadow-xl backdrop-blur-md hover:bg-emerald-500/15"
+              className="flex items-center gap-2 rounded-full border border-black/[0.08] bg-white px-3.5 py-1.5 text-xs font-bold text-[#18181B] shadow-md backdrop-blur-md hover:border-[#C59B27]"
             >
-              <span>WhatsApp Store Chat</span>
-              <div className="grid h-7 w-7 place-items-center rounded-full bg-emerald-500/20 text-emerald-400">
-                <MessageCircle className="h-4 w-4" />
+              <span>WhatsApp Concierge</span>
+              <div className="grid h-6 w-6 place-items-center rounded-full bg-[#FAF9F6] text-[#C59B27]">
+                <MessageCircle className="h-3.5 w-3.5" />
               </div>
             </a>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Main Single Floating Launcher Pill */}
+      {/* Floating Pill */}
       <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="glow-gold relative flex items-center gap-2.5 rounded-full border border-gold/60 bg-black/95 px-5 py-3 shadow-[0_0_30px_rgba(212,175,55,0.4)] backdrop-blur-xl hover:border-gold"
+        className="glow-gold relative flex items-center gap-2 rounded-full border border-[#C59B27]/50 bg-white px-4 py-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.08)] backdrop-blur-xl hover:border-[#C59B27]"
       >
         {isOpen ? (
-          <X className="h-5 w-5 text-gold" />
+          <X className="h-4 w-4 text-[#18181B]" />
         ) : (
-          <Sparkles className="h-5 w-5 text-gold animate-spin-slow" />
+          <Sparkles className="h-4 w-4 text-[#C59B27]" />
         )}
-        <span className="text-xs font-extrabold tracking-widest text-gold uppercase">
-          {isOpen ? "CLOSE" : "PRIME MENU"}
+        <span className="text-xs font-extrabold tracking-wider text-[#18181B] uppercase">
+          {isOpen ? "CLOSE" : "MENU"}
         </span>
 
-        {/* Cart Item Counter Badge if > 0 */}
         {!isOpen && totalItems > 0 && (
-          <span className="grid h-5 w-5 place-items-center rounded-full bg-gold text-[0.65rem] font-extrabold text-black">
+          <span className="grid h-4.5 w-4.5 place-items-center rounded-full bg-[#800020] text-[0.55rem] font-extrabold text-white">
             {totalItems}
           </span>
         )}
