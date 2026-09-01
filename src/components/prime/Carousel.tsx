@@ -18,10 +18,10 @@ export function Carousel({
   onQuickView?: (product: Product) => void;
 }) {
   return (
-    <section id={id} className="section-pad">
-      <SectionHeading eyebrow={eyebrow} title={title} />
+    <section id={id} className="my-8 px-4 sm:px-6">
+      <SectionHeading eyebrow={eyebrow} title={title} className="text-left mb-4" />
       <Reveal delay={0.1}>
-        <div className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-3 sm:gap-4 md:-mx-10 md:px-10">
+        <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 sm:gap-3.5">
           {items.map((p) => (
             <ProductCard
               key={`${title}-${p.id}`}

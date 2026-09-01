@@ -3,37 +3,37 @@ import { ShieldCheck, ShoppingBag, Clock, MessageSquare } from "lucide-react";
 const trustItems = [
   {
     icon: ShieldCheck,
-    label: "100% Authentic Multibrand",
+    label: "100% Genuine Multibrand",
   },
   {
     icon: ShoppingBag,
-    label: "In-Store Trial & Fitting",
+    label: "Trial & Instant Exchange",
   },
   {
     icon: Clock,
-    label: "Open 7 Days (10 AM – 9 PM)",
+    label: "Open Daily 10 AM – 9 PM",
   },
   {
     icon: MessageSquare,
-    label: "Reserve Size on WhatsApp",
+    label: "Instant WhatsApp Booking",
   },
 ];
 
 export function StoreFeatures() {
   return (
-    <section className="h-11 w-full border-y border-neutral-800 bg-[#0c0c0c]">
-      <div className="no-scrollbar flex h-full w-full items-center overflow-x-auto px-4 md:justify-center">
-        <div className="flex min-w-max items-center gap-5 md:gap-7">
+    <section className="w-full border-y border-[#E8DFD0] bg-[#F4EFE6] py-3 shadow-sm">
+      <div className="no-scrollbar flex w-full items-center overflow-x-auto px-4">
+        <div className="flex min-w-max items-center gap-4">
           {trustItems.map(({ icon: Icon, label }, index) => (
-            <div key={label} className="flex items-center gap-5 md:gap-7">
-              <div className="flex items-center gap-2">
-                <Icon className="h-4 w-4 shrink-0 text-amber-400" />
-                <span className="whitespace-nowrap text-xs font-medium tracking-wide text-neutral-300">
+            <div key={label} className="flex items-center gap-4">
+              <div className="flex items-center gap-1.5">
+                <Icon className="h-3.5 w-3.5 shrink-0 text-[#C59B27]" />
+                <span className="whitespace-nowrap text-[0.68rem] font-bold tracking-wide text-[#6B5E4D]">
                   {label}
                 </span>
               </div>
               {index < trustItems.length - 1 && (
-                <span className="select-none font-bold text-amber-400/50">•</span>
+                <span className="select-none text-[0.6rem] text-[#C59B27]">✦</span>
               )}
             </div>
           ))}

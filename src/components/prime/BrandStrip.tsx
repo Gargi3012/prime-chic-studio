@@ -1,24 +1,27 @@
 import { brands } from "@/data/catalog";
-import { Reveal } from "./Reveal";
+import { Sparkles } from "lucide-react";
 
 export function BrandStrip() {
-  const loop = [...brands, ...brands];
+  const loop = [...brands, ...brands, ...brands];
   return (
-    <section className="border-y border-border/60 bg-surface/40 py-10">
-      <Reveal>
-        <p className="mb-6 text-center text-[0.6rem] font-medium tracking-[0.4em] text-gold">
-          PREMIUM BRANDS · BEST PRICES
+    <section className="border-y border-neutral-200/70 bg-[#F4EFE6]/50 py-4.5">
+      <div className="mb-2.5 flex items-center justify-center gap-1.5 text-center">
+        <Sparkles className="h-2.5 w-2.5 text-[#C59B27]" />
+        <p className="text-[0.58rem] font-bold tracking-[0.3em] text-[#8C7A58] uppercase">
+          Curated Luxury Houses · Ganaur Flagship
         </p>
-      </Reveal>
-      <div className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]">
-        <div className="flex w-max animate-marquee items-center gap-12 pr-12">
+        <Sparkles className="h-2.5 w-2.5 text-[#C59B27]" />
+      </div>
+
+      <div className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_10%,black_90%,transparent)]">
+        <div className="flex w-max animate-marquee items-center gap-8 pr-8">
           {loop.map((b, i) => (
-            <span
-              key={`${b}-${i}`}
-              className="whitespace-nowrap font-display text-lg font-bold tracking-[0.18em] text-muted-foreground/70"
-            >
-              {b}
-            </span>
+            <div key={`${b}-${i}`} className="flex items-center gap-8">
+              <span className="whitespace-nowrap font-display text-xs font-bold tracking-[0.22em] text-[#71717A] transition-colors hover:text-[#18181B]">
+                {b.toUpperCase()}
+              </span>
+              <span className="text-[0.65rem] text-[#C59B27]">✦</span>
+            </div>
           ))}
         </div>
       </div>
