@@ -16,49 +16,49 @@ export function Hero({ onSelectGender }: HeroProps) {
 
   return (
     <section className="relative w-full bg-[#FDFCFA] p-0 m-0">
-      {/* 1. MOBILE 100% FULL-BLEED ULTRA-LUXURY EDITORIAL CANVAS (max-md) */}
-      <div className="md:hidden relative w-full h-[86dvh] overflow-hidden bg-[#171615] max-w-full mx-0 p-0">
-        {/* Full-Bleed Background Image (Pristine & Uncluttered) */}
+      {/* 1. MOBILE ULTRA-LUXURY MAGAZINE EDITORIAL MASTHEAD (max-md) */}
+      <div className="md:hidden relative w-full h-[90dvh] overflow-hidden bg-[#171615] max-w-full mx-0 p-0">
+        {/* Full-Bleed Background Image starting from top (center 15%) */}
         <img
           src={heroArcadeImg}
           alt="Prime Outlet Ganaur Flagship"
-          className="w-full h-full object-cover object-[center_18%]"
+          className="w-full h-full object-cover object-[center_15%]"
         />
 
-        {/* Sheer Cinematic Lighting Scrim (Bottom 30% shadow) */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/80 z-10 pointer-events-none" />
+        {/* Sheer Cinema-Grade Scrim ONLY behind bottom text (38% height) */}
+        <div className="bg-gradient-to-t from-black/85 via-black/30 to-transparent h-[38%] absolute inset-x-0 bottom-0 z-10 pointer-events-none" />
 
-        {/* Whisper-Quiet Typography & Architectural Split Action */}
-        <div className="absolute bottom-8 inset-x-0 z-20 px-6 text-center flex flex-col items-center">
+        {/* Move Typography Off Models' Outfits (Bottom 15%) */}
+        <div className="absolute bottom-6 inset-x-0 z-20 px-6 text-center flex flex-col items-center">
           {/* Micro-Tag */}
-          <span className="text-[10px] tracking-[0.28em] uppercase text-neutral-300 font-medium mb-2.5 drop-shadow-sm">
-            AUTUMN / SPRING '26 • BESPOKE CURATION
+          <span className="text-[10px] uppercase tracking-[0.3em] text-neutral-300 font-medium mb-1.5 drop-shadow-sm">
+            COLLECTION N° 01 • FLAGSHIP TAILORING
           </span>
 
           {/* Headline */}
-          <h1 className="font-serif text-3xl md:text-4xl text-white font-normal tracking-tight leading-snug mb-2 drop-shadow">
+          <h1 className="font-serif text-3xl text-white font-normal tracking-tight leading-none mb-2 drop-shadow">
             The Art of Everyday Luxury.
           </h1>
 
           {/* Subtext */}
-          <p className="text-[11px] text-neutral-300 tracking-wide font-light max-w-xs mb-6">
-            Curated Flagship Multibrand Tailoring for Him & Her.
+          <p className="text-[11px] text-neutral-300 tracking-wide font-light mb-5">
+            Curated multibrand linen & tailoring for Him & Her.
           </p>
 
-          {/* Architectural Split Action */}
-          <div className="flex items-center gap-3 w-full max-w-xs justify-center">
+          {/* High-Fashion Minimalist Actions (Architectural Dual Glass Dock) */}
+          <div className="flex items-center gap-3 w-full max-w-xs mx-auto">
             <button
               onClick={() => handleShopClick("MEN")}
-              className="flex-1 py-3 rounded-full bg-white/95 text-[#171615] text-[11px] font-semibold tracking-widest uppercase shadow-xl hover:bg-white active:scale-95 transition-all text-center cursor-pointer"
+              className="flex-1 py-2.5 px-4 bg-white/90 backdrop-blur-md text-[#171615] text-[11px] font-semibold tracking-widest uppercase rounded-sm shadow-sm hover:bg-white active:scale-95 transition-all text-center cursor-pointer"
             >
-              Shop Him
+              Shop Him ↗
             </button>
 
             <button
               onClick={() => handleShopClick("WOMEN")}
-              className="flex-1 py-3 rounded-full bg-black/40 backdrop-blur-md border border-white/30 text-white text-[11px] font-semibold tracking-widest uppercase shadow-xl hover:bg-black/60 active:scale-95 transition-all text-center cursor-pointer"
+              className="flex-1 py-2.5 px-4 bg-white/15 backdrop-blur-md border border-white/40 text-white text-[11px] font-semibold tracking-widest uppercase rounded-sm shadow-sm hover:bg-white/25 active:scale-95 transition-all text-center cursor-pointer"
             >
-              Shop Her
+              Shop Her ↗
             </button>
           </div>
         </div>
@@ -80,8 +80,8 @@ export function Hero({ onSelectGender }: HeroProps) {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="col-span-5 flex flex-col justify-center items-start z-20"
           >
-            <span className="text-[10px] uppercase tracking-[0.28em] font-semibold text-[#9E6738] mb-2 block">
-              AUTUMN / SPRING '26 • BESPOKE CURATION
+            <span className="text-[10px] uppercase tracking-[0.3em] font-semibold text-[#9E6738] mb-2 block">
+              COLLECTION N° 01 • FLAGSHIP TAILORING
             </span>
 
             <h1 className="font-serif text-4xl lg:text-[50px] text-[#171615] leading-[1.08] tracking-tight mb-2">
@@ -94,22 +94,22 @@ export function Hero({ onSelectGender }: HeroProps) {
             </h2>
 
             <p className="text-xs text-[#7A7570] mb-6 tracking-wide leading-relaxed max-w-sm">
-              Curated Flagship Multibrand Tailoring for Him & Her.
+              Curated multibrand linen & tailoring for Him & Her.
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
               <button
                 onClick={() => handleShopClick("MEN")}
-                className="bg-[#171615] text-white rounded-full px-7 py-3 text-xs font-semibold uppercase tracking-wider shadow-sm hover:bg-[#9E6738] transition-all duration-300 active:scale-95 cursor-pointer"
+                className="bg-[#171615] text-white rounded-sm px-7 py-3 text-[11px] font-semibold uppercase tracking-widest shadow-sm hover:bg-[#9E6738] transition-all duration-300 active:scale-95 cursor-pointer"
               >
-                Shop Him
+                Shop Him ↗
               </button>
 
               <button
                 onClick={() => handleShopClick("WOMEN")}
-                className="bg-white/80 border border-[#ECE8E1] backdrop-blur-sm text-[#171615] rounded-full px-7 py-3 text-xs font-semibold uppercase tracking-wider shadow-sm hover:bg-neutral-50 transition-all duration-300 active:scale-95 cursor-pointer"
+                className="bg-white/80 border border-[#ECE8E1] backdrop-blur-sm text-[#171615] rounded-sm px-7 py-3 text-[11px] font-semibold uppercase tracking-widest shadow-sm hover:bg-neutral-50 transition-all duration-300 active:scale-95 cursor-pointer"
               >
-                Shop Her
+                Shop Her ↗
               </button>
             </div>
           </motion.div>
@@ -125,7 +125,7 @@ export function Hero({ onSelectGender }: HeroProps) {
               <img
                 src={heroArcadeImg}
                 alt="Prime Outlet The Arcade Autumn Spring 2026"
-                className="w-full h-full object-cover object-[50%_18%] transition-transform duration-700 group-hover:scale-105"
+                className="w-full h-full object-cover object-[50%_15%] transition-transform duration-700 group-hover:scale-105"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 pointer-events-none" />
