@@ -35,7 +35,7 @@ export function Hero({ onSelectGender }: HeroProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        className="absolute bottom-6 sm:bottom-10 md:bottom-14 inset-x-0 md:inset-x-auto left-0 md:left-16 z-20 px-6 md:px-0 max-w-2xl text-white flex flex-col items-start text-left"
+        className="absolute bottom-24 sm:bottom-28 md:bottom-14 inset-x-0 md:inset-x-auto left-0 md:left-16 z-20 px-6 md:px-0 max-w-2xl text-white flex flex-col items-start text-left"
       >
 
 
