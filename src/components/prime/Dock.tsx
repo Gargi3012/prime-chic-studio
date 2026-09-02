@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Home, LayoutGrid, ShoppingBag, Crown, ChevronUp } from "lucide-react";
+import { Home, LayoutGrid, ShoppingBag, Crown } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
 interface DockProps {
@@ -21,15 +21,15 @@ export function Dock({ onOpenCategoriesDrawer, onOpenStylist }: DockProps) {
   };
 
   return (
-    <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-white/90 backdrop-blur-xl border border-black/[0.08] shadow-[0_10px_30px_rgba(0,0,0,0.08)] rounded-full px-6 py-2 flex items-center justify-between gap-6 pointer-events-auto min-w-[340px] sm:min-w-[400px]">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 h-14 bg-[#FDFCFA]/95 backdrop-blur-xl border-t border-neutral-200/80 px-6 flex items-center justify-around pointer-events-auto">
       {/* 1. Home */}
       <button
         onClick={() => handleTab("home", scrollToTop)}
         className={`flex flex-col items-center gap-0.5 text-[9px] uppercase font-semibold tracking-wider transition-colors cursor-pointer ${
-          activeTab === "home" ? "text-[#9E6738]" : "text-[#7A7570] hover:text-[#171615]"
+          activeTab === "home" ? "text-[#171615]" : "text-[#7A7570] hover:text-[#171615]"
         }`}
       >
-        <Home className="w-4 h-4 stroke-[1.75]" />
+        <Home className="w-4 h-4 stroke-[1.5]" />
         <span>Home</span>
       </button>
 
@@ -37,10 +37,10 @@ export function Dock({ onOpenCategoriesDrawer, onOpenStylist }: DockProps) {
       <button
         onClick={() => handleTab("categories", onOpenCategoriesDrawer)}
         className={`flex flex-col items-center gap-0.5 text-[9px] uppercase font-semibold tracking-wider transition-colors cursor-pointer ${
-          activeTab === "categories" ? "text-[#9E6738]" : "text-[#7A7570] hover:text-[#171615]"
+          activeTab === "categories" ? "text-[#171615]" : "text-[#7A7570] hover:text-[#171615]"
         }`}
       >
-        <LayoutGrid className="w-4 h-4 stroke-[1.75]" />
+        <LayoutGrid className="w-4 h-4 stroke-[1.5]" />
         <span>Categories</span>
       </button>
 
@@ -48,11 +48,11 @@ export function Dock({ onOpenCategoriesDrawer, onOpenStylist }: DockProps) {
       <button
         onClick={() => handleTab("bag", () => setIsCartOpen(true))}
         className={`relative flex flex-col items-center gap-0.5 text-[9px] uppercase font-semibold tracking-wider transition-colors cursor-pointer ${
-          activeTab === "bag" ? "text-[#9E6738]" : "text-[#7A7570] hover:text-[#171615]"
+          activeTab === "bag" ? "text-[#171615]" : "text-[#7A7570] hover:text-[#171615]"
         }`}
       >
         <div className="relative">
-          <ShoppingBag className="w-4 h-4 stroke-[1.75]" />
+          <ShoppingBag className="w-4 h-4 stroke-[1.5]" />
           {totalItems > 0 && (
             <span className="absolute -top-1.5 -right-2 grid h-3.5 w-3.5 place-items-center rounded-full bg-[#171615] text-[8px] font-bold text-white">
               {totalItems}
@@ -62,25 +62,16 @@ export function Dock({ onOpenCategoriesDrawer, onOpenStylist }: DockProps) {
         <span>Bag</span>
       </button>
 
-      {/* 4. My Profile / Stylist */}
+      {/* 4. Stylist Profile */}
       <button
         onClick={() => handleTab("profile", onOpenStylist)}
         className={`flex flex-col items-center gap-0.5 text-[9px] uppercase font-semibold tracking-wider transition-colors cursor-pointer ${
           activeTab === "profile" ? "text-[#9E6738]" : "text-[#7A7570] hover:text-[#171615]"
         }`}
       >
-        <Crown className="w-4 h-4 stroke-[1.75] text-[#9E6738]" />
-        <span>Profile</span>
+        <Crown className="w-4 h-4 stroke-[1.5] text-[#9E6738]" />
+        <span>Stylist</span>
       </button>
-
-      {/* 5. Back to top capsule */}
-      <button
-        onClick={scrollToTop}
-        className="flex items-center gap-1 rounded-full bg-[#171615] text-white px-3 py-1 text-[9px] uppercase font-semibold tracking-wider hover:bg-[#9E6738] transition-colors shadow-sm cursor-pointer ml-1"
-      >
-        <ChevronUp className="w-3 h-3" />
-        <span>Top</span>
-      </button>
-    </div>
+    </nav>
   );
 }
