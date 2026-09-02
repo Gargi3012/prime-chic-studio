@@ -16,36 +16,30 @@ export function Hero({ onSelectGender }: HeroProps) {
 
   return (
     <section className="relative w-full bg-[#FDFCFA] p-0 m-0">
-      {/* 1. MOBILE ULTRA-LUXURY MAGAZINE EDITORIAL MASTHEAD (max-md) */}
+      {/* 1. MOBILE EDITORIAL MASTHEAD (max-md) */}
       <div className="md:hidden relative w-full h-[90dvh] overflow-hidden bg-[#171615] max-w-full mx-0 p-0">
-        {/* Full-Bleed Background Image starting from top (center 15%) */}
         <img
           src={heroArcadeImg}
           alt="Prime Outlet Ganaur Flagship"
           className="w-full h-full object-cover object-[center_15%]"
         />
 
-        {/* Sheer Cinema-Grade Scrim ONLY behind bottom text (38% height) */}
+        {/* Sheer Scrim ONLY behind bottom text */}
         <div className="bg-gradient-to-t from-black/85 via-black/30 to-transparent h-[38%] absolute inset-x-0 bottom-0 z-10 pointer-events-none" />
 
-        {/* Move Typography Off Models' Outfits (Bottom 15%) */}
         <div className="absolute bottom-6 inset-x-0 z-20 px-6 text-center flex flex-col items-center">
-          {/* Micro-Tag */}
           <span className="text-[10px] uppercase tracking-[0.3em] text-neutral-300 font-medium mb-1.5 drop-shadow-sm">
             COLLECTION N° 01 • FLAGSHIP TAILORING
           </span>
 
-          {/* Headline */}
           <h1 className="font-serif text-3xl text-white font-normal tracking-tight leading-none mb-2 drop-shadow">
             The Art of Everyday Luxury.
           </h1>
 
-          {/* Subtext */}
           <p className="text-[11px] text-neutral-300 tracking-wide font-light mb-5">
             Curated multibrand linen & tailoring for Him & Her.
           </p>
 
-          {/* High-Fashion Minimalist Actions (Architectural Dual Glass Dock) */}
           <div className="flex items-center gap-3 w-full max-w-xs mx-auto">
             <button
               onClick={() => handleShopClick("MEN")}
@@ -64,92 +58,61 @@ export function Hero({ onSelectGender }: HeroProps) {
         </div>
       </div>
 
-      {/* 2. DESKTOP EDITORIAL BILLBOARD (md:flex) */}
-      <div className="hidden md:flex w-full min-h-[calc(100vh-80px)] max-h-[850px] items-center justify-between px-8 md:px-14 py-4 relative overflow-hidden pt-20 md:pt-16">
-        {/* Layer 0: Watermark Text */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[14vw] font-black uppercase text-black/[0.04] tracking-tighter select-none pointer-events-none z-0 whitespace-nowrap">
-          FLAGSHIP EDIT
-        </div>
+      {/* 2. DESKTOP CINEMATIC MAGAZINE SPREAD (md:flex) */}
+      <div className="hidden md:flex w-full md:min-h-[88vh] md:grid md:grid-cols-12 md:items-center px-8 lg:px-16 py-8 bg-[#FDFCFA] pt-24">
+        {/* Left Column: Typography & Editorial Console (col-span-5) */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="col-span-5 flex flex-col justify-center items-start z-20 pr-4 lg:pr-8"
+        >
+          <span className="text-xs tracking-[0.3em] uppercase text-[#9E6738] font-semibold mb-4 block">
+            COLLECTION N° 01 • FLAGSHIP TAILORING
+          </span>
 
-        {/* Main Desktop Grid */}
-        <div className="grid grid-cols-12 gap-8 items-center w-full max-w-7xl mx-auto z-10 my-auto">
-          {/* Left Column: Typography & CTAs (col-span-5) */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="col-span-5 flex flex-col justify-center items-start z-20"
-          >
-            <span className="text-[10px] uppercase tracking-[0.3em] font-semibold text-[#9E6738] mb-2 block">
-              COLLECTION N° 01 • FLAGSHIP TAILORING
-            </span>
+          <h1 className="font-serif text-4xl lg:text-6xl text-[#171615] font-normal tracking-tight leading-[1.08] mb-4">
+            The Art of<br />
+            Everyday Luxury.
+          </h1>
 
-            <h1 className="font-serif text-4xl lg:text-[50px] text-[#171615] leading-[1.08] tracking-tight mb-2">
-              The Art of <br />
-              <span className="font-bold">Everyday Luxury.</span>
-            </h1>
+          <p className="text-sm text-[#7A7570] font-light max-w-md mb-8 leading-relaxed">
+            Unveiling the Autumn / Spring '26 Collections. Curated multibrand tailoring and leathercraft for Him & Her.
+          </p>
 
-            <h2 className="font-serif text-lg lg:text-xl font-semibold text-[#171615] italic mb-1.5">
-              Unveiling the Autumn / Spring '26 Collections.
-            </h2>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => handleShopClick("MEN")}
+              className="px-8 py-3.5 bg-[#171615] text-white text-xs font-semibold tracking-widest uppercase rounded-sm hover:bg-neutral-800 active:scale-95 transition-all cursor-pointer shadow-sm"
+            >
+              Shop Him ↗
+            </button>
 
-            <p className="text-xs text-[#7A7570] mb-6 tracking-wide leading-relaxed max-w-sm">
-              Curated multibrand linen & tailoring for Him & Her.
-            </p>
+            <button
+              onClick={() => handleShopClick("WOMEN")}
+              className="px-8 py-3.5 bg-transparent border border-[#171615]/30 text-[#171615] text-xs font-semibold tracking-widest uppercase rounded-sm hover:bg-black/5 active:scale-95 transition-all cursor-pointer"
+            >
+              Shop Her ↗
+            </button>
+          </div>
+        </motion.div>
 
-            <div className="flex flex-wrap items-center gap-3">
-              <button
-                onClick={() => handleShopClick("MEN")}
-                className="bg-[#171615] text-white rounded-sm px-7 py-3 text-[11px] font-semibold uppercase tracking-widest shadow-sm hover:bg-[#9E6738] transition-all duration-300 active:scale-95 cursor-pointer"
-              >
-                Shop Him ↗
-              </button>
-
-              <button
-                onClick={() => handleShopClick("WOMEN")}
-                className="bg-white/80 border border-[#ECE8E1] backdrop-blur-sm text-[#171615] rounded-sm px-7 py-3 text-[11px] font-semibold uppercase tracking-widest shadow-sm hover:bg-neutral-50 transition-all duration-300 active:scale-95 cursor-pointer"
-              >
-                Shop Her ↗
-              </button>
-            </div>
-          </motion.div>
-
-          {/* Right Column: Visual Card (col-span-7) */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="col-span-7 flex justify-center items-center z-10"
-          >
-            <div className="h-[520px] w-full rounded-[32px] overflow-hidden relative shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-[#ECE8E1] bg-[#F5F3EF] group">
-              <img
-                src={heroArcadeImg}
-                alt="Prime Outlet The Arcade Autumn Spring 2026"
-                className="w-full h-full object-cover object-[50%_15%] transition-transform duration-700 group-hover:scale-105"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 pointer-events-none" />
-
-              <div className="absolute top-5 right-5 px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-[10px] uppercase tracking-[0.15em] font-medium shadow-sm flex items-center gap-1.5">
-                <span>✦ ARMANI LAB • NIKE • ZARA • RALPH LAUREN</span>
-              </div>
-
-              <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-white/40 backdrop-blur-md border border-white/40 flex items-center justify-between shadow-lg text-white">
-                <div>
-                  <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#E5D2A0] block">
-                    FLAGSHIP ARCADE COLLECTION
-                  </span>
-                  <span className="text-xs font-semibold text-white drop-shadow-sm">
-                    The Autumn / Spring '26 Showcase
-                  </span>
-                </div>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#171615] text-white">
-                  NCR SAME-DAY
-                </span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+        {/* Right Column: Campaign Billboard (col-span-7) */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="col-span-7 flex justify-center items-center z-10"
+        >
+          <div className="h-[620px] lg:h-[680px] w-full rounded-[24px] overflow-hidden relative shadow-[0_25px_60px_-15px_rgba(0,0,0,0.08)] border border-[#ECE8E1] bg-[#F5F3EF]">
+            {/* Pristine Arcade Couple Photo (Zero Cheap Overlays / Zero UI Bars) */}
+            <img
+              src={heroArcadeImg}
+              alt="Prime Outlet Ganaur Flagship Arcade Collection"
+              className="w-full h-full object-cover object-[center_15%]"
+            />
+          </div>
+        </motion.div>
       </div>
     </section>
   );

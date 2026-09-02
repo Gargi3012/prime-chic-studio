@@ -21,7 +21,7 @@ export function Dock({ onOpenCategoriesDrawer, onOpenStylist }: DockProps) {
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 h-14 bg-[#FDFCFA]/95 backdrop-blur-xl border-t border-neutral-200/80 px-6 flex items-center justify-around pointer-events-auto">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 h-14 bg-[#FDFCFA]/95 backdrop-blur-xl border-t border-neutral-200/80 px-6 flex items-center justify-around pointer-events-auto">
       {/* 1. Home */}
       <button
         onClick={() => handleTab("home", scrollToTop)}
