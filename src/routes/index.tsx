@@ -117,11 +117,55 @@ function Index() {
 
         {/* 2. Editorial Hero Billboard (<Hero />) */}
         <Hero
-          onSelectGender={(g) => setCategory(g)}
+          onSelectGender={(g) => {
+            setCategory(g);
+            const el = document.getElementById("catalog-section");
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          }}
         />
 
-        {/* 3. The Unified Editorial Lookbook (Quiet Tailoring & Craft) */}
+        {/* 3. Prominent Gender Switcher Bar */}
+        <div id="catalog-section" className="w-full flex justify-center py-6 bg-[#FDFCFA]">
+          <div className="inline-flex bg-[#F5F3EF] p-1.5 rounded-full border border-[#ECE8E1] shadow-inner">
+            <button
+              onClick={() => setCategory("WOMEN")}
+              className={`px-8 py-2.5 rounded-full text-xs font-semibold tracking-wider transition-all duration-300 cursor-pointer ${
+                category === "WOMEN"
+                  ? "bg-[#171615] text-white shadow-md font-bold"
+                  : "text-[#7A7570] hover:text-[#171615]"
+              }`}
+            >
+              FOR HER
+            </button>
+            <button
+              onClick={() => setCategory("MEN")}
+              className={`px-8 py-2.5 rounded-full text-xs font-semibold tracking-wider transition-all duration-300 cursor-pointer ${
+                category === "MEN"
+                  ? "bg-[#171615] text-white shadow-md font-bold"
+                  : "text-[#7A7570] hover:text-[#171615]"
+              }`}
+            >
+              FOR HIM
+            </button>
+          </div>
+        </div>
+
+        {/* 4. Dynamic Category Strip */}
+        <CategoryStrip
+          category={category}
+          onSelectCategory={(query) => {
+            setDetailModal({
+              isOpen: true,
+              title: `${query} Selection`,
+              gender: category,
+              query,
+            });
+          }}
+        />
+
+        {/* 5. Dynamic Flagship Offers & Markdown Grid (Cider Style) */}
         <PrivilegeEdits
+          category={category}
           onSelectOffer={handleSelectOfferQuery}
           onOpenStylist={() => setIsAIStylistOpen(true)}
         />
