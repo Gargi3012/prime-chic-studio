@@ -125,11 +125,11 @@ function Index() {
         />
 
         {/* 3. Prominent Gender Switcher Bar */}
-        <div id="catalog-section" className="w-full flex justify-center py-6 bg-[#FDFCFA]">
+        <div id="catalog-section" className="w-full flex justify-center py-8 bg-[#FDFCFA]">
           <div className="inline-flex bg-[#F5F3EF] p-1.5 rounded-full border border-[#ECE8E1] shadow-inner">
             <button
               onClick={() => setCategory("WOMEN")}
-              className={`px-8 py-2.5 rounded-full text-xs font-semibold tracking-wider transition-all duration-300 cursor-pointer ${
+              className={`px-10 py-3 rounded-full text-xs font-semibold tracking-widest uppercase transition-all duration-300 cursor-pointer ${
                 category === "WOMEN"
                   ? "bg-[#171615] text-white shadow-md font-bold"
                   : "text-[#7A7570] hover:text-[#171615]"
@@ -139,7 +139,7 @@ function Index() {
             </button>
             <button
               onClick={() => setCategory("MEN")}
-              className={`px-8 py-2.5 rounded-full text-xs font-semibold tracking-wider transition-all duration-300 cursor-pointer ${
+              className={`px-10 py-3 rounded-full text-xs font-semibold tracking-widest uppercase transition-all duration-300 cursor-pointer ${
                 category === "MEN"
                   ? "bg-[#171615] text-white shadow-md font-bold"
                   : "text-[#7A7570] hover:text-[#171615]"
