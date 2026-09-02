@@ -1,4 +1,4 @@
-export type Category = "MEN" | "WOMEN" | "KIDS";
+export type Category = "MEN" | "WOMEN";
 
 export type Product = {
   id: string;
@@ -237,98 +237,6 @@ export const products: Product[] = [
     description:
       "Supple grain leather shoulder bag with magnetic snap closure and interior zip compartment.",
   },
-
-  // ==================== KIDS' COLLECTION ====================
-  {
-    id: "k1",
-    name: "Varsity Colorblock Bomber",
-    brand: "Tommy Hilfiger Kids",
-    price: 2499,
-    originalPrice: 4999,
-    image:
-      "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?q=80&w=800&auto=format&fit=crop",
-    category: "KIDS",
-    colors: ["Navy/White/Red", "Charcoal/Yellow"],
-    sizes: ["4Y", "6Y", "8Y", "10Y", "12Y"],
-    rating: 4.8,
-    reviewsCount: 27,
-    tags: ["Junior Drop", "Varsity"],
-    inStock: true,
-    description:
-      "Heritage varsity bomber with striped rib trims, snap button front, and embroidered crest.",
-  },
-  {
-    id: "k2",
-    name: "Distressed Comfort Denim Set",
-    brand: "Levi's Kids",
-    price: 1999,
-    originalPrice: 3999,
-    image:
-      "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=800&auto=format&fit=crop",
-    category: "KIDS",
-    colors: ["Washed Blue", "Vintage Black"],
-    sizes: ["4Y", "6Y", "8Y", "10Y"],
-    rating: 4.9,
-    reviewsCount: 34,
-    tags: ["Everyday Edit", "Stretch Denim"],
-    inStock: true,
-    description:
-      "Soft flex stretch denim jacket paired with durable 5-pocket jeans for active playtime.",
-  },
-  {
-    id: "k3",
-    name: "Softride Retro Court Runners",
-    brand: "Puma Kids",
-    price: 2199,
-    originalPrice: 4299,
-    image:
-      "https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=800&auto=format&fit=crop",
-    category: "KIDS",
-    colors: ["White/Blue", "Black/Red"],
-    sizes: ["1Y", "2Y", "3Y", "4Y"],
-    rating: 4.8,
-    reviewsCount: 29,
-    tags: ["Kicks Vault", "Velcro Strap"],
-    inStock: true,
-    description:
-      "Lightweight cushioned school & sports runners with breathable mesh and easy hook-and-loop strap.",
-  },
-  {
-    id: "k4",
-    name: "Pastel Hoodie & Cargo Joggers",
-    brand: "Zara Kids",
-    price: 1799,
-    originalPrice: 3499,
-    image:
-      "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?q=80&w=800&auto=format&fit=crop",
-    category: "KIDS",
-    colors: ["Sage Green", "Dusty Pink", "Oatmeal"],
-    sizes: ["3Y", "5Y", "7Y", "9Y"],
-    rating: 4.7,
-    reviewsCount: 18,
-    tags: ["Street Casual", "100% Cotton"],
-    inStock: true,
-    description:
-      "Ultra-soft French terry cotton fleece hoodie with matching elastic cargo joggers.",
-  },
-  {
-    id: "k5",
-    name: "Striped Cotton Dungaree",
-    brand: "GAP Kids",
-    price: 1699,
-    originalPrice: 3299,
-    image:
-      "https://images.unsplash.com/photo-1471286174890-9c112ffca564?q=80&w=800&auto=format&fit=crop",
-    category: "KIDS",
-    colors: ["Navy Stripe", "Beige Stripe"],
-    sizes: ["2Y", "3Y", "4Y", "5Y"],
-    rating: 4.8,
-    reviewsCount: 21,
-    tags: ["Playtime Edit", "Organic Cotton"],
-    inStock: true,
-    description:
-      "Breathable organic cotton twill dungaree overalls with adjustable shoulder buckles.",
-  },
 ];
 
 export const footwear: Product[] = [
@@ -400,26 +308,9 @@ export const footwear: Product[] = [
     inStock: true,
     description: "Clean court trainers with soft leather finish.",
   },
-  {
-    id: "f5",
-    name: "Softride Retro Court Runners",
-    brand: "Puma Kids",
-    price: 2199,
-    originalPrice: 4299,
-    image:
-      "https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=800&auto=format&fit=crop",
-    category: "KIDS",
-    colors: ["White/Blue"],
-    sizes: ["1Y", "2Y", "3Y", "4Y"],
-    rating: 4.8,
-    reviewsCount: 29,
-    tags: ["Velcro Strap"],
-    inStock: true,
-    description: "Mini runners for kids.",
-  },
 ];
 
-export const suggestions: Product[] = ["m1", "w1", "k1", "m3", "w4", "k3", "m5"]
+export const suggestions: Product[] = ["m1", "w1", "m3", "w4", "m5"]
   .map((id) => products.find((p) => p.id === id))
   .filter((p): p is Product => Boolean(p));
 

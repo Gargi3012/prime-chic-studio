@@ -60,65 +60,28 @@ const CATEGORY_MAP: Record<Category, SubCategoryItem[]> = {
       name: "Dresses & Gowns",
       image:
         "https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=300&auto=format&fit=crop",
-      query: "Set",
+      query: "Dress",
     },
     {
       id: "w_trenches",
       name: "Trenches & Coats",
       image:
         "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=300&auto=format&fit=crop",
-      query: "Suit",
+      query: "Coat",
     },
     {
       id: "w_sneakers",
       name: "Sneakers & Heels",
       image:
         "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=300&auto=format&fit=crop",
-      query: "Trainer",
+      query: "Sneaker",
     },
     {
       id: "w_bags",
       name: "Bags & Access.",
       image:
         "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=300&auto=format&fit=crop",
-      query: "Set",
-    },
-  ],
-  KIDS: [
-    {
-      id: "k_bombers",
-      name: "Varsity Jackets",
-      image:
-        "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?q=80&w=300&auto=format&fit=crop",
-      query: "Combo",
-    },
-    {
-      id: "k_denim",
-      name: "Denim & Jeans",
-      image:
-        "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=300&auto=format&fit=crop",
-      query: "Denim",
-    },
-    {
-      id: "k_sneakers",
-      name: "Kids Sneakers",
-      image:
-        "https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=300&auto=format&fit=crop",
-      query: "Sneaker",
-    },
-    {
-      id: "k_hoodies",
-      name: "Hoodies & Sets",
-      image:
-        "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?q=80&w=300&auto=format&fit=crop",
-      query: "Combo",
-    },
-    {
-      id: "k_dungarees",
-      name: "Dungarees & Tops",
-      image:
-        "https://images.unsplash.com/photo-1471286174890-9c112ffca564?q=80&w=300&auto=format&fit=crop",
-      query: "Runner",
+      query: "Bag",
     },
   ],
 };

@@ -1,43 +1,44 @@
 import { useState, useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { CartProvider } from "@/context/CartContext";
+import { Header } from "@/components/prime/Header";
 import { Hero } from "@/components/prime/Hero";
-import { BrandStrip } from "@/components/prime/BrandStrip";
-import { StoreFeatures } from "@/components/prime/StoreFeatures";
+import { CategoryStrip } from "@/components/prime/CategoryStrip";
+import { PrivilegeEdits } from "@/components/prime/PrivilegeEdits";
+import { ValueProps } from "@/components/prime/ValueProps";
 import { FeaturedDeck } from "@/components/prime/FeaturedDeck";
 import { Carousel } from "@/components/prime/Carousel";
 import { QuickViewModal } from "@/components/prime/QuickViewModal";
 import { VideoSection } from "@/components/prime/VideoSection";
 import { ReviewsSection } from "@/components/prime/ReviewsSection";
 import { Contact } from "@/components/prime/Contact";
-import { Footer, BottomNavBar } from "@/components/prime/Footer";
+import { Footer } from "@/components/prime/Footer";
+import { Dock } from "@/components/prime/Dock";
 import { CartDrawer } from "@/components/prime/CartDrawer";
 import { OutfitBuilderBanner, OutfitStudioModal } from "@/components/prime/OutfitBuilder";
-import { SpinWheelModal } from "@/components/prime/SpinWheelModal";
 import { AIStyleAssistant } from "@/components/prime/AIStyleAssistant";
 import { SizeGuideModal } from "@/components/prime/SizeGuideModal";
-import { SpecialOffers } from "@/components/prime/SpecialOffers";
-import { CategoryAvatars } from "@/components/prime/CategoryAvatars";
 import { CategoryDetailModal } from "@/components/prime/CategoryDetailModal";
+import { CategoryDrawer } from "@/components/prime/CategoryDrawer";
+import { SearchModal } from "@/components/prime/SearchModal";
 import { footwear, products, type Category, type Product } from "@/data/catalog";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Prime Outlet — Ultra-Luxury Fashion Magazine & Flagship Store in Ganaur" },
+      { title: "PRIME OUTLET — Ganaur Flagship Studio | Quiet Luxury Multibrand Store" },
       {
         name: "description",
         content:
-          "Prime Outlet, Ganaur: High-fashion multibrand clothing, footwear and accessories — Zara, Nike, Adidas, Armani. Open 10 AM–9 PM, all 7 days.",
+          "Prime Outlet Ganaur Flagship Studio: Quiet luxury multibrand apparel, footwear and leathercraft. Armani, Zara, Massimo Dutti, Nike Lab.",
       },
-      { property: "og:title", content: "Prime Outlet — The Art of Modern Dressing" },
+      { property: "og:title", content: "PRIME OUTLET — Ganaur Flagship Studio" },
       {
         property: "og:description",
         content:
-          "Curated luxury multibrand apparel, footwear and accessories in Ganaur, Sonipat. Authentic global fashion labels.",
+          "Multibrand tailoring & leathercraft curated for Him & Her. Authentic global fashion labels.",
       },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: IndexWrapper,
@@ -56,8 +57,9 @@ function Index() {
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isOutfitStudioOpen, setIsOutfitStudioOpen] = useState(false);
-  const [isSpinWheelOpen, setIsSpinWheelOpen] = useState(false);
   const [isAIStylistOpen, setIsAIStylistOpen] = useState(false);
+  const [isCategoryDrawerOpen, setIsCategoryDrawerOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // Sub-category detail modal state
   const [detailModal, setDetailModal] = useState<{
@@ -80,85 +82,87 @@ function Index() {
     return footwear.filter((f) => f.category === category);
   }, [category]);
 
-  const handleSelectSpecialOffer = (offerType: string) => {
-    if (offerType === "COMBO") {
-      setIsOutfitStudioOpen(true);
-    } else if (offerType === "UNDER_3K") {
+  const handleSelectOfferQuery = (query: string) => {
+    setDetailModal({
+      isOpen: true,
+      title: `${query} Privileges`,
+      gender: category,
+      query,
+    });
+  };
+
+  const handleCategoryNav = (catNav: "WOMEN" | "MEN" | "BAGS" | "ACCESSORIES") => {
+    if (catNav === "WOMEN" || catNav === "MEN") {
+      setCategory(catNav);
+    } else {
       setDetailModal({
         isOpen: true,
-        title: "Luxury Tailoring & Shirts",
+        title: catNav,
         gender: category,
-        query: "Shirt",
-      });
-    } else if (offerType === "CLEARANCE") {
-      setDetailModal({
-        isOpen: true,
-        title: "Private Clearance (Up to 40% OFF)",
-        gender: category,
-        query: "",
-      });
-    } else if (offerType === "SNEAKERS") {
-      setDetailModal({
-        isOpen: true,
-        title: "The Vault: Sneakers & Streetwear",
-        gender: category,
-        query: "Sneaker",
+        query: catNav === "BAGS" ? "Bag" : "Accessory",
       });
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] flex justify-center text-[#141414] selection:bg-[#D4AF37]/20 selection:text-[#141414]">
-      <main className="w-full max-w-6xl min-h-screen bg-[#FAF9F6] relative flex flex-col pb-24 overflow-x-hidden">
+    <div className="min-h-screen bg-[#FDFCFA] text-[#171615] selection:bg-[#9E6738]/20 selection:text-[#171615] flex flex-col items-center">
+      <main className="w-full min-h-screen bg-[#FDFCFA] relative flex flex-col pb-20">
         
-        {/* SLIDE 1: The Magazine Hero (Height: 92vh) */}
+        {/* 1. Minimal Header Bar (<Header />) */}
+        <Header
+          onSelectCategory={handleCategoryNav}
+          onOpenStylist={() => setIsAIStylistOpen(true)}
+          onOpenSearch={() => setIsSearchOpen(true)}
+        />
+
+        {/* 2. Editorial Hero Billboard (<Hero />) */}
         <Hero
           onSelectGender={(g) => setCategory(g)}
-          onExplore={() => {
-            const el = document.getElementById("curated-drops");
-            if (el) el.scrollIntoView({ behavior: "smooth" });
+        />
+
+        {/* 3. Categories Quick-Strip (<CategoryStrip />) */}
+        <CategoryStrip
+          category={category}
+          onSelectCategory={(query) => {
+            setDetailModal({
+              isOpen: true,
+              title: `${query} Selection`,
+              gender: category,
+              query,
+            });
           }}
         />
 
-        {/* Minimal Brand Ribbon */}
-        <div className="my-2">
-          <BrandStrip />
-        </div>
-
-        {/* Master Floating Gender Tab */}
-        <div className="my-6 flex justify-center px-4">
-          <div className="flex w-full max-w-sm items-center justify-between rounded-full border border-neutral-200/80 bg-white p-1.5 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-            {(["MEN", "WOMEN", "KIDS"] as Category[]).map((cat) => (
+        {/* 4. Master Gender Selector Bar */}
+        <div className="my-8 flex justify-center px-4">
+          <div className="flex w-full max-w-xs items-center justify-between rounded-full border border-black/[0.08] bg-[#F5F3EF] p-1.5 shadow-sm">
+            {(["MEN", "WOMEN"] as Category[]).map((cat) => (
               <button
                 key={cat}
                 onClick={() => setCategory(cat)}
-                className={`relative flex min-h-[40px] flex-1 items-center justify-center rounded-full px-4 py-1.5 text-xs font-extrabold tracking-wider transition-all duration-300 cursor-pointer ${
+                className={`relative flex min-h-[38px] flex-1 items-center justify-center rounded-full px-4 py-1.5 text-xs font-semibold tracking-wider transition-all duration-300 cursor-pointer ${
                   category === cat
-                    ? "bg-[#18181B] text-white shadow-md font-extrabold"
-                    : "text-[#64748B] hover:text-[#18181B]"
+                    ? "bg-[#171615] text-[#FDFCFA] shadow-sm font-bold"
+                    : "text-[#7A7570] hover:text-[#171615]"
                 }`}
               >
-                {cat}
+                {cat === "MEN" ? "FOR HIM" : "FOR HER"}
               </button>
             ))}
           </div>
         </div>
 
-        {/* 1. Special Offers Cards */}
-        <SpecialOffers onSelectOffer={handleSelectSpecialOffer} />
-
-        {/* Visual Category Grid */}
-        <CategoryAvatars
+        {/* 5. Structured Categories & Offers Grid (<PrivilegeEdits />) Reimagined Bento Grid */}
+        <PrivilegeEdits
           category={category}
-          onSelectSubCategory={(genderCat, subCat) => {
-            setDetailModal({
-              isOpen: true,
-              title: subCat.name,
-              gender: genderCat,
-              query: subCat.query,
-            });
+          onSelectOffer={handleSelectOfferQuery}
+          onApplyPrivilege={() => {
+            // privilege code auto-applied
           }}
         />
+
+        {/* 6. Local Trust & Concierge (<ValueProps />) */}
+        <ValueProps />
 
         {/* Runway & New Arrivals Lookbook Showcase */}
         <FeaturedDeck
@@ -166,9 +170,6 @@ function Index() {
           onCategoryChange={setCategory}
           onQuickView={setQuickViewProduct}
         />
-
-        {/* Store Trust Ribbon */}
-        <StoreFeatures />
 
         {/* Outfit Studio Banner */}
         <OutfitBuilderBanner onOpenStudio={() => setIsOutfitStudioOpen(true)} />
@@ -195,16 +196,16 @@ function Index() {
         {/* Client Reviews */}
         <ReviewsSection />
 
-        {/* SLIDE 4: VIP Concierge & Flagship Trust */}
+        {/* VIP Concierge & Flagship Trust */}
         <Contact />
 
-        {/* Footer */}
+        {/* 7. Editorial Footer (<Footer />) */}
         <Footer />
         
-        {/* Mobile-First Floating Glass Navigation Dock with Gold Active Indicator */}
-        <BottomNavBar
-          onOpenSpinWheel={() => setIsSpinWheelOpen(true)}
-          onOpenAIStylist={() => setIsAIStylistOpen(true)}
+        {/* 8. Floating Bottom Navigation Dock (<Dock />) */}
+        <Dock
+          onOpenCategoriesDrawer={() => setIsCategoryDrawerOpen(true)}
+          onOpenStylist={() => setIsAIStylistOpen(true)}
         />
 
         {/* Interactive Drawers & Modals */}
@@ -221,14 +222,27 @@ function Index() {
           isOpen={isOutfitStudioOpen}
           onClose={() => setIsOutfitStudioOpen(false)}
         />
-        <SpinWheelModal
-          isOpen={isSpinWheelOpen}
-          onClose={() => setIsSpinWheelOpen(false)}
-        />
         <AIStyleAssistant
           isOpen={isAIStylistOpen}
           onClose={() => setIsAIStylistOpen(false)}
           onQuickView={setQuickViewProduct}
+        />
+        <CategoryDrawer
+          isOpen={isCategoryDrawerOpen}
+          onClose={() => setIsCategoryDrawerOpen(false)}
+          onSelectSubCategory={(title, query) => {
+            setDetailModal({
+              isOpen: true,
+              title,
+              gender: category,
+              query,
+            });
+          }}
+        />
+        <SearchModal
+          isOpen={isSearchOpen}
+          onClose={() => setIsSearchOpen(false)}
+          onSelectProduct={(product) => setQuickViewProduct(product)}
         />
 
         {/* Sub-Category Detail View Modal */}
