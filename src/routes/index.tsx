@@ -105,8 +105,8 @@ function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFCFA] text-[#171615] selection:bg-[#9E6738]/20 selection:text-[#171615] flex flex-col items-center">
-      <main className="w-full min-h-screen bg-[#FDFCFA] relative flex flex-col pb-20">
+    <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-[#FDFCFA] text-[#171615] selection:bg-[#9E6738]/20 selection:text-[#171615] flex flex-col items-center">
+      <main className="w-full max-w-[100vw] overflow-x-hidden min-h-screen bg-[#FDFCFA] relative flex flex-col pb-20">
         
         {/* 1. Minimal Header Bar (<Header />) */}
         <Header
@@ -120,45 +120,10 @@ function Index() {
           onSelectGender={(g) => setCategory(g)}
         />
 
-        {/* 3. Categories Quick-Strip (<CategoryStrip />) */}
-        <CategoryStrip
-          category={category}
-          onSelectCategory={(query) => {
-            setDetailModal({
-              isOpen: true,
-              title: `${query} Selection`,
-              gender: category,
-              query,
-            });
-          }}
-        />
-
-        {/* 4. Master Gender Selector Bar */}
-        <div className="my-8 flex justify-center px-4">
-          <div className="flex w-full max-w-xs items-center justify-between rounded-full border border-black/[0.08] bg-[#F5F3EF] p-1.5 shadow-sm">
-            {(["MEN", "WOMEN"] as Category[]).map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setCategory(cat)}
-                className={`relative flex min-h-[38px] flex-1 items-center justify-center rounded-full px-4 py-1.5 text-xs font-semibold tracking-wider transition-all duration-300 cursor-pointer ${
-                  category === cat
-                    ? "bg-[#171615] text-[#FDFCFA] shadow-sm font-bold"
-                    : "text-[#7A7570] hover:text-[#171615]"
-                }`}
-              >
-                {cat === "MEN" ? "FOR HIM" : "FOR HER"}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* 5. Structured Categories & Offers Grid (<PrivilegeEdits />) Reimagined Bento Grid */}
+        {/* 3. The Unified Editorial Lookbook (Quiet Tailoring & Craft) */}
         <PrivilegeEdits
-          category={category}
           onSelectOffer={handleSelectOfferQuery}
-          onApplyPrivilege={() => {
-            // privilege code auto-applied
-          }}
+          onOpenStylist={() => setIsAIStylistOpen(true)}
         />
 
         {/* 6. Local Trust & Concierge (<ValueProps />) */}
