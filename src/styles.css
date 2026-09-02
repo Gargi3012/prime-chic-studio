@@ -39,33 +39,34 @@
 :root {
   --radius: 0.75rem;
   
-  /* Quiet Luxury Tokens */
-  --background: #FDFCFA; /* Canvas Base (Warm Silk White) */
-  --foreground: #171615; /* Primary Text / Solids (Deep Espresso Onyx) */
-  --card: #FFFFFF;
-  --card-foreground: #171615;
-  --popover: #FFFFFF;
-  --popover-foreground: #171615;
+  /* Opulent Haute-Couture Luxury Palette */
+  --background: #FAF8F5; /* Canvas Base (Warm Silk Linen) */
+  --foreground: #181614; /* Headings & Solids (Deep Espresso Onyx) */
+  --card: #F2EEE9;       /* Card Surfaces */
+  --card-foreground: #181614;
+  --popover: #FAF8F5;
+  --popover-foreground: #181614;
   
-  --primary: #171615;
-  --primary-foreground: #FDFCFA;
-  --secondary: #F5F3EF; /* Secondary Surfaces (Soft Linen Ivory) */
-  --secondary-foreground: #171615;
+  --primary: #181614;
+  --primary-foreground: #FAF8F5;
+  --secondary: #F2EEE9;
+  --secondary-foreground: #181614;
   
-  --muted: #F5F3EF;
-  --muted-foreground: #7A7570;
-  --accent: #9E6738; /* Accent (Saddle Cognac Leather) */
+  --muted: #F2EEE9;
+  --muted-foreground: #6E6963; /* Warm Slate Taupe Body Text */
+  --accent: #9E6738;          /* Antique Cognac */
+  --accent-gold: #C5A880;     /* Warm Gold */
   --accent-foreground: #FFFFFF;
   
   --destructive: #800020;
   --destructive-foreground: #FFFFFF;
   
-  --border: rgba(23, 22, 21, 0.08);
-  --input: #F5F3EF;
+  --border: #E5DFD7;          /* Delicate Hairline Border */
+  --input: #F2EEE9;
   --ring: #9E6738;
   
-  --shadow-luxury: 0 10px 30px -5px rgba(23, 22, 21, 0.05), 0 1px 3px rgba(23, 22, 21, 0.02);
-  --shadow-luxury-lg: 0 20px 50px -10px rgba(23, 22, 21, 0.09);
+  --shadow-luxury: 0 10px 30px -5px rgba(24, 22, 20, 0.05), 0 1px 3px rgba(24, 22, 20, 0.02);
+  --shadow-luxury-lg: 0 25px 60px -15px rgba(24, 22, 20, 0.07);
   --ease-lux: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -76,11 +77,11 @@
 
   html {
     scroll-behavior: smooth;
-    background-color: #FDFCFA;
+    background-color: #FAF8F5;
   }
 
   body {
-    background-color: #FDFCFA;
+    background-color: #FAF8F5;
     color: var(--color-foreground);
     font-family: var(--font-sans);
     letter-spacing: -0.01em;
@@ -98,17 +99,17 @@
 }
 
 @utility glass-frosted {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(250, 248, 245, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid #E5DFD7;
 }
 
 @utility glass-dock {
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(250, 248, 245, 0.9);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid #E5DFD7;
 }
 
 @utility shadow-luxury {

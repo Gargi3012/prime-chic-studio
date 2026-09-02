@@ -159,7 +159,7 @@ export function OutfitStudioModal({
           {/* Category Selector */}
           <div className="mb-5 flex justify-center">
             <div className="flex gap-1 rounded-full border border-black/[0.06] bg-[#FAF9F6] p-1 shadow-xs">
-              {(["MEN", "WOMEN", "KIDS"] as Category[]).map((cat) => (
+              {(["MEN", "WOMEN"] as Category[]).map((cat) => (
                 <button
                   key={cat}
                   onClick={() => handleCategoryChange(cat)}

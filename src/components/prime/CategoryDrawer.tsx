@@ -33,7 +33,7 @@ const CATEGORY_GROUPS = [
   {
     title: "CURATED PRIVILEGE EDITS",
     items: [
-      { label: "The Vault: Limited Sneakers (Up to 50% Off)", query: "Sneaker" },
+      { label: "The Vault: Limited Sneakers", query: "Sneaker" },
       { label: "Italian Wool Tailoring Clearance", query: "Blazer" },
       { label: "Leathercraft & Designer Totes", query: "Bag" },
     ],
