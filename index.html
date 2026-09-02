@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>PRIME CHIC STUDIO | Modern Clothing & Timeless Essentials</title>
+  
+  <!-- Google Fonts: Cormorant Garamond & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ecru: {
+              bone: '#F7F4EE',
+              sand: '#EBE3D5',
+              taupe: '#D6CCC2',
+              cashmere: '#C5B9AC',
+              mocha: '#2C221E',
+              umber: '#1A1412',
+              linen: '#7A7067'
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+    .glass-pill {
+      background: rgba(247, 244, 238, 0.90);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(214, 204, 194, 0.65);
+    }
+    .arch-frame {
+      border-radius: 90px 90px 20px 20px;
+    }
+    @media (min-width: 768px) {
+      .arch-frame {
+        border-radius: 140px 140px 24px 24px;
+      }
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .bottom-sheet-transition {
+      transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.25s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeIn 0.35s ease forwards;
+    }
+  </style>
+</head>
+<body class="bg-ecru-bone text-ecru-mocha font-sans antialiased selection:bg-ecru-mocha selection:text-ecru-bone pb-20 md:pb-0">
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed top-4 inset-x-4 max-w-sm mx-auto z-50 transform translate-y-[-100px] opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="glass-pill px-4 py-3 rounded-2xl shadow-xl border border-ecru-taupe flex items-center space-x-3 text-xs font-semibold text-ecru-mocha">
+      <span class="text-base" id="toast-icon">✨</span>
+      <span id="toast-message" class="flex-1">Item added to your bag.</span>
+    </div>
+  </div>
+
+  <!-- Announcement Bar -->
+  <aside aria-label="Announcement" class="bg-ecru-mocha text-ecru-bone py-1.5 px-3 text-center text-[10px] sm:text-[11px] font-medium tracking-widest uppercase">
+    Free Express Delivery Above ₹1,999 • Cash on Delivery & Easy 7-Day Returns
+  </aside>
+
+  <!-- Mobile Top Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-ecru-bone/90 backdrop-blur-md border-b border-ecru-taupe/40 px-4 py-3">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      
+      <!-- Left: Mobile Hamburger / Desktop Links -->
+      <div class="flex items-center space-x-3">
+        <button onclick="toggleMobileMenu()" class="p-1.5 -ml-1.5 text-ecru-mocha hover:text-ecru-linen transition md:hidden" aria-label="Open Navigation Menu">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+          </svg>
+        </button>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center space-x-7 text-xs font-semibold uppercase tracking-widest text-ecru-linen ml-2">
+          <a href="#categories" class="hover:text-ecru-mocha transition">Categories</a>
+          <a href="#collection" class="hover:text-ecru-mocha transition">New Arrivals</a>
+          <a href="#craft" class="hover:text-ecru-mocha transition">Our Quality</a>
+          <a href="#lookbook" class="hover:text-ecru-mocha transition">Lookbook</a>
+        </nav>
+      </div>
+
+      <!-- Center: Brand Wordmark -->
+      <a href="#" class="font-serif text-2xl sm:text-3xl font-semibold tracking-widest uppercase text-ecru-mocha">
+        PRIME CHIC STUDIO
+      </a>
+
+      <!-- Right: Currency / Desktop Actions -->
+      <div class="flex items-center space-x-3 text-xs">
+        <button onclick="showToast('Currency: Indian Rupee (₹)', '🇮🇳')" class="px-2 py-1 rounded-full border border-ecru-taupe text-[10px] font-bold tracking-wider text-ecru-mocha hover:bg-ecru-sand/60 transition">
+          INR ₹
+        </button>
+
+        <!-- Desktop Action Icons -->
+        <div class="hidden md:flex items-center space-x-3 pl-2">
+          <button onclick="toggleSearch()" class="hover:text-ecru-linen transition p-1" title="Search">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </button>
+          <button onclick="toggleWishlistModal()" class="hover:text-ecru-linen transition relative p-1" title="Wishlist">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+            <span id="desktop-wishlist-badge" class="hidden absolute -top-1 -right-1 bg-ecru-mocha text-ecru-bone text-[9px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold">0</span>
+          </button>
+          <button onclick="toggleCartDrawer()" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-ecru-mocha hover:bg-ecru-umber text-ecru-bone text-xs font-semibold tracking-wider transition">
+            <span>Bag</span>
+            <span id="desktop-cart-count" class="bg-ecru-sand text-ecru-mocha text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Mobile Menu Drawer -->
+  <div id="mobile-menu-drawer" class="fixed inset-0 z-50 transform -translate-x-full transition-transform duration-300 pointer-events-none">
+    <div id="mobile-menu-backdrop" onclick="toggleMobileMenu()" class="absolute inset-0 bg-black/40 backdrop-blur-xs opacity-0 transition-opacity duration-300"></div>
+    <div class="absolute left-0 top-0 bottom-0 w-4/5 max-w-xs bg-ecru-bone shadow-2xl p-6 flex flex-col justify-between overflow-y-auto pointer-events-auto border-r border-ecru-taupe">
+      <div class="space-y-6">
+        <div class="flex justify-between items-center pb-4 border-b border-ecru-sand">
+          <span class="font-serif text-lg tracking-widest font-semibold uppercase">PRIME CHIC STUDIO</span>
+          <button onclick="toggleMobileMenu()" class="text-xl p-1 text-ecru-mocha">✕</button>
+        </div>
+
+        <nav class="space-y-4 text-sm font-semibold tracking-wider uppercase">
+          <a href="#categories" onclick="toggleMobileMenu()" class="block py-1 hover:text-ecru-linen">Shop by Category</a>
+          <a href="#collection" onclick="toggleMobileMenu()" class="block py-1 hover:text-ecru-linen">New Arrivals 2026</a>
+          <a href="#craft" onclick="toggleMobileMenu()" class="block py-1 hover:text-ecru-linen">Our Quality & Fabric</a>
+          <a href="#lookbook" onclick="toggleMobileMenu()" class="block py-1 hover:text-ecru-linen">Style Inspiration</a>
+          <a href="#reviews" onclick="toggleMobileMenu()" class="block py-1 hover:text-ecru-linen">Customer Reviews</a>
+        </nav>
+
+        <div class="pt-6 border-t border-ecru-sand space-y-2">
+          <p class="text-[10px] uppercase tracking-widest font-bold text-ecru-linen">Our Quality Promise</p>
+          <p class="text-xs text-ecru-mocha leading-relaxed">
+            100% pure linen, premium soft cotton, and long-lasting stitching made for comfort.
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-6 border-t border-ecru-sand text-[11px] text-ecru-linen space-y-1">
+        <p>Doorstep Express Delivery Across India</p>
+        <p class="font-semibold text-ecru-mocha">&copy; 2026 PRIME CHIC STUDIO</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Section (Single Screen Above the Fold) -->
+  <section class="relative min-h-[calc(100vh-4rem)] max-h-[860px] flex items-center py-2 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden">
+    <!-- Big Faint Background Watermark -->
+    <div class="absolute top-2 left-1/2 -translate-x-1/2 text-[70px] sm:text-[110px] md:text-[160px] font-serif font-light text-ecru-sand/30 select-none pointer-events-none -z-10 leading-none tracking-widest uppercase">
+      PRIME CHIC
+    </div>
+
+    <!-- Mobile & Desktop Balanced Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 items-center w-full">
+      
+      <!-- Hero Card with Image 1 (hero-model.jpg | 4:3 Arch) -->
+      <div class="md:col-span-6 md:order-2 relative flex justify-center">
+        <div class="max-h-[48vh] sm:max-h-[58vh] lg:max-h-[68vh] aspect-[3/4] w-auto mx-auto arch-frame overflow-hidden bg-ecru-sand shadow-xl border-2 sm:border-4 border-white">
+          <img src="images/hero-model.jpg" 
+               alt="Tailored Sand Blazer Model" 
+               class="w-full h-full object-cover" />
+        </div>
+        
+        <!-- Floating Tag -->
+        <div class="absolute bottom-2 right-2 sm:right-6 glass-pill px-3 py-1.5 rounded-xl shadow-md flex items-center space-x-2 text-ecru-mocha">
+          <span class="text-xs sm:text-sm">🌿</span>
+          <div>
+            <p class="text-[8px] sm:text-[9px] uppercase font-bold tracking-wider leading-none">100% Pure Linen</p>
+            <p class="text-[9px] sm:text-[10px] text-ecru-linen font-medium leading-tight">Premium Quality</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Headline & Primary CTA -->
+      <div class="md:col-span-6 md:order-1 space-y-3 sm:space-y-4 text-center md:text-left">
+        <div class="inline-flex items-center space-x-2 px-3 py-0.5 sm:py-1 rounded-full bg-ecru-sand/70 text-ecru-mocha text-[9px] sm:text-[10px] font-bold uppercase tracking-widest">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-700 animate-pulse"></span>
+          <span>New Season 2026 Collection</span>
+        </div>
+        
+        <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light leading-[1.08] text-ecru-mocha">
+          Elevate Your Style,<br />
+          <span class="italic font-normal">Express Your You.</span>
+        </h1>
+        
+        <p class="text-ecru-linen text-xs sm:text-sm leading-relaxed max-w-md mx-auto md:mx-0 font-light">
+          Timeless fashion and everyday modern essentials made with premium, breathable fabrics. Simple, comfortable, and elegant.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex items-center justify-center md:justify-start gap-2.5 sm:gap-3 pt-0.5">
+          <a href="#collection" class="px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-ecru-mocha hover:bg-ecru-umber text-ecru-bone text-[11px] sm:text-xs font-semibold uppercase tracking-widest transition shadow-md hover:shadow-lg">
+            Shop Collection →
+          </a>
+          <a href="#lookbook" class="px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-white/90 hover:bg-white text-ecru-mocha border border-ecru-taupe text-[11px] sm:text-xs font-semibold uppercase tracking-widest transition">
+            View Looks
+          </a>
+        </div>
+
+        <!-- Social Proof Avatars -->
+        <div class="flex items-center justify-center md:justify-start space-x-2.5 pt-1">
+          <div class="flex -space-x-2">
+            <img src="images/avatar-1.jpg" alt="Ayesha Khan" class="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-white object-cover shadow-xs" />
+            <img src="images/avatar-2.jpg" alt="Rohan Verma" class="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-white object-cover shadow-xs" />
+          </div>
+          <p class="text-[10px] sm:text-[11px] font-medium text-ecru-mocha">
+            <span class="font-bold">40,000+</span> happy customers across India
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Value Propositions Banner -->
+  <section class="py-4 bg-ecru-sand/40 border-y border-ecru-sand/70">
+    <div class="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+      <div class="flex flex-col items-center">
+        <span class="text-base">✦</span>
+        <h4 class="font-serif text-xs font-semibold mt-0.5">Premium Fabric</h4>
+        <p class="text-[10px] text-ecru-linen">100% Pure & Breathable</p>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="text-base">↺</span>
+        <h4 class="font-serif text-xs font-semibold mt-0.5">7-Day Easy Returns</h4>
+        <p class="text-[10px] text-ecru-linen">Doorstep Pickup</p>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="text-base">✈</span>
+        <h4 class="font-serif text-xs font-semibold mt-0.5">Fast Delivery</h4>
+        <p class="text-[10px] text-ecru-linen">Shipped in 24 Hours</p>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="text-base">🔒</span>
+        <h4 class="font-serif text-xs font-semibold mt-0.5">Cash on Delivery</h4>
+        <p class="text-[10px] text-ecru-linen">UPI, Cards & Netbanking</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Shop by Category (Interactive Cards with Two-Way Linking) -->
+  <section id="categories" class="py-12 px-4 max-w-6xl mx-auto">
+    <div class="flex items-end justify-between mb-4">
+      <div>
+        <span class="text-[10px] uppercase tracking-widest font-bold text-ecru-linen">Explore</span>
+        <h2 class="font-serif text-2xl sm:text-3xl text-ecru-mocha">Shop by Category</h2>
+      </div>
+      <span class="text-[11px] text-ecru-linen md:hidden font-medium">Swipe →</span>
+    </div>
+
+    <!-- Mobile Touch-Swipe / Desktop Grid -->
+    <div class="flex overflow-x-auto snap-x snap-mandatory gap-3.5 pb-2 hide-scrollbar md:grid md:grid-cols-4 md:gap-6">
+      
+      <!-- Category 1: Women -->
+      <div onclick="selectCategoryFromCard('women')" class="cursor-pointer min-w-[150px] sm:min-w-[200px] md:min-w-0 snap-start group block bg-white p-3 rounded-2xl border border-ecru-sand shadow-xs hover:shadow-md transition">
+        <div class="aspect-square rounded-xl overflow-hidden bg-ecru-sand mb-2.5">
+          <img src="images/cat-women.jpg" 
+               alt="Women's Collection" 
+               class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+        </div>
+        <div class="flex justify-between items-center px-1">
+          <h3 class="font-serif text-base font-medium text-ecru-mocha">Women</h3>
+          <span class="text-xs text-ecru-linen group-hover:text-ecru-mocha">→</span>
+        </div>
+      </div>
+
+      <!-- Category 2: Men -->
+      <div onclick="selectCategoryFromCard('men')" class="cursor-pointer min-w-[150px] sm:min-w-[200px] md:min-w-0 snap-start group block bg-white p-3 rounded-2xl border border-ecru-sand shadow-xs hover:shadow-md transition">
+        <div class="aspect-square rounded-xl overflow-hidden bg-ecru-sand mb-2.5">
+          <img src="images/cat-men.jpg" 
+               alt="Men's Collection" 
+               class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+        </div>
+        <div class="flex justify-between items-center px-1">
+          <h3 class="font-serif text-base font-medium text-ecru-mocha">Men</h3>
+          <span class="text-xs text-ecru-linen group-hover:text-ecru-mocha">→</span>
+        </div>
+      </div>
+
+      <!-- Category 3: Accessories -->
+      <div onclick="selectCategoryFromCard('accessories')" class="cursor-pointer min-w-[150px] sm:min-w-[200px] md:min-w-0 snap-start group block bg-white p-3 rounded-2xl border border-ecru-sand shadow-xs hover:shadow-md transition">
+        <div class="aspect-square rounded-xl overflow-hidden bg-ecru-sand mb-2.5">
+          <img src="images/cat-bags.jpg" 
+               alt="Handbags & Accessories" 
+               class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+        </div>
+        <div class="flex justify-between items-center px-1">
+          <h3 class="font-serif text-base font-medium text-ecru-mocha">Accessories</h3>
+          <span class="text-xs text-ecru-linen group-hover:text-ecru-mocha">→</span>
+        </div>
+      </div>
+
+      <!-- Category 4: Footwear -->
+      <div onclick="selectCategoryFromCard('footwear')" class="cursor-pointer min-w-[150px] sm:min-w-[200px] md:min-w-0 snap-start group block bg-white p-3 rounded-2xl border border-ecru-sand shadow-xs hover:shadow-md transition">
+        <div class="aspect-square rounded-xl overflow-hidden bg-ecru-sand mb-2.5">
+          <img src="images/cat-shoes.jpg" 
+               alt="Footwear Collection" 
+               class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+        </div>
+        <div class="flex justify-between items-center px-1">
+          <h3 class="font-serif text-base font-medium text-ecru-mocha">Footwear</h3>
+          <span class="text-xs text-ecru-linen group-hover:text-ecru-mocha">→</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 2. Dynamic Tab Filtering & Product Grid (16 Products) -->
+  <section id="collection" class="py-10 px-4 max-w-6xl mx-auto scroll-mt-16">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-6">
+      <div>
+        <span class="text-[10px] uppercase tracking-widest font-bold text-ecru-linen">Trending Now</span>
+        <h2 class="font-serif text-2xl sm:text-3xl text-ecru-mocha" id="collection-heading">Featured Collection</h2>
+      </div>
+
+      <!-- Dynamic Tab Filter Pills -->
+      <div class="flex space-x-2 mt-3 sm:mt-0 overflow-x-auto pb-1 hide-scrollbar">
+        <button onclick="filterTab('all', this)" class="tab-btn px-3.5 py-1.5 rounded-full bg-ecru-mocha text-ecru-bone text-[11px] font-semibold tracking-wider uppercase transition">All</button>
+        <button onclick="filterTab('women', this)" class="tab-btn px-3.5 py-1.5 rounded-full bg-ecru-sand/60 text-ecru-mocha text-[11px] font-semibold tracking-wider uppercase hover:bg-ecru-sand transition">Women</button>
+        <button onclick="filterTab('men', this)" class="tab-btn px-3.5 py-1.5 rounded-full bg-ecru-sand/60 text-ecru-mocha text-[11px] font-semibold tracking-wider uppercase hover:bg-ecru-sand transition">Men</button>
+        <button onclick="filterTab('accessories', this)" class="tab-btn px-3.5 py-1.5 rounded-full bg-ecru-sand/60 text-ecru-mocha text-[11px] font-semibold tracking-wider uppercase hover:bg-ecru-sand transition">Accessories</button>
+        <button onclick="filterTab('footwear', this)" class="tab-btn px-3.5 py-1.5 rounded-full bg-ecru-sand/60 text-ecru-mocha text-[11px] font-semibold tracking-wider uppercase hover:bg-ecru-sand transition">Footwear</button>
+      </div>
+    </div>
+
+    <!-- Dynamic 2-Column Mobile / 4-Column Desktop Product Feed -->
+    <div id="product-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 min-h-[420px]">
+      <!-- Populated dynamically via JS renderProducts() -->
+    </div>
+  </section>
+
+  <!-- Quality & Craft Section -->
+  <section id="craft" class="py-16 bg-ecru-mocha text-ecru-bone px-4">
+    <div class="max-w-6xl mx-auto space-y-12">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        <!-- Showroom Rack -->
+        <div class="md:col-span-7">
+          <div class="rounded-2xl sm:rounded-3xl overflow-hidden border border-white/20 aspect-[16/9] shadow-xl">
+            <img src="images/showroom-rack.jpg" 
+                 alt="Showroom Rack" 
+                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-out" />
+          </div>
+        </div>
+
+        <!-- Copy -->
+        <div class="md:col-span-5 space-y-4">
+          <span class="text-[10px] uppercase tracking-widest font-semibold text-ecru-sand">Our Quality & Craft</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-light leading-snug">
+            Made to Last.<br />
+            <span class="italic font-normal">Designed for Everyday Comfort.</span>
+          </h2>
+          <p class="text-ecru-sand/80 text-xs sm:text-sm leading-relaxed font-light">
+            We believe in honest, high-quality clothing. Every outfit is made from breathable natural fabrics, stitched with precision, and made to look great for years.
+          </p>
+
+          <div class="grid grid-cols-3 gap-2 pt-1 text-center">
+            <div class="p-2.5 rounded-xl bg-white/5 border border-white/10">
+              <span class="text-sm">🌿</span>
+              <h4 class="font-serif text-xs font-semibold mt-0.5">100% Pure</h4>
+              <p class="text-[9px] text-ecru-sand/70">Natural fabrics</p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-white/5 border border-white/10">
+              <span class="text-sm">✂</span>
+              <h4 class="font-serif text-xs font-semibold mt-0.5">Tailored Fit</h4>
+              <p class="text-[9px] text-ecru-sand/70">Clean stitching</p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-white/5 border border-white/10">
+              <span class="text-sm">♾</span>
+              <h4 class="font-serif text-xs font-semibold mt-0.5">Easy Care</h4>
+              <p class="text-[9px] text-ecru-sand/70">Long lasting</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tactile Fabric Card -->
+      <div class="bg-white/5 border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+        <div class="md:col-span-4 aspect-square rounded-xl sm:rounded-2xl overflow-hidden border border-white/10 max-w-[240px] mx-auto md:max-w-none">
+          <img src="images/fabric-macro.jpg" 
+               alt="Pure Linen & Silk Fabric" 
+               class="w-full h-full object-cover" />
+        </div>
+        <div class="md:col-span-8 space-y-2.5 text-center md:text-left">
+          <span class="text-[9px] uppercase font-bold tracking-widest text-ecru-sand">Fabric & Comfort</span>
+          <h3 class="font-serif text-xl sm:text-2xl font-light text-ecru-bone">Pure Organic Linen & Lightweight Silk</h3>
+          <p class="text-xs text-ecru-sand/80 leading-relaxed font-light">
+            Our fabrics are chosen specifically for maximum breathability and skin comfort. Soft, lightweight, and perfect for the Indian climate all year round.
+          </p>
+          <div class="flex flex-wrap justify-center md:justify-start gap-4 pt-1 text-[11px] text-ecru-sand/90 font-medium">
+            <span>• 100% Breathable</span>
+            <span>• Soft on Skin</span>
+            <span>• All-Weather Comfort</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Style Lookbook (Images 4 & 2: lookbook-street.jpg, hero-men.jpg | 4:3) -->
+  <section id="lookbook" class="py-14 px-4 max-w-6xl mx-auto">
+    <div class="text-center max-w-md mx-auto mb-8">
+      <span class="text-[10px] uppercase tracking-widest font-bold text-ecru-linen">Style Inspiration</span>
+      <h2 class="font-serif text-2xl sm:text-3xl text-ecru-mocha mt-0.5">Everyday City Looks</h2>
+      <p class="text-xs text-ecru-linen mt-1 font-light">Real styles curated for work, travel, and casual outings.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Lookbook 1 (lookbook-street.jpg | 4:3) -->
+      <div class="rounded-2xl sm:rounded-3xl overflow-hidden bg-ecru-sand aspect-[4/3] shadow-md border border-ecru-sand relative group">
+        <img src="images/lookbook-street.jpg" alt="Classic Street Style" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
+        <div class="absolute bottom-3 left-3 glass-pill px-3 py-1.5 rounded-lg text-[10px] font-semibold text-ecru-mocha">
+          Look 01 · Classic Street Style
+        </div>
+      </div>
+
+      <!-- Lookbook 2 (hero-men.jpg | 4:3) -->
+      <div class="rounded-2xl sm:rounded-3xl overflow-hidden bg-ecru-sand aspect-[4/3] shadow-md border border-ecru-sand relative group">
+        <img src="images/hero-men.jpg" alt="Smart Casual Tailoring" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
+        <div class="absolute bottom-3 left-3 glass-pill px-3 py-1.5 rounded-lg text-[10px] font-semibold text-ecru-mocha">
+          Look 02 · Smart Casual Wear
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Customer Reviews (Images 14 & 15: avatar-1.jpg, avatar-2.jpg) -->
+  <section id="reviews" class="py-12 px-4 max-w-6xl mx-auto bg-ecru-sand/30 rounded-2xl sm:rounded-3xl border border-ecru-sand mb-16">
+    <div class="text-center max-w-xs mx-auto mb-8">
+      <span class="text-[10px] uppercase tracking-widest font-bold text-ecru-linen">Customer Reviews</span>
+      <h2 class="font-serif text-2xl text-ecru-mocha">What Our Buyers Say</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Avatar 1 -->
+      <div class="bg-white p-4 sm:p-5 rounded-xl sm:rounded-2xl border border-ecru-sand shadow-xs space-y-2.5">
+        <div class="flex items-center space-x-3">
+          <img src="images/avatar-1.jpg" alt="Ayesha Khan" class="w-10 h-10 rounded-full object-cover border border-ecru-taupe" />
+          <div>
+            <h4 class="font-medium text-xs text-ecru-mocha">Ayesha K., Mumbai</h4>
+            <div class="text-[10px] text-amber-700 font-bold">★★★★★ Verified Customer</div>
+          </div>
+        </div>
+        <p class="text-xs text-ecru-linen leading-relaxed italic font-light">
+          "The Oat Linen Trench looks and feels super premium. The fabric drape and stitching are top notch. Worth every rupee!"
+        </p>
+      </div>
+
+      <!-- Avatar 2 -->
+      <div class="bg-white p-4 sm:p-5 rounded-xl sm:rounded-2xl border border-ecru-sand shadow-xs space-y-2.5">
+        <div class="flex items-center space-x-3">
+          <img src="images/avatar-2.jpg" alt="Rohan Verma" class="w-10 h-10 rounded-full object-cover border border-ecru-taupe" />
+          <div>
+            <h4 class="font-medium text-xs text-ecru-mocha">Rohan V., New Delhi</h4>
+            <div class="text-[10px] text-amber-700 font-bold">★★★★★ Verified Customer</div>
+          </div>
+        </div>
+        <p class="text-xs text-ecru-linen leading-relaxed italic font-light">
+          "Loved the relaxed linen shirt! Fits perfectly on the shoulders and is very comfortable for daily office wear. Delivery was fast too."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-ecru-mocha text-ecru-bone pt-12 pb-24 md:pb-12 px-4">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="space-y-2">
+        <h4 class="font-serif text-2xl uppercase tracking-widest font-semibold">PRIME CHIC STUDIO</h4>
+        <p class="text-xs text-ecru-sand/80 leading-relaxed font-light">
+          Modern tailored clothing and everyday luxury essentials crafted for timeless style and effortless comfort.
+        </p>
+      </div>
+      <div>
+        <h5 class="text-xs uppercase tracking-wider font-semibold text-ecru-sand mb-2.5">Shop</h5>
+        <ul class="text-xs space-y-1.5 text-ecru-sand/80 font-light">
+          <li><a href="#collection" onclick="selectCategoryFromCard('women')" class="hover:text-white">Women's Collection</a></li>
+          <li><a href="#collection" onclick="selectCategoryFromCard('men')" class="hover:text-white">Men's Collection</a></li>
+          <li><a href="#collection" onclick="selectCategoryFromCard('accessories')" class="hover:text-white">Handbags & Accessories</a></li>
+          <li><a href="#collection" onclick="selectCategoryFromCard('footwear')" class="hover:text-white">Footwear Collection</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="text-xs uppercase tracking-wider font-semibold text-ecru-sand mb-2.5">Help & Info</h5>
+        <ul class="text-xs space-y-1.5 text-ecru-sand/80 font-light">
+          <li><a href="#craft" class="hover:text-white">Fabric & Care Guide</a></li>
+          <li><a href="#craft" class="hover:text-white">Quality Promise</a></li>
+          <li><a href="#" class="hover:text-white">7-Day Easy Returns</a></li>
+          <li><a href="#" class="hover:text-white">Track Your Order</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="text-xs uppercase tracking-wider font-semibold text-ecru-sand mb-2.5">Join Prime Chic VIP</h5>
+        <p class="text-xs text-ecru-sand/80 mb-2 font-light">Get 15% off your first order and early access to new launches.</p>
+        <form onsubmit="handleSubscribe(event)" class="flex">
+          <input type="email" required placeholder="Enter your email..." class="w-full px-3 py-2 text-xs rounded-l-xl bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none" />
+          <button type="submit" class="px-3.5 py-2 bg-ecru-sand text-ecru-mocha text-xs font-semibold uppercase rounded-r-xl hover:bg-white transition">
+            Join
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto border-t border-white/15 mt-8 pt-4 text-[10px] text-ecru-sand/60 flex flex-col sm:flex-row justify-between items-center space-y-1 sm:space-y-0 font-light">
+      <span>&copy; 2026 PRIME CHIC STUDIO Clothing Co. All rights reserved.</span>
+      <span>Handcrafted with Modern Elegance</span>
+    </div>
+  </footer>
+
+  <!-- Persistent Bottom App Bar (Mobile Viewports Only) -->
+  <nav class="fixed bottom-0 inset-x-0 z-50 h-16 bg-[#F7F4EE]/95 backdrop-blur-lg border-t border-[#D6CCC2]/60 flex items-center justify-around md:hidden px-2">
+    <!-- Home Tab -->
+    <a href="#" class="flex flex-col items-center justify-center w-14 h-full text-ecru-mocha hover:text-ecru-linen transition">
+      <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955a1.126 1.126 0 011.592 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+      </svg>
+      <span class="text-[9px] font-medium tracking-wider">Home</span>
+    </a>
+
+    <!-- Search Tab -->
+    <button onclick="toggleSearch()" class="flex flex-col items-center justify-center w-14 h-full text-ecru-mocha hover:text-ecru-linen transition">
+      <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+      </svg>
+      <span class="text-[9px] font-medium tracking-wider">Search</span>
+    </button>
+
+    <!-- Wishlist Tab -->
+    <button onclick="toggleWishlistModal()" class="flex flex-col items-center justify-center w-14 h-full text-ecru-mocha hover:text-ecru-linen transition relative">
+      <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+      </svg>
+      <span id="mobile-wishlist-badge" class="hidden absolute top-1.5 right-3 bg-ecru-mocha text-ecru-bone text-[8px] w-3 h-3 rounded-full flex items-center justify-center font-bold">0</span>
+      <span class="text-[9px] font-medium tracking-wider">Wishlist</span>
+    </button>
+
+    <!-- Bag Tab -->
+    <button onclick="toggleCartDrawer()" class="flex flex-col items-center justify-center w-14 h-full text-ecru-mocha hover:text-ecru-linen transition relative">
+      <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
+      </svg>
+      <span id="mobile-bottom-cart-badge" class="bg-ecru-mocha text-ecru-bone text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold absolute top-1 right-3">0</span>
+      <span class="text-[9px] font-medium tracking-wider">Bag</span>
+    </button>
+  </nav>
+
+  <!-- Slide-Up Size Selector (Bottom Sheet Modal) -->
+  <div id="size-sheet" class="fixed inset-0 z-50 transform translate-y-full opacity-0 pointer-events-none bottom-sheet-transition">
+    <div id="size-sheet-backdrop" onclick="closeSizeSheet()" class="absolute inset-0 bg-black/40 backdrop-blur-xs"></div>
+    <div class="absolute bottom-0 inset-x-0 bg-ecru-bone rounded-t-3xl p-6 shadow-2xl border-t border-ecru-taupe max-w-md mx-auto pointer-events-auto space-y-4">
+      
+      <!-- Drawer Drag Handle -->
+      <div class="w-10 h-1 bg-ecru-taupe rounded-full mx-auto -mt-2 mb-2"></div>
+
+      <div class="flex items-center space-x-3 pb-3 border-b border-ecru-sand">
+        <img id="sheet-prod-img" src="" alt="Product" class="w-16 h-16 rounded-xl object-cover bg-ecru-sand" />
+        <div class="flex-1 min-w-0">
+          <h4 id="sheet-prod-title" class="font-serif text-base font-medium text-ecru-mocha truncate"></h4>
+          <p id="sheet-prod-price" class="text-sm font-bold text-ecru-mocha mt-0.5"></p>
+        </div>
+        <button onclick="closeSizeSheet()" class="p-1 text-ecru-linen hover:text-ecru-mocha text-lg">✕</button>
+      </div>
+
+      <!-- Size Selection -->
+      <div class="space-y-2">
+        <label class="text-[10px] uppercase font-bold tracking-widest text-ecru-linen">Select Your Size:</label>
+        <div class="grid grid-cols-5 gap-2" id="sheet-size-pills">
+          <button onclick="pickSheetSize(this)" class="sheet-size-btn py-2.5 rounded-xl border border-ecru-taupe text-xs font-semibold hover:bg-ecru-sand transition text-center">XS</button>
+          <button onclick="pickSheetSize(this)" class="sheet-size-btn py-2.5 rounded-xl border border-ecru-mocha bg-ecru-mocha text-white text-xs font-semibold transition text-center">S</button>
+          <button onclick="pickSheetSize(this)" class="sheet-size-btn py-2.5 rounded-xl border border-ecru-taupe text-xs font-semibold hover:bg-ecru-sand transition text-center">M</button>
+          <button onclick="pickSheetSize(this)" class="sheet-size-btn py-2.5 rounded-xl border border-ecru-taupe text-xs font-semibold hover:bg-ecru-sand transition text-center">L</button>
+          <button onclick="pickSheetSize(this)" class="sheet-size-btn py-2.5 rounded-xl border border-ecru-taupe text-xs font-semibold hover:bg-ecru-sand transition text-center">XL</button>
+        </div>
+      </div>
+
+      <!-- Add to Bag Button -->
+      <button onclick="confirmAddToBag()" class="w-full py-3.5 rounded-xl bg-ecru-mocha hover:bg-ecru-umber text-white text-xs font-semibold uppercase tracking-widest shadow-md transition flex items-center justify-center space-x-2">
+        <span>Confirm & Add to Bag</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Shopping Bag Sliding Drawer -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 transform translate-x-full transition-transform duration-300 pointer-events-none">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-xs opacity-0 transition-opacity duration-300" id="cart-backdrop" onclick="toggleCartDrawer()"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-ecru-bone shadow-2xl flex flex-col justify-between p-6 overflow-y-auto pointer-events-auto border-l border-ecru-taupe">
+      <div>
+        <div class="flex justify-between items-center pb-4 border-b border-ecru-sand">
+          <h3 class="font-serif text-2xl font-semibold text-ecru-mocha">Your Shopping Bag</h3>
+          <button onclick="toggleCartDrawer()" class="text-ecru-mocha text-lg p-1 hover:text-ecru-linen">✕</button>
+        </div>
+
+        <div id="cart-items-container" class="py-4 space-y-3">
+          <div class="text-center py-12 text-ecru-linen text-xs">
+            <div class="text-3xl mb-2">🛍️</div>
+            Your bag is currently empty.
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-ecru-sand space-y-4">
+        <div class="flex justify-between items-center text-sm font-semibold">
+          <span>Subtotal</span>
+          <span id="cart-subtotal" class="font-serif text-lg font-bold">₹0</span>
+        </div>
+        <p class="text-[10px] text-ecru-linen">Free shipping across India & 7-day easy returns included.</p>
+        <button onclick="checkout()" class="w-full py-3.5 rounded-full bg-ecru-mocha hover:bg-ecru-umber text-white text-xs font-semibold uppercase tracking-widest shadow-md transition">
+          Proceed to Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Modal -->
+  <div id="search-modal" class="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/40 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="glass-pill w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-ecru-taupe space-y-3">
+      <div class="flex justify-between items-center">
+        <h3 class="font-serif text-lg font-semibold">Search Products</h3>
+        <button onclick="toggleSearch()" class="text-sm p-1">✕</button>
+      </div>
+      <input type="text" id="search-input" onkeyup="handleSearch(this.value)" placeholder="Search trench, dress, overcoat, loafers, mules..." class="w-full px-4 py-2.5 rounded-xl bg-white/80 border border-ecru-taupe text-xs focus:outline-none focus:ring-2 focus:ring-ecru-mocha text-ecru-mocha" />
+      <div id="search-results" class="text-xs text-ecru-linen space-y-2 max-h-48 overflow-y-auto">
+        <p class="text-[11px]">Popular: <a href="#collection" onclick="selectCategoryFromCard('women'); toggleSearch();" class="underline">Oat Linen Trench</a>, <a href="#collection" onclick="selectCategoryFromCard('men'); toggleSearch();" class="underline">Camel Overcoat</a>, <a href="#collection" onclick="selectCategoryFromCard('accessories'); toggleSearch();" class="underline">Leather Tote</a>, <a href="#collection" onclick="selectCategoryFromCard('footwear'); toggleSearch();" class="underline">Leather Mules</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wishlist Modal -->
+  <div id="wishlist-modal" class="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/40 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="glass-pill w-full max-w-md rounded-3xl p-5 shadow-2xl border border-ecru-taupe space-y-3">
+      <div class="flex justify-between items-center">
+        <h3 class="font-serif text-lg font-semibold">Saved Items</h3>
+        <button onclick="toggleWishlistModal()" class="text-sm p-1">✕</button>
+      </div>
+      <div id="wishlist-items-container" class="text-xs text-ecru-linen space-y-2 max-h-60 overflow-y-auto">
+        <p>No saved items yet.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Application Data & Interactive Features -->
+  <script>
+    // 1. Complete 16-Item Categorized Dataset
+    const productsData = {
+      women: [
+        { id: 'w1', name: "Oat Linen Trench", price: 8490, img: "images/women-1.jpg", desc: "Classic double-breasted coat with matching belt.", isNew: true },
+        { id: 'w2', name: "Silk Wrap Midi Dress", price: 6200, img: "images/women-2.jpg", desc: "Flattering fluid silk wrap dress with tie-waist.", isNew: false },
+        { id: 'w3', name: "Ribbed Cashmere Knit", price: 5900, img: "images/women-3.jpg", desc: "Ultra-soft warm ribbed knit sweater.", isNew: false },
+        { id: 'w4', name: "Pleated Linen Trousers", price: 4250, img: "images/women-4.jpg", desc: "Wide-leg pleated trousers with tailored fit.", isNew: false }
+      ],
+      men: [
+        { id: 'm1', name: "Tailored Camel Overcoat", price: 9800, img: "images/men-1.jpg", desc: "Tailored wool overcoat for clean winter layering.", isNew: true },
+        { id: 'm2', name: "Relaxed Linen Shirt", price: 3450, img: "images/men-2.jpg", desc: "Short-sleeve breathable resort collar linen shirt.", isNew: false },
+        { id: 'm3', name: "Mocha Ribbed Sweater", price: 5600, img: "images/men-3.jpg", desc: "Rich mocha brown ribbed crewneck sweater.", isNew: false },
+        { id: 'm4', name: "Pleated Studio Trousers", price: 4400, img: "images/men-4.jpg", desc: "Crisp charcoal pleated smart trousers.", isNew: false }
+      ],
+      accessories: [
+        { id: 'a1', name: "Travertine Leather Tote", price: 7800, img: "images/acc-1.jpg", desc: "Structured top-handle tote bag in smooth nude calfskin.", isNew: true },
+        { id: 'a2', name: "Pebble Crossbody Pouch", price: 4950, img: "images/acc-2.jpg", desc: "Compact pebble-grain crossbody with gold buckle.", isNew: false },
+        { id: 'a3', name: "Sculptural Pearl Earrings", price: 2800, img: "images/acc-3.jpg", desc: "Handcrafted gold and natural baroque pearl drop earrings.", isNew: false },
+        { id: 'a4', name: "Italian Leather Belt", price: 3200, img: "images/acc-4.jpg", desc: "Tan leather belt with brushed brass buckle.", isNew: false }
+      ],
+      footwear: [
+        { id: 'f1', name: "Pointed Leather Mules", price: 6400, img: "images/shoes-1.jpg", desc: "Pointed-toe nude leather stiletto mules.", isNew: true },
+        { id: 'f2', name: "Minimalist White Trainers", price: 5200, img: "images/shoes-2.jpg", desc: "Clean low-top Italian leather lace-up sneakers.", isNew: false },
+        { id: 'f3', name: "Tan Suede Penny Loafers", price: 6800, img: "images/shoes-3.jpg", desc: "Hand-stitched tan suede slip-on penny loafers.", isNew: false },
+        { id: 'f4', name: "Espresso Leather Boots", price: 8900, img: "images/shoes-4.jpg", desc: "Square-toe block heel dark espresso ankle boots.", isNew: false }
+      ]
+    };
+
+    // Global State
+    let cart = [];
+    let wishlist = [];
+    let activeTab = 'all';
+    let currentSelectedProduct = null;
+    let currentSelectedSize = 'S';
+
+    // 2. Dynamic Product Rendering Function
+    function renderProducts(tab = 'all') {
+      const grid = document.getElementById('product-grid');
+      if (!grid) return;
+
+      let itemsToRender = [];
+      if (tab === 'all') {
+        // Top pick from each category (4 total)
+        itemsToRender = [
+          productsData.women[0],
+          productsData.men[0],
+          productsData.accessories[0],
+          productsData.footwear[0]
+        ];
+      } else if (productsData[tab]) {
+        itemsToRender = productsData[tab];
+      }
+
+      grid.innerHTML = itemsToRender.map(product => {
+        const isWishlisted = wishlist.includes(product.name);
+        return `
+          <div class="product-card fade-in bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-ecru-sand flex flex-col justify-between shadow-xs hover:shadow-md transition">
+            <div>
+              <div class="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden bg-ecru-sand mb-2.5">
+                <img src="${product.img}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
+                ${product.isNew ? `<span class="absolute top-2 left-2 bg-white/95 text-ecru-mocha text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-xs">New</span>` : ''}
+                <button onclick="toggleWishlist('${product.name}', event)" class="wishlist-btn absolute top-2 right-2 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white/80 hover:bg-white text-ecru-mocha flex items-center justify-center text-xs shadow-xs transition">
+                  ${isWishlisted ? '❤️' : '♡'}
+                </button>
+              </div>
+              <h3 class="font-serif text-sm sm:text-base font-medium text-ecru-mocha truncate">${product.name}</h3>
+              <p class="text-xs sm:text-sm font-bold text-ecru-mocha mt-0.5">₹${product.price.toLocaleString('en-IN')}</p>
+              <p class="text-[10px] text-ecru-linen hidden sm:block mt-1 font-light">${product.desc}</p>
+            </div>
+
+            <div class="pt-3 mt-2 border-t border-ecru-sand/60">
+              <button onclick="openSizeSheet('${product.name}', ${product.price}, '${product.img}')" class="w-full py-2 sm:py-2.5 rounded-xl bg-ecru-mocha hover:bg-ecru-umber text-white text-[11px] sm:text-xs font-semibold uppercase tracking-wider transition flex items-center justify-center space-x-1">
+                <span>+ Add to Bag</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 2. Tab Filtering Controller
+    function filterTab(category, btnElement) {
+      activeTab = category;
+      
+      // Update Tab Button Styles
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.className = 'tab-btn px-3.5 py-1.5 rounded-full bg-ecru-sand/60 text-ecru-mocha text-[11px] font-semibold tracking-wider uppercase hover:bg-ecru-sand transition';
+      });
+
+      if (btnElement) {
+        btnElement.className = 'tab-btn px-3.5 py-1.5 rounded-full bg-ecru-mocha text-ecru-bone text-[11px] font-semibold tracking-wider uppercase transition';
+      }
+
+      // Update Section Heading
+      const headingEl = document.getElementById('collection-heading');
+      if (headingEl) {
+        const titles = {
+          all: "Featured Collection",
+          women: "Women's Collection",
+          men: "Men's Collection",
+          accessories: "Handbags & Accessories",
+          footwear: "Footwear Collection"
+        };
+        headingEl.innerText = titles[category] || "Featured Collection";
+      }
+
+      renderProducts(category);
+    }
+
+    // 3. Two-Way Linking from Category Cards
+    function selectCategoryFromCard(category) {
+      // Find matching button in tab list
+      const buttons = document.querySelectorAll('.tab-btn');
+      let targetBtn = null;
+      buttons.forEach(btn => {
+        if (btn.innerText.toLowerCase().includes(category.toLowerCase()) || 
+           (category === 'all' && btn.innerText.toLowerCase() === 'all')) {
+          targetBtn = btn;
+        }
+      });
+
+      filterTab(category, targetBtn);
+
+      // Smooth scroll down to the collection section
+      const collectionSection = document.getElementById('collection');
+      if (collectionSection) {
+        collectionSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Toast
+    function showToast(message, icon = '✨') {
+      const toast = document.getElementById('toast');
+      const msgEl = document.getElementById('toast-message');
+      const iconEl = document.getElementById('toast-icon');
+      if (toast && msgEl) {
+        msgEl.innerText = message;
+        if (iconEl) iconEl.innerText = icon;
+        toast.classList.remove('opacity-0', 'translate-y-[-100px]');
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-[-100px]');
+        }, 2500);
+      }
+    }
+
+    // Mobile Slide Drawer
+    function toggleMobileMenu() {
+      const drawer = document.getElementById('mobile-menu-drawer');
+      const backdrop = document.getElementById('mobile-menu-backdrop');
+      if (drawer.classList.contains('-translate-x-full')) {
+        drawer.classList.remove('-translate-x-full');
+        backdrop.classList.remove('opacity-0');
+      } else {
+        drawer.classList.add('-translate-x-full');
+        backdrop.classList.add('opacity-0');
+      }
+    }
+
+    // Slide-Up Size Selector (Bottom Sheet)
+    function openSizeSheet(title, price, img) {
+      currentSelectedProduct = { title, price, img };
+      currentSelectedSize = 'S';
+
+      document.getElementById('sheet-prod-title').innerText = title;
+      document.getElementById('sheet-prod-price').innerText = `₹${price.toLocaleString('en-IN')}`;
+      document.getElementById('sheet-prod-img').src = img;
+
+      // Reset size pills
+      const pills = document.querySelectorAll('.sheet-size-btn');
+      pills.forEach(p => {
+        if (p.innerText.trim() === 'S') {
+          p.className = 'sheet-size-btn py-2.5 rounded-xl border border-ecru-mocha bg-ecru-mocha text-white text-xs font-semibold transition text-center';
+        } else {
+          p.className = 'sheet-size-btn py-2.5 rounded-xl border border-ecru-taupe text-xs font-semibold hover:bg-ecru-sand transition text-center';
+        }
+      });
+
+      const sheet = document.getElementById('size-sheet');
+      sheet.classList.remove('translate-y-full', 'opacity-0', 'pointer-events-none');
+    }
+
+    function closeSizeSheet() {
+      const sheet = document.getElementById('size-sheet');
+      sheet.classList.add('translate-y-full', 'opacity-0', 'pointer-events-none');
+      currentSelectedProduct = null;
+    }
+
+    function pickSheetSize(btn) {
+      document.querySelectorAll('.sheet-size-btn').forEach(b => {
+        b.className = 'sheet-size-btn py-2.5 rounded-xl border border-ecru-taupe text-xs font-semibold hover:bg-ecru-sand transition text-center';
+      });
+      btn.className = 'sheet-size-btn py-2.5 rounded-xl border border-ecru-mocha bg-ecru-mocha text-white text-xs font-semibold transition text-center';
+      currentSelectedSize = btn.innerText.trim();
+    }
+
+    function confirmAddToBag() {
+      if (!currentSelectedProduct) return;
+      const { title, price, img } = currentSelectedProduct;
+      const size = currentSelectedSize;
+
+      const existingIndex = cart.findIndex(i => i.title === title && i.size === size);
+      if (existingIndex > -1) {
+        cart[existingIndex].qty += 1;
+      } else {
+        cart.push({ title, price, img, size, qty: 1 });
+      }
+
+      updateCartDisplay();
+      closeSizeSheet();
+      showToast(`Added ${title} (${size}) to your bag!`, '🛍️');
+    }
+
+    // Cart Management
+    function removeCartItem(index) {
+      cart.splice(index, 1);
+      updateCartDisplay();
+    }
+
+    function changeQty(index, delta) {
+      cart[index].qty += delta;
+      if (cart[index].qty <= 0) {
+        cart.splice(index, 1);
+      }
+      updateCartDisplay();
+    }
+
+    function updateCartDisplay() {
+      const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+      const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+      const desktopCount = document.getElementById('desktop-cart-count');
+      const mobileBadge = document.getElementById('mobile-bottom-cart-badge');
+      const container = document.getElementById('cart-items-container');
+      const subtotalEl = document.getElementById('cart-subtotal');
+
+      if (desktopCount) desktopCount.innerText = totalCount;
+      if (mobileBadge) mobileBadge.innerText = totalCount;
+      if (subtotalEl) subtotalEl.innerText = `₹${totalPrice.toLocaleString('en-IN')}`;
+
+      if (container) {
+        if (cart.length === 0) {
+          container.innerHTML = `
+            <div class="text-center py-12 text-ecru-linen text-xs">
+              <div class="text-3xl mb-2">🛍️</div>
+              Your bag is currently empty.
+            </div>`;
+        } else {
+          container.innerHTML = cart.map((item, i) => `
+            <div class="flex items-center space-x-3 bg-white p-2.5 rounded-2xl border border-ecru-sand">
+              <img src="${item.img}" alt="${item.title}" class="w-12 h-12 rounded-xl object-cover" />
+              <div class="flex-1 min-w-0">
+                <h4 class="font-serif text-xs sm:text-sm font-semibold text-ecru-mocha truncate">${item.title}</h4>
+                <p class="text-[10px] text-ecru-linen">Size: ${item.size} • ₹${item.price.toLocaleString('en-IN')}</p>
+                <div class="flex items-center space-x-2 mt-1">
+                  <button onclick="changeQty(${i}, -1)" class="w-4 h-4 rounded-full border border-ecru-taupe flex items-center justify-center text-[9px]">-</button>
+                  <span class="text-xs font-semibold">${item.qty}</span>
+                  <button onclick="changeQty(${i}, 1)" class="w-4 h-4 rounded-full border border-ecru-taupe flex items-center justify-center text-[9px]">+</button>
+                </div>
+              </div>
+              <button onclick="removeCartItem(${i})" class="text-xs text-ecru-linen hover:text-red-600 p-1">✕</button>
+            </div>
+          `).join('');
+        }
+      }
+    }
+
+    function toggleCartDrawer() {
+      const drawer = document.getElementById('cart-drawer');
+      const backdrop = document.getElementById('cart-backdrop');
+      if (drawer.classList.contains('translate-x-full')) {
+        drawer.classList.remove('translate-x-full');
+        backdrop.classList.remove('opacity-0');
+        backdrop.classList.add('opacity-100');
+      } else {
+        drawer.classList.add('translate-x-full');
+        backdrop.classList.add('opacity-0');
+        backdrop.classList.remove('opacity-100');
+      }
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        showToast("Your shopping bag is empty!", "⚠️");
+        return;
+      }
+      const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      alert(`Thank you for shopping with PRIME CHIC STUDIO.\n\nTotal: ₹${total.toLocaleString('en-IN')}\n\nProceeding to secure payment gateway (UPI / Cards / COD)...`);
+      cart = [];
+      updateCartDisplay();
+      toggleCartDrawer();
+    }
+
+    // Wishlist
+    function toggleWishlist(title, event) {
+      if (event) event.stopPropagation();
+      const index = wishlist.indexOf(title);
+      const btn = event ? event.currentTarget : null;
+      if (index > -1) {
+        wishlist.splice(index, 1);
+        if (btn) btn.innerHTML = '♡';
+        showToast(`Removed from wishlist`, '🤍');
+      } else {
+        wishlist.push(title);
+        if (btn) btn.innerHTML = '❤️';
+        showToast(`Saved to wishlist`, '❤️');
+      }
+      updateWishlistDisplay();
+      renderProducts(activeTab);
+    }
+
+    function updateWishlistDisplay() {
+      const desktopBadge = document.getElementById('desktop-wishlist-badge');
+      const mobileBadge = document.getElementById('mobile-wishlist-badge');
+      const count = wishlist.length;
+
+      if (desktopBadge) {
+        desktopBadge.innerText = count;
+        if (count > 0) desktopBadge.classList.remove('hidden');
+        else desktopBadge.classList.add('hidden');
+      }
+      if (mobileBadge) {
+        mobileBadge.innerText = count;
+        if (count > 0) mobileBadge.classList.remove('hidden');
+        else mobileBadge.classList.add('hidden');
+      }
+
+      const container = document.getElementById('wishlist-items-container');
+      if (container) {
+        if (count === 0) {
+          container.innerHTML = `<p>No saved items yet.</p>`;
+        } else {
+          container.innerHTML = wishlist.map(item => `
+            <div class="flex justify-between items-center py-1.5 border-b border-ecru-sand">
+              <span class="font-medium text-ecru-mocha">${item}</span>
+              <button onclick="toggleWishlist('${item}')" class="text-red-500 hover:text-red-700">Remove</button>
+            </div>
+          `).join('');
+        }
+      }
+    }
+
+    function toggleWishlistModal() {
+      const modal = document.getElementById('wishlist-modal');
+      modal.classList.toggle('opacity-0');
+      modal.classList.toggle('pointer-events-none');
+    }
+
+    // Search
+    function toggleSearch() {
+      const modal = document.getElementById('search-modal');
+      modal.classList.toggle('opacity-0');
+      modal.classList.toggle('pointer-events-none');
+      if (!modal.classList.contains('opacity-0')) {
+        setTimeout(() => document.getElementById('search-input').focus(), 100);
+      }
+    }
+
+    function handleSearch(query) {
+      const container = document.getElementById('search-results');
+      if (!query.trim()) {
+        container.innerHTML = `<p class="text-[11px]">Popular: <a href="#collection" onclick="selectCategoryFromCard('women'); toggleSearch();" class="underline">Oat Linen Trench</a>, <a href="#collection" onclick="selectCategoryFromCard('men'); toggleSearch();" class="underline">Camel Overcoat</a>, <a href="#collection" onclick="selectCategoryFromCard('accessories'); toggleSearch();" class="underline">Leather Tote</a>, <a href="#collection" onclick="selectCategoryFromCard('footwear'); toggleSearch();" class="underline">Leather Mules</a></p>`;
+        return;
+      }
+      
+      const allProducts = [
+        ...productsData.women,
+        ...productsData.men,
+        ...productsData.accessories,
+        ...productsData.footwear
+      ];
+
+      const filtered = allProducts.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
+      if (filtered.length === 0) {
+        container.innerHTML = `<p class="text-ecru-linen">No products found.</p>`;
+      } else {
+        container.innerHTML = filtered.map(p => `
+          <div class="flex justify-between items-center p-2 bg-white/80 rounded-xl border border-ecru-sand cursor-pointer hover:bg-white" onclick="openSizeSheet('${p.name}', ${p.price}, '${p.img}'); toggleSearch();">
+            <div class="flex items-center space-x-2.5">
+              <img src="${p.img}" alt="${p.name}" class="w-8 h-8 rounded-lg object-cover" />
+              <span class="font-medium text-ecru-mocha">${p.name}</span>
+            </div>
+            <span class="font-bold">₹${p.price.toLocaleString('en-IN')}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Newsletter
+    function handleSubscribe(e) {
+      e.preventDefault();
+      showToast("Welcome to Prime Chic VIP Circle!", "✉️");
+      e.target.reset();
+    }
+
+    // Initial Load Render
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProducts('all');
+    });
+    // Fallback immediate call if DOMContentLoaded already fired
+    renderProducts('all');
+  </script>
+
+</body>
+</html>
