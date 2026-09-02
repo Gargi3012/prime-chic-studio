@@ -16,14 +16,14 @@ export function Header({ onSelectCategory, onOpenStylist, onOpenSearch }: Header
   const handleNavClick = (cat: Category) => {
     onSelectCategory?.(cat);
     setMobileMenuOpen(false);
-    const el = document.getElementById("portals-section") || document.getElementById("catalog-section");
+    const el = document.getElementById("catalog-section");
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 w-full bg-[#FAF8F5]/95 backdrop-blur-md border-b border-[#E5DFD7] px-6 md:px-12 py-4 flex items-center justify-between z-50 transition-all duration-300">
+    <header className="h-14 flex items-center justify-between px-6 bg-[#FAF8F5]/95 backdrop-blur-md border-b border-[#E8E2D9] sticky top-0 z-50 w-full transition-all duration-300">
       {/* Left: Minimal Nav Links */}
       <nav className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[0.2em] font-serif text-[#181614]">
         <button
@@ -53,14 +53,11 @@ export function Header({ onSelectCategory, onOpenStylist, onOpenSearch }: Header
         </div>
       </button>
 
-      {/* Center Header Brand */}
-      <div className="flex flex-col items-center text-center cursor-pointer">
-        <a href="/" className="group flex flex-col items-center">
-          <span className="font-serif text-xl md:text-2xl font-normal uppercase tracking-[0.25em] text-[#181614] leading-none">
+      {/* Center Header Brand - Strict Single Line */}
+      <div className="flex items-center justify-center text-center cursor-pointer">
+        <a href="/" className="inline-block">
+          <span className="font-serif text-[13px] md:text-sm tracking-[0.35em] uppercase font-normal text-[#181614] whitespace-nowrap">
             PRIME OUTLET
-          </span>
-          <span className="text-[8px] md:text-[9px] uppercase tracking-[0.3em] text-[#9E6738] font-semibold mt-1">
-            GANAUR FLAGSHIP
           </span>
         </a>
       </div>
@@ -103,8 +100,8 @@ export function Header({ onSelectCategory, onOpenStylist, onOpenSearch }: Header
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-x-0 top-[60px] bg-[#FAF8F5] border-b border-[#E5DFD7] p-6 shadow-xl md:hidden z-40 flex flex-col gap-4 animate-in slide-in-from-top-2 duration-300">
-          <div className="flex justify-between items-center pb-2 border-b border-[#E5DFD7]">
+        <div className="fixed inset-x-0 top-[56px] bg-[#FAF8F5] border-b border-[#E8E2D9] p-6 shadow-xl md:hidden z-40 flex flex-col gap-4 animate-in slide-in-from-top-2 duration-300">
+          <div className="flex justify-between items-center pb-2 border-b border-[#E8E2D9]">
             <span className="text-[10px] uppercase tracking-[0.25em] font-serif font-bold text-[#9E6738]">Navigation</span>
             <button onClick={() => setMobileMenuOpen(false)} className="text-[#181614]">
               <X className="w-4 h-4 stroke-[1.5]" />
@@ -118,8 +115,8 @@ export function Header({ onSelectCategory, onOpenStylist, onOpenSearch }: Header
               MEN
             </button>
           </div>
-          <div className="pt-3 border-t border-[#E5DFD7] flex items-center justify-between text-[11px] text-[#6E6963]">
-            <span>✦ Ganaur Flagship Studio</span>
+          <div className="pt-3 border-t border-[#E8E2D9] flex items-center justify-between text-[11px] text-[#6E6963]">
+            <span>Authentic Global Labels</span>
             <button onClick={() => { setMobileMenuOpen(false); onOpenStylist?.(); }} className="text-[#9E6738] font-semibold">
               WhatsApp Concierge →
             </button>
