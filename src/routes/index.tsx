@@ -4,6 +4,9 @@ import { CartProvider } from "@/context/CartContext";
 import { Header } from "@/components/prime/Header";
 import { Hero } from "@/components/prime/Hero";
 import { DepartmentGrid } from "@/components/prime/DepartmentGrid";
+import { VaultDrops } from "@/components/prime/VaultDrops";
+import { StudioServiceStrip } from "@/components/prime/StudioServiceStrip";
+import { FloatingStylistPill } from "@/components/prime/FloatingStylistPill";
 import { QuickViewModal } from "@/components/prime/QuickViewModal";
 import { Footer } from "@/components/prime/Footer";
 import { Dock } from "@/components/prime/Dock";
@@ -97,8 +100,17 @@ function Index() {
           onQuickView={setQuickViewProduct}
         />
 
-        {/* 4. Compact 1-Line Trust Bar & Footer */}
+        {/* 4. ADDITION 1: Weekly Vault Drops Showcase */}
+        <VaultDrops onQuickView={setQuickViewProduct} />
+
+        {/* 5. ADDITION 2: Flagship Studio Service Trust Console */}
+        <StudioServiceStrip />
+
+        {/* 6. Compact 1-Line Trust Bar & Footer */}
         <Footer />
+
+        {/* ADDITION 3: Floating Stylist WhatsApp Pill */}
+        <FloatingStylistPill />
         
         {/* Floating Bottom Navigation Dock */}
         <Dock
